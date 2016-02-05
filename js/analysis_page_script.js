@@ -20,38 +20,27 @@ function showProgress() {
             // alert("inside success");
             // alert(obj);
             prog=obj;
+            console.log(prog[0])
 
-            if (prog=='done') {
-                
-                //alert("no error in object");
-                //
-                //alert(prog);
-                //alert(prog.length);
-                // prog is progress in percent
-                
-                document.getElementById("plot_info").innerHTML="Analysis done";
-                
+            last_line=prog[prog.length-1];
+            
+            document.getElementById("plot_info").innerHTML = prog.slice(1,prog.length);
+
+            if (last_line=='SUMMARY,DONE') {
+                document.getElementById("plot_info").innerHTML = "Analysis completed successfully";
+                document.getElementById("progress_panel").className = "panel panel-success center";
                 check_plot_exists(0);
             }
-            else if (prog=="in progress") {
-                document.getElementById("plot_info").innerHTML="In progress";
-                setTimeout(function() {showProgress()},100);
-            }
-            else if (prog=="model did not converge") {
-                document.getElementById("plot_info").innerHTML="";
-            }
+            else if (last_line.indexOf("FAIL") > -1) { // SOMETHING FAILED
+                document.getElementById("progress_panel").className = "panel panel-danger center"
+            } 
             else {
-                document.getElementById("plot_info").innerHTML = "Running...";
-                console.log("else");
-                setTimeout(function(){showProgress();},500);
                 
+                setTimeout(function(){showProgress();},500);
             }
         }
-        
     });
-
 }
-
 
 
 function getUrlVars() {

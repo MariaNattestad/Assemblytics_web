@@ -61,7 +61,7 @@
     <!-- ////////////////////////////////////////////////// -->
     <!-- /////////////      Progress info     ///////////// -->
     <!-- ////////////////////////////////////////////////// -->
-    <div class="panel panel-info center">
+    <div class="panel panel-info center" id="progress_panel">
       <div class="panel-heading">
         <h3 class="panel-title">Progress</h3>
       </div>
@@ -79,7 +79,6 @@
 <!--   jquery must be first because bootstrap depends on it   -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/dygraph-combined.js"></script>
 
 
 <script src="js/jquery.csv-0.71.min.js"></script>
