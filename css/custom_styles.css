@@ -36,6 +36,9 @@
 	    visibility: hidden;
 	}
    
+    .frame {
+        margin:0% 2% 2% 2%;
+    }
     .plot_frame {
         margin:2% 2% 2% 2%;
     }
@@ -102,15 +105,15 @@
     }
 
 
-    .panel-info {
+    .panel {
         margin:2% 2% 2% 2%;
-        border-color:#E8E8E8;
+        #border-color:#E8E8E8;
     }
-    .panel-info > .panel-heading{
-        background-color: #E8E8E8;
-        background-image:none;
-        border-color:#E8E8E8;
-        color:black;
+    .panel > .panel-heading{
+        #background-color: #E8E8E8;
+        #background-image:none;
+        #border-color:#E8E8E8;
+        #color:black;
     }
 
 </style>

@@ -1,0 +1,52 @@
+Insertion
+				Count		Total bp
+	Total: 			4081 		1928660.0
+	50-99 bp: 		1175 		81243.0
+	100-999 bp: 		2493 		746020.0
+	1000-9,999 bp: 		413 		1101397.0
+
+
+Deletion
+				Count		Total bp
+	Total: 			3363 		1642996.0
+	50-99 bp: 		1327 		89302.0
+	100-999 bp: 		1717 		490623.0
+	1000-9,999 bp: 		319 		1063071.0
+
+
+Tandem_expansion
+				Count		Total bp
+	Total: 			1515 		1322540.0
+	50-99 bp: 		85 		6498.0
+	100-999 bp: 		1082 		446688.0
+	1000-9,999 bp: 		348 		869354.0
+
+
+Tandem_contraction
+				Count		Total bp
+	Total: 			582 		397083.0
+	50-99 bp: 		112 		7875.0
+	100-999 bp: 		368 		120491.0
+	1000-9,999 bp: 		102 		268717.0
+
+
+Repeat_expansion
+				Count		Total bp
+	Total: 			840 		832277.0
+	50-99 bp: 		105 		7714.0
+	100-999 bp: 		499 		214358.0
+	1000-9,999 bp: 		236 		610205.0
+
+
+Repeat_contraction
+				Count		Total bp
+	Total: 			836 		522617.0
+	50-99 bp: 		182 		13164.0
+	100-999 bp: 		534 		172722.0
+	1000-9,999 bp: 		120 		336731.0
+
+
+Total number of variants: 11217 
+
+Total affected bases: 6646173.0 
+

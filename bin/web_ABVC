@@ -29,58 +29,79 @@ UNIQUE_LENGTH=10000
 
 LOG_FILE=${OUTPUT_PREFIX%/*}/progress.log
 
-echo "NICKNAME,${OUTPUT_PREFIX##*/}" >> $LOG_FILE
+
+
+PATH_TO_PYTHON=""
+
+source python_env/bin/activate
+
+
+
+
+
+
+
+echo "${OUTPUT_PREFIX##*/}" >> $LOG_FILE
 
 >&2 echo "1. Filter delta file"
-delta-filter -l $UNIQUE_LENGTH $DELTA > $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta
+./bin/delta-filter -l $UNIQUE_LENGTH $DELTA > $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta
 
 if grep -q ">" $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta; 
 then 
-    echo "DELTAFILTER,DONE" >> $LOG_FILE
-    ./bin/ABVC_uniq_len_filter.py --delta $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX.ABVC_uniq_len_filtered.delta
+    echo "DELTAFILTER,DONE,Step 1: delta-filter completed successfully" >> $LOG_FILE
+    $PATH_TO_PYTHON ./bin/ABVC_uniq_len_filter.py --delta $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX.ABVC_uniq_len_filtered.delta
     if grep -q ">" $OUTPUT_PREFIX.ABVC_uniq_len_filtered.delta; 
     then 
-        echo "UNIQFILTER,DONE" >> $LOG_FILE
+        echo "UNIQFILTER,DONE,Step 2: ABVC_uniq_len_filter.py completed successfully" >> $LOG_FILE
         >&2 echo "2. Finding variants between alignments"
         ./bin/ABVC_between_alignments.pl  $OUTPUT_PREFIX.ABVC_uniq_len_filtered.delta $MINIMUM_SIZE all-chromosomes exclude-longrange bed > $OUTPUT_PREFIX.ABVC_variants_between_alignments.bed
 
         if grep -q "between_alignments" $OUTPUT_PREFIX.ABVC_variants_between_alignments.bed; 
         then 
-            echo "BETWEEN,DONE" >> $LOG_FILE
+            echo "BETWEEN,DONE,Step 3: ABVC_between_alignments.pl completed successfully" >> $LOG_FILE
             >&2 echo "3. Finding variants within alignments"
-            ./bin/ABVC_within_alignment.py --delta $OUTPUT_PREFIX.ABVC_uniq_len_filtered.delta --min $MINIMUM_SIZE > $OUTPUT_PREFIX.ABVC_variants_within_alignments.bed
+            $PATH_TO_PYTHON ./bin/ABVC_within_alignment.py --delta $OUTPUT_PREFIX.ABVC_uniq_len_filtered.delta --min $MINIMUM_SIZE > $OUTPUT_PREFIX.ABVC_variants_within_alignments.bed
 
             if grep -q "within_alignment" $OUTPUT_PREFIX.ABVC_variants_within_alignments.bed; 
             then 
-                echo "WITHIN,DONE" >> $LOG_FILE
+                echo "WITHIN,DONE,Step 4: ABVC_within_alignment.py completed successfully" >> $LOG_FILE
                 >&2 echo "4. Combine variants between and within alignments"
                 cat $OUTPUT_PREFIX.ABVC_variants_within_alignments.bed $OUTPUT_PREFIX.ABVC_variants_between_alignments.bed > $OUTPUT_PREFIX.ABVC_structural_variants.bed
 
                 if grep -q "ABVC" $OUTPUT_PREFIX.ABVC_structural_variants.bed; 
                 then 
-                    echo "COMBINE,DONE" >> $LOG_FILE
-                    ./bin/ABVC_summary.py -i $OUTPUT_PREFIX.ABVC_structural_variants.bed > $OUTPUT_PREFIX.ABVC_structural_variants.summary
+                    echo "COMBINE,DONE,Step 5: Variants combined successfully" >> $LOG_FILE
+                    
+                    Rscript ./bin/web_plot.R $OUTPUT_PREFIX
+                    if [ -s $OUTPUT_PREFIX.plot.png ]; 
+                    then 
+                        echo "PLOT,DONE,Step 6: Plot produced successfully" >> $LOG_FILE
+                    else
+                        echo "PLOT,FAIL,Step 6: R script failed to produce a plot" >> $LOG_FILE
+                    fi
+
+                    $PATH_TO_PYTHON ./bin/ABVC_summary.py -i $OUTPUT_PREFIX.ABVC_structural_variants.bed > $OUTPUT_PREFIX.ABVC_structural_variants.summary
 
                     if grep -q "Total" $OUTPUT_PREFIX.ABVC_structural_variants.summary; 
                     then 
-                        echo "SUMMARY,DONE" >> $LOG_FILE
+                        echo "SUMMARY,DONE,Step 7: ABVC_summary.py completed successfully" >> $LOG_FILE
                     else
-                        echo "SUMMARY,FAIL,step4: ABVC_summary.py failed" >> $LOG_FILE
+                        echo "SUMMARY,FAIL,Step 7: ABVC_summary.py failed" >> $LOG_FILE
                     fi
                 else
-                    echo "COMBINE,FAIL,step4: cat failed" >> $LOG_FILE
+                    echo "COMBINE,FAIL,Step 5: cat failed" >> $LOG_FILE
                 fi
             else
-                echo "WITHIN,FAIL,step3: ABVC_within_alignment.py failed: Possible problem before this step or with Python on server" >> $LOG_FILE
+                echo "WITHIN,FAIL,Step 4: ABVC_within_alignment.py failed: Possible problem before this step or with Python on server" >> $LOG_FILE
             fi
         else
-            echo "BETWEEN,FAIL,step2: ABVC_between_alignments.pl failed: Possible problem with Perl or show-coords on server." >> $LOG_FILE
+            echo "BETWEEN,FAIL,Step 3: ABVC_between_alignments.pl failed: Possible problem with Perl or show-coords on server." >> $LOG_FILE
         fi
     else
-        echo "UNIQFILTER,FAIL,step1: ABVC_uniq_len_filter.py failed: Possible problem with Python or Python packages on server." >> $LOG_FILE
+        echo "UNIQFILTER,FAIL,Step 2: ABVC_uniq_len_filter.py failed: Possible problem with Python or Python packages on server." >> $LOG_FILE
     fi
 else
-    echo "DELTAFILTER,FAIL,step1: delta-filter failed: Not a real delta file." >> $LOG_FILE
+    echo "DELTAFILTER,FAIL,Step 1: delta-filter failed: Not a real delta file." >> $LOG_FILE
 fi
 
 
