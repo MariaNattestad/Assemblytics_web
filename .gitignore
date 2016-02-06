@@ -2,3 +2,5 @@ user_data/*
 user_uploads/*
 !user_data/example*
 tests/*
+
+*.delta
