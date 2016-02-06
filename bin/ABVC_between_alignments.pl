@@ -4,8 +4,7 @@
 # Email: mnattest@cshl.edu
 
 use strict;
-
-my @chromosome_filter_choices = ("all-chromosomes","primary-chromosomes");
+my @chromosome_filter_choices =  ("all-chromosomes","primary-chromosomes");
 my @longrange_filter_choices = ("include-longrange","exclude-longrange","longrange-only");
 my @output_file_choices = ("bed","bedpe");
 
@@ -36,10 +35,12 @@ my $max_query_dist = 100000;
 
 
 
+my %chromosome_filter_choices_hash = map { $_, 1 } @chromosome_filter_choices;
+my %longrange_filter_choices_hash = map { $_, 1 } @longrange_filter_choices;
+my %output_file_choices_hash = map { $_, 1 } @output_file_choices;
 
-
-if ($chromosome_filter ~~ @chromosome_filter_choices && $longrange_filter ~~ @longrange_filter_choices && $output_file ~~ @output_file_choices) {
-
+if ( $chromosome_filter_choices_hash{ $chromosome_filter } &&  $longrange_filter_choices_hash{ $longrange_filter } && $output_file_choices_hash { $output_file }) {
+  # All is well with the world
 } else {
   die $USAGE;
 }
@@ -48,7 +49,7 @@ if ($longrange_filter ne "exclude-longrange" && $output_file eq "bed"){
   die "Cannot output bed while allowing long-range variants\n$USAGE";
 }
 
-open COORDS, "show-coords -rclHT $deltafile |"
+open COORDS, "./bin/show-coords -rclHT $deltafile |"
   or die "Can't process $deltafile ($!)\n";
 
 

@@ -14,21 +14,26 @@
                     <!-- ////////////////      RESULTS     //////////////// -->
                     <!-- ////////////////////////////////////////////////// -->
                     <div class = "center" id="results">
-                        
-                        <div class="thumbnail plot_frame">
-                            <div id="landing_for_plot1" class="plot_img">
+                        <div class="thumbnail frame">
+                            <div class = "caption" style="text-align: center"><h3 id="nickname_header">HEADER </h3></div>
+                        </div>
+                        <div class="thumbnail plot_frame frame">
+                            <div style="display:inline-block" id="landing_for_plot1" class="plot_img">
                                 <!-- Landing spot for plot image -->
                             </div>
-                                <p>
-                                    <div class="caption">
-                                        <h4>Genome statistics</h4>
-                                        <p id="landing_for_plot1_details">Plot details</p>
-                                        <p><a href="" download class="btn btn-primary" class="download_btn" id="down_img_1" role="button">Download plot image</a>
-                                            <a href="" download class="btn btn-default" class="download_btn" id="down_txt_1"  role="button">Download summary stats</a>
-                                        </p>
-                                    </div>
+                            <div style="display:inline-block" id="landing_for_plot2" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                            </div>
+                        </div>
+                        <div class="thumbnail frame plot_frame">
+                            <div class="caption">
+                                <h4>Variant statistics</h4>
+                                <p id="landing_for_plot1_details">Plot details</p>
+                                <p><a href="" download class="btn btn-primary" class="download_btn" id="down_img_1" role="button">Download plot image</a>
+                                    <a href="" download class="btn btn-default" class="download_btn" id="down_txt_1"  role="button">Download all variants (.bed file)</a>
                                 </p>
-                            </div>     
+                            </div>
+                        </div>
                     </div>
                     
             <!-- </div> -->

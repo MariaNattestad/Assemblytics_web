@@ -1,2 +1,9 @@
 chmod 777 user_uploads
 chmod 777 user_data
+
+# To fix python package issues:
+# create virtual environment:
+/data/software/local/bin/python2.7 ~/virtualenv-14.0.5/virtualenv.py python_env
+
+# at top of main bash script:
+source python_env/bin/activate
