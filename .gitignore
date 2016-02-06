@@ -4,3 +4,5 @@ user_uploads/*
 tests/*
 
 *.delta
+python_env/*
+
