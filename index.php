@@ -13,8 +13,7 @@
 
     <div class="panel panel-info">
         <div class="panel-heading"> <h3 class="panel-title">Instructions</h3></div>
-        <div class="panel-body"><p>Upload the results from running MUMmer nucmer.</p>
-          <p>Instructions for running nucmer: 
+        <div class="panel-body"><p>Upload the delta file output from MUMmer's nucmer</p>
           <ol>
             <li>Download and install MUMmer from:
                 <a href="http://sourceforge.net/projects/mummer/files/" target="_blank">http://sourceforge.net/projects/mummer/files/</a>
@@ -23,9 +22,8 @@
                 <p>
                   Consult the MUMmer manual if you encounter problems: <a href="http://mummer.sourceforge.net/manual/" target="_blank">http://mummer.sourceforge.net/manual/</a></li>
                 </p></li>
-            <li>Upload the output file (.delta) to ABVC</li>
+            <li>Upload the output file (.delta) to Assemblytics</li>
           </ol>
-          </p>
         </div>
     </div>
 
@@ -45,8 +43,8 @@
                             
                             <p>
                               <div class="input-group input-group-lg">
-                                <span class="input-group-addon">Nickname</span>
-                                 <input type="text" name="nickname" class="form-control" value = "my_assembly">
+                                <span class="input-group-addon">Descriptive title</span>
+                                 <input type="text" name="nickname" class="form-control" value = "my favorite organism against reference genome">
                               </div>
                             </p>
                             <!-- <p>
