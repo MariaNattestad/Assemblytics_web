@@ -7,7 +7,7 @@
 <?php include "title.html";?>
  
 <div class="center">
-    <div class="panel panel-info">
+    <div class="panel panel-default">
       <div class="panel-heading">
 	<h3 class="panel-title">Contact information</h3>
       </div>

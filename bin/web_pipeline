@@ -1,0 +1,115 @@
+#!/bin/bash
+USAGE="Assemblytics delta output_prefix uniquelength"
+if [ -z "$1" ]
+  then
+    echo "ERROR in Assemblytics: No delta file given"
+    echo "Usage:"
+    echo $USAGE
+    exit
+fi
+if [ -z "$2" ]
+  then
+    echo "ERROR in Assemblytics: No output prefix given"
+    echo "Usage:"
+    echo $USAGE
+    exit
+fi
+
+# Author: Maria Nattestad
+# Email: mnattest@cshl.edu
+
+DELTA=${1?"$USAGE"}
+OUTPUT_PREFIX=${2?"$USAGE"}
+UNIQUE_LENGTH=${3?"$USAGE"}
+
+>&2 echo Input delta file: $DELTA
+>&2 echo Output prefix: $OUTPUT_PREFIX
+
+MINIMUM_SIZE=5
+MAXIMUM_SIZE=10000
+#########UNIQUE_LENGTH=10000
+
+LOG_FILE=${OUTPUT_PREFIX%/*}/progress.log
+
+source python_env/bin/activate
+
+
+echo "${OUTPUT_PREFIX##*/}" >> $LOG_FILE
+
+>&2 echo "1. Filter delta file"
+./bin/delta-filter -l $UNIQUE_LENGTH $DELTA > $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta
+
+if grep -q ">" $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta; 
+then
+    echo "DELTAFILTER,DONE,Step 1: delta-filter completed successfully" >> $LOG_FILE
+    ./bin/Assemblytics_uniq_len_filter.py --delta $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta
+    if grep -q ">" $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta;
+    then 
+        echo "UNIQFILTER,DONE,Step 2: Assemblytics_uniq_len_filter.py completed successfully" >> $LOG_FILE
+        >&2 echo "2. Finding variants between alignments"
+        ./bin/Assemblytics_between_alignments.pl  $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta $MINIMUM_SIZE $MAXIMUM_SIZE all-chromosomes exclude-longrange bed > $OUTPUT_PREFIX.variants_between_alignments.bed
+
+        if grep -q "between_alignments" $OUTPUT_PREFIX.variants_between_alignments.bed; 
+        then 
+            echo "BETWEEN,DONE,Step 3: Assemblytics_between_alignments.pl completed successfully" >> $LOG_FILE
+            >&2 echo "3. Finding variants within alignments"
+            ./bin/Assemblytics_within_alignment.py --delta $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta --min $MINIMUM_SIZE > $OUTPUT_PREFIX.variants_within_alignments.bed
+
+            if grep -q "within_alignment" $OUTPUT_PREFIX.variants_within_alignments.bed; 
+            then 
+                echo "WITHIN,DONE,Step 4: Assemblytics_within_alignment.py completed successfully" >> $LOG_FILE
+                >&2 echo "4. Combine variants between and within alignments";
+                HEADER="reference   ref_start   ref_stop    ID  size    strand  type    ref_gap_size    query_gap_size  query_coordinates   method"
+                cat <(echo $HEADER) $OUTPUT_PREFIX.variants_within_alignments.bed $OUTPUT_PREFIX.variants_between_alignments.bed > $OUTPUT_PREFIX.Assemblytics_structural_variants.bed
+
+                if grep -q "Assemblytics" $OUTPUT_PREFIX.Assemblytics_structural_variants.bed; 
+                then 
+                    echo "COMBINE,DONE,Step 5: Variants combined successfully" >> $LOG_FILE
+                    
+                    Rscript ./bin/size_distributions.R $OUTPUT_PREFIX
+
+                    ./bin/show-coords -rclTH $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta > $OUTPUT_PREFIX.coords
+
+                    # REFERENCE STATISTICS
+                    # read NUM_CONTIGS ASSEMBLY_LENGTH MEAN_LENGTH MIN MAX <<<$(cat Coffee.coords | awk '{print $12,$8}' OFS='\t' | sort -k2,2nr | awk 'BEGIN{sorted=1} {if(min==""){min=max=previous=$2}; if($2>max){max=$2}; if($2<min){min=$2}; if($2>previous){sorted=0}; total+=$2; count+=1; previous=$2;} END {print count,total,total/count, min, max, sorted}')
+                    # echo "Number of sequences: $NUM_CONTIGS"
+                    # echo "Total sequence length: $ASSEMBLY_LENGTH"
+                    # echo "Mean: $MEAN_LENGTH"
+                    # echo "Min: $MIN"
+                    # echo "Max: $MAX"
+
+                    Rscript ./bin/dotplot.R $OUTPUT_PREFIX
+
+                    if [ -s $OUTPUT_PREFIX.Assemblytics.dotplot.png ];
+                    then 
+                        echo "PLOT,DONE,Step 6: Plots produced successfully" >> $LOG_FILE
+                        ./bin/Assemblytics_summary.py -i $OUTPUT_PREFIX.Assemblytics_structural_variants.bed -min $MINIMUM_SIZE -max $MAXIMUM_SIZE > $OUTPUT_PREFIX.Assemblytics_structural_variants.summary
+
+                        zip $OUTPUT_PREFIX.Assemblytics_results.zip $OUTPUT_PREFIX.Assemblytics*
+                        head $OUTPUT_PREFIX.Assemblytics_structural_variants.bed | column -t > $OUTPUT_PREFIX.variant_preview.txt
+
+                        if grep -q "Total" $OUTPUT_PREFIX.Assemblytics_structural_variants.summary; 
+                        then 
+                            echo "SUMMARY,DONE,Step 7: Assemblytics_summary.py completed successfully" >> $LOG_FILE
+                        else
+                            echo "SUMMARY,FAIL,Step 7: Assemblytics_summary.py failed" >> $LOG_FILE
+                        fi
+                    else
+                        echo "PLOT,FAIL,Step 6: R script failed to produce a plot" >> $LOG_FILE
+                    fi
+                else
+                    echo "COMBINE,FAIL,Step 5: cat failed" >> $LOG_FILE
+                fi
+            else
+                echo "WITHIN,FAIL,Step 4: Assemblytics_within_alignment.py failed: Possible problem before this step or with Python on server" >> $LOG_FILE
+            fi
+        else
+            echo "BETWEEN,FAIL,Step 3: Assemblytics_between_alignments.pl failed: Possible problem with Perl or show-coords on server." >> $LOG_FILE
+        fi
+    else
+        echo "UNIQFILTER,FAIL,Step 2: Assemblytics_uniq_len_filter.py failed: Possible problem with Python or Python packages on server." >> $LOG_FILE
+    fi
+else
+    echo "DELTAFILTER,FAIL,Step 1: delta-filter failed: Not a real delta file." >> $LOG_FILE
+fi
+
