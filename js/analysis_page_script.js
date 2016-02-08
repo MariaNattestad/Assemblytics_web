@@ -70,13 +70,15 @@ function getUrlVars() {
 
 function check_plot_exists(counter,nickname) {
     
-    
     var run_id_code=getUrlVars()["code"];
-    var plot_url="user_data/"+run_id_code + "/" + nickname + ".plot";
-    var variant_file_url="user_data/"+run_id_code + "/" + nickname + ".ABVC_structural_variants.bed";
-    var summary_table_url="user_data/"+run_id_code + "/" + nickname + ".ABVC_structural_variants.summary";
+    var plot_url_prefix="user_data/"+run_id_code + "/" + nickname + ".Assemblytics.";
+    var summary_table_url="user_data/"+run_id_code + "/" + nickname + ".Assemblytics_structural_variants.summary";
+    var variant_preview_url="user_data/"+run_id_code + "/" + nickname + ".variant_preview.txt"
+    
+    var zip_file_url="user_data/"+run_id_code + "/" + nickname + ".Assemblytics_results.zip";
 
-    var file_to_wait_for=plot_url + ".2.png";
+
+    var file_to_wait_for=plot_url_prefix + "dotplot.png";
     console.log(nickname)
     
     if (counter>=100) {
@@ -92,12 +94,15 @@ function check_plot_exists(counter,nickname) {
             success: function () {
                 document.getElementById("results").style.visibility= 'visible';
                 // alert("inside success");
-                document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" src="' + plot_url  + ".1.png" + ' "/>'; 
-                document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" src="' + plot_url  + ".2.png" + ' "/>'; 
-                document.getElementById("landing_for_plot1_details").innerHTML='<iframe  width="600" height="830" src="' + summary_table_url + '" frameborder="0"></iframe>';
+                document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions.png" + ' "/>'; 
+                document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_zoom.png" + ' "/>'; 
+                document.getElementById("landing_for_dotplot").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "dotplot.png" + ' "/>'; 
 
-                document.getElementById("down_txt_1").href = variant_file_url
-                document.getElementById("down_img_1").href = plot_url
+                document.getElementById("landing_for_summary_statistics").innerHTML='<iframe  width="600" height="900" src="' + summary_table_url + '" frameborder="0"></iframe>';
+                document.getElementById("landing_for_variant_file_preview").innerHTML='<iframe  width="' + $( window ).width() + ' " height="200" src="' + variant_preview_url + '" frameborder="0"></iframe>';
+
+                document.getElementById("download_zip").href = zip_file_url
+
                 imageresize();
             }
         });
@@ -105,29 +110,39 @@ function check_plot_exists(counter,nickname) {
 }
 
 
-//////////////////////////////////
 
-// $(window).resize(function() {
-//     // if(this.resizeTO) clearTimeout(this.resizeTO);
-//     // this.resizeTO = setTimeout(function() {
-//     //     $(this).trigger('resizeEnd');
-//     // }, 500);
-//     console.log("resizing")
-// });
-
-// //redraw graph when window resize is completed  
-// $(window).on('resizeEnd', function() {
-//     console.log("resize end")
-//     document.getElementById("landing_for_plot1").height = $(window).height;
-// });
 function imageresize() {
     console.log("resizing")
-    var top_padding = 150;
+
+    var size_fraction = 3; // 1 means fit one plot on the page, 3 means fit 3 plots on the page
+
+    var top_padding = 200;
     var side_padding = 0.05;
     var aspect_ratio = 1;
-    var height = Math.min($( window ).width()/aspect_ratio*(1-side_padding), $( window ).height()-top_padding);
+    var height = Math.min($( window ).width()/aspect_ratio*(1-side_padding), $( window ).height()-top_padding)/size_fraction;
     $(".fluidimage").height(height + "px");
     $(".fluidimage").width(height*aspect_ratio + "px");
+
+
+    //  Fancybox plot zooming
+    // http://www.dwuser.com/education/content/click-to-zoom-for-photos-adding-lightbox-effect-to-your-images/
+    var addToAll = true;
+    var gallery = true;
+    var titlePosition = 'inside';
+    $(addToAll ? 'img' : 'img.fancybox').each(function(){
+        var $this = $(this);
+        var title = $this.attr('title');
+        var src = $this.attr('data-big') || $this.attr('src');
+        var a = $('<a href="#" class="fancybox"></a>').attr('href', src).attr('title', title);
+        $this.wrap(a);
+    });
+    if (gallery)
+        $('a.fancybox').attr('rel', 'fancyboxgallery');
+    $('a.fancybox').fancybox({
+        titlePosition: titlePosition
+    });
+
+    $.noConflict();
 }
 
 
@@ -139,6 +154,7 @@ $(document).ready(function() {
 });
 
 
+ 
 
 // How to execute code after getting info from multiple files:
     //

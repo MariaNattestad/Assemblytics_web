@@ -5,7 +5,7 @@
 
 <!--    NAVIGATION BAR-->
     <?php include "header.html";?>
-    
+    <link rel="stylesheet" type="text/css" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.css" />
         <!-- <div class="row"> -->
 
             <!--LEFT-->
@@ -13,7 +13,7 @@
                     <!-- ////////////////////////////////////////////////// -->
                     <!-- ////////////////      RESULTS     //////////////// -->
                     <!-- ////////////////////////////////////////////////// -->
-                    <div class = "center" id="results">
+                    <div id="results">
                         <div class="thumbnail frame">
                             <div class = "caption" style="text-align: center"><h3 id="nickname_header">HEADER </h3></div>
                         </div>
@@ -24,13 +24,28 @@
                             <div style="display:inline-block" id="landing_for_plot2" class="plot_img">
                                 <!-- Landing spot for plot image -->
                             </div>
+                            <div style="display:inline-block" id="landing_for_dotplot" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                                hello
+                            </div>
                         </div>
                         <div class="thumbnail frame plot_frame">
                             <div class="caption">
                                 <h4>Variant statistics</h4>
-                                <p id="landing_for_plot1_details">Plot details</p>
-                                <p><a href="" download class="btn btn-primary" class="download_btn" id="down_img_1" role="button">Download plot image</a>
-                                    <a href="" download class="btn btn-default" class="download_btn" id="down_txt_1"  role="button">Download all variants (.bed file)</a>
+                                <p id="landing_for_summary_statistics">Summary statistics</p>
+                            </div>
+                        </div>
+                        <div class="thumbnail frame plot_frame">
+                            <div class="caption">
+                                <h4>Variant statistics</h4>
+                                <p id="landing_for_variant_file_preview">Variant file preview</p>
+                            </div>
+                        </div>
+                        <div class="thumbnail frame plot_frame">
+                            <div class="caption">
+                                <h4>Download data</h4>
+                                <p><a href="" download class="btn btn-primary" class="download_btn" id="download_zip" role="button">Download zip file of all results</a>
+                                    <!-- <a href="" download class="btn btn-default" class="download_btn" id="down_txt_1"  role="button">Download all variants (.bed file)</a> -->
                                 </p>
                             </div>
                         </div>
@@ -47,7 +62,7 @@
     
     <!-- </div>    end of centered middle of body -->
     <!--View analysis later-->
-    <div id="codepanel" class="center">
+    <div id="codepanel" >
         <div class="panel panel-info">
           <div class="panel-heading">
             <h3 class="panel-title">View analysis later</h3>
@@ -89,9 +104,11 @@
 <script src="js/jquery.csv-0.71.min.js"></script>
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script src="js/analysis_page_script.js"></script>
+<script src="js/analysis_page_script.js?rndstr="<?php rand(100000,999999) ?> ></script>
 
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.pack.min.js"></script>
 
 </body>
 </html>

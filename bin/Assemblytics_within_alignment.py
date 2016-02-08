@@ -57,14 +57,14 @@ def run(args):
                     current_query_position += abs(tick) - 1 
                     if tick > 0:
                         size = 1
-                        # report = "%s\t%d\t%d\tABVC_%d\t%d\t%s\t%s\t%d\t%d\t%s\t%s\n" % (current_reference_name,current_reference_position,current_reference_position+size,len(variants)+1,size,"+","Deletion",size,0,current_query_name,"within_alignment")
-                        report = [current_reference_name,current_reference_position,current_reference_position+size,"ABVC_w_"+str(len(variants)+1),size,"+","Deletion",size,0,current_query_name,"within_alignment",current_query_position,current_query_position]
+                        # report = "%s\t%d\t%d\tAssemblytics_%d\t%d\t%s\t%s\t%d\t%d\t%s\t%s\n" % (current_reference_name,current_reference_position,current_reference_position+size,len(variants)+1,size,"+","Deletion",size,0,current_query_name,"within_alignment")
+                        report = [current_reference_name,current_reference_position,current_reference_position+size,"Assemblytics_w_"+str(len(variants)+1),size,"+","Deletion",size,0,current_query_name,"within_alignment",current_query_position,current_query_position]
                         current_reference_position += size # update reference position after deletion
                         variants.append(report)
                     elif tick < 0:
                         size = 1
-                        # report = "%s\t%d\t%d\tABVC_%d\t%d\t%s\t%s\t%d\t%d\t%s\t%s\n" % (current_reference_name,current_reference_position,current_reference_position,len(variants)+1,size,"+","Insertion",0,size,current_query_name,"within_alignment")
-                        report = [current_reference_name,current_reference_position,current_reference_position,"ABVC_w_"+str(len(variants)+1),size,"+","Insertion",0,size,current_query_name,"within_alignment",current_query_position,current_query_position+size]
+                        # report = "%s\t%d\t%d\tAssemblytics_%d\t%d\t%s\t%s\t%d\t%d\t%s\t%s\n" % (current_reference_name,current_reference_position,current_reference_position,len(variants)+1,size,"+","Insertion",0,size,current_query_name,"within_alignment")
+                        report = [current_reference_name,current_reference_position,current_reference_position,"Assemblytics_w_"+str(len(variants)+1),size,"+","Insertion",0,size,current_query_name,"within_alignment",current_query_position,current_query_position+size]
                         current_query_position += size # update query position after insertion
                         variants.append(report)
 
@@ -72,9 +72,9 @@ def run(args):
 
     newcounter = 1
     for line in variants:
-        # report = "%s\t%d\t%d\tABVC_%d\t%d\t%s\t%s\t%d\t%d\t%s\t%s\n" % line
+        # report = "%s\t%d\t%d\tAssemblytics_%d\t%d\t%s\t%s\t%d\t%d\t%s\t%s\n" % line
         if line[4] >= minimum_variant_size:
-            line[3] = "ABVC_w_%d" % (newcounter)
+            line[3] = "Assemblytics_w_%d" % (newcounter)
             print "\t".join(map(str,line[0:10])) + ":" + str(line[11]) + "-" + str(line[12]) + ":+\t" + line[10]
             # print "\t".join(map(str,line))
             newcounter += 1

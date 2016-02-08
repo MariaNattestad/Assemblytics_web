@@ -8,15 +8,14 @@ my @chromosome_filter_choices =  ("all-chromosomes","primary-chromosomes");
 my @longrange_filter_choices = ("include-longrange","exclude-longrange","longrange-only");
 my @output_file_choices = ("bed","bedpe");
 
-my $USAGE = "Usage:\nsvfinder.pl delta minimum_event_size [@chromosome_filter_choices] [@longrange_filter_choices] [@output_file_choices] > fusions.svs.bedpe ";
+my $USAGE = "Usage:\nAssemblytics_between_alignments.pl delta minimum_event_size maximum_event_size [@chromosome_filter_choices] [@longrange_filter_choices] [@output_file_choices] > fusions.svs.bedpe ";
 
 my $deltafile = shift @ARGV or die $USAGE;
 my $minimum_event_size = int(shift @ARGV);
+my $maximum_event_size = int(shift @ARGV);
 my $chromosome_filter = shift @ARGV or die $USAGE;
 my $longrange_filter = shift @ARGV or die $USAGE;
 my $output_file = shift @ARGV or die $USAGE;
-
-
 
 
 
@@ -26,7 +25,7 @@ my $narrow_threshold = 50;
 
 
 # Number of basepairs of distance in either the reference or the query before we call an SV long-range
-my $longrange = 10000;
+my $longrange = $maximum_event_size;
 
 
 
@@ -384,7 +383,7 @@ foreach my $qid (sort keys %alignments) # query name is the key for the alignmen
             if ($longrange_filter ne "exclude-longrange" || ($typeguess ne "Interchromosomal" && $typeguess ne "Longrange")) {
               if ($longrange_filter ne "longrange-only" || ($typeguess eq "Interchromosomal" || $typeguess eq "Longrange")) {
                 if ($output_file eq "bedpe") {
-                  print "$chromi\t$posi\t@{[$posi + 1]}\t$chromj\t$posj\t@{[$posj + 1]}\tABVC_b_$sv_id_counter\t$abs_event_size\t$strandi\t$strandj\t$typeguess\t$rdist\t$qdist\t$qpos\t$abs_event_size\t$svtype\tbetween_alignments\n";  
+                  print "$chromi\t$posi\t@{[$posi + 1]}\t$chromj\t$posj\t@{[$posj + 1]}\tAssemblytics_b_$sv_id_counter\t$abs_event_size\t$strandi\t$strandj\t$typeguess\t$rdist\t$qdist\t$qpos\t$abs_event_size\t$svtype\tbetween_alignments\n";  
                 }
                 else {
                   use List::Util qw(min max);
@@ -394,7 +393,7 @@ foreach my $qid (sort keys %alignments) # query name is the key for the alignmen
                     $ref_stop = $ref_start + 1;
                   }
                   # "chrom","start","stop","name","event.size","strand","event.type","ref.dist","query.dist","contig.name"
-                  print "$chromi\t$ref_start\t$ref_stop\tABVC_b_$sv_id_counter\t$abs_event_size\t+\t$typeguess\t$rdist\t$qdist\t$qpos\tbetween_alignments\n";  
+                  print "$chromi\t$ref_start\t$ref_stop\tAssemblytics_b_$sv_id_counter\t$abs_event_size\t+\t$typeguess\t$rdist\t$qdist\t$qpos\tbetween_alignments\n";  
                 }
               }
             }

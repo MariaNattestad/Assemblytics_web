@@ -11,6 +11,7 @@
     $aResult = array();
     if( !isset($_POST['code']) ) { $aResult['error'] = 'ERROR: No code passed to input_validation.php';}
     $code=$_POST["code"];
+    $uniqlength=$_POST["uniqlength"];
     $nickname = "my_assembly";
 
     if( isset($_POST['nickname']) ) {
@@ -37,6 +38,7 @@
         method=\"post\">
             <input type=\"hidden\" name = \"code\" value=\"$code\">   
             <input type=\"hidden\" name=\"nickname\" value=\"$nickname\">  
+            <input type=\"hidden\" name=\"uniqlength\" value=\"$uniqlength\">  
             <button type=\"submit\" class=\"center btn btn-success\">Continue</button>
         </form>";
         

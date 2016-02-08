@@ -1,44 +1,43 @@
 library(ggplot2)
 
-# args <- c("/Applications/XAMPP/htdocs/ABVC/user_data/example1/my_assembly") # TESTING
 
 args<-commandArgs(TRUE)
 
 output_prefix <- args[1]
 
-filename <- paste(output_prefix,".ABVC_structural_variants.bed",sep="")
+filename <- paste(output_prefix,".Assemblytics_structural_variants.bed",sep="")
 
-print(filename)
+# print(filename)
 bed <- read.csv(filename, sep="\t", quote='', header=FALSE)
 
 names(bed)[1:11] <- c("chrom","start","stop","name","size","strand","type","ref.dist","query.dist","contig_position","method.found")
-head(bed)
+# head(bed)
 
 types.allowed <- c("Insertion","Deletion","Repeat_expansion","Repeat_contraction","Tandem_expansion","Tandem_contraction")
 
 
-summary(bed$type)
+# summary(bed$type)
 
 bed$type <- factor(bed$type, levels = types.allowed)
 
-summary(bed$type)
+# summary(bed$type)
 
 
-print("Total small variants:")
-print(nrow(bed))
+# print("Total small variants:")
+# print(nrow(bed))
 
 
 to.file = TRUE
 
 theme_set(theme_gray(base_size = 24))
 
-head(bed)
+# head(bed)
 
-summary(bed$type)
+# summary(bed$type)
 
-summary(bed$repeat.class)
+# summary(bed$repeat.class)
 
-head(bed)
+# head(bed)
 
 
 # library(RColorBrewer)
@@ -53,12 +52,12 @@ binwidth <- 5
 # dev.off()
 
 
-png(paste(output_prefix,".plot.1.png", sep=""),1000,1000)
+png(paste(output_prefix,".Assemblytics.size_distributions.png", sep=""),1000,1000)
 ggplot(bed,aes(x=size, fill=type)) + geom_bar(binwidth=binwidth*10) + scale_fill_brewer(palette=color_palette_name) + facet_grid(type ~ .) + labs(fill="Variant type",x="Variant size",y="Count") + theme(strip.text=element_blank(),strip.background=element_blank())
 dev.off()
 
 
-png(paste(output_prefix,".plot.2.png", sep=""),1000,1000)
+png(paste(output_prefix,".Assemblytics.size_distributions_zoom.png", sep=""),1000,1000)
 ggplot(bed,aes(x=size, fill=type)) + geom_bar(binwidth=binwidth) + scale_fill_brewer(palette=color_palette_name) + xlim(0,500) + facet_grid(type ~ .) + labs(fill="Variant type",x="Variant size",y="Count") + theme(strip.text=element_blank(),strip.background=element_blank())
 dev.off()
 
