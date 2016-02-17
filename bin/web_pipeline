@@ -1,5 +1,5 @@
 #!/bin/bash
-USAGE="Assemblytics delta output_prefix uniquelength"
+USAGE="Assemblytics delta output_prefix unique_length_required"
 if [ -z "$1" ]
   then
     echo "ERROR in Assemblytics: No delta file given"
@@ -10,6 +10,13 @@ fi
 if [ -z "$2" ]
   then
     echo "ERROR in Assemblytics: No output prefix given"
+    echo "Usage:"
+    echo $USAGE
+    exit
+fi
+if [ -z "$3" ]
+  then
+    echo "ERROR in Assemblytics: No unique length requirement parameter given"
     echo "Usage:"
     echo $USAGE
     exit
@@ -32,7 +39,6 @@ MAXIMUM_SIZE=10000
 LOG_FILE=${OUTPUT_PREFIX%/*}/progress.log
 
 source python_env/bin/activate
-
 
 echo "${OUTPUT_PREFIX##*/}" >> $LOG_FILE
 
@@ -70,18 +76,15 @@ then
 
                     ./bin/show-coords -rclTH $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta > $OUTPUT_PREFIX.coords
 
-                    # REFERENCE STATISTICS
-                    # read NUM_CONTIGS ASSEMBLY_LENGTH MEAN_LENGTH MIN MAX <<<$(cat Coffee.coords | awk '{print $12,$8}' OFS='\t' | sort -k2,2nr | awk 'BEGIN{sorted=1} {if(min==""){min=max=previous=$2}; if($2>max){max=$2}; if($2<min){min=$2}; if($2>previous){sorted=0}; total+=$2; count+=1; previous=$2;} END {print count,total,total/count, min, max, sorted}')
-                    # echo "Number of sequences: $NUM_CONTIGS"
-                    # echo "Total sequence length: $ASSEMBLY_LENGTH"
-                    # echo "Mean: $MEAN_LENGTH"
-                    # echo "Min: $MIN"
-                    # echo "Max: $MAX"
+                    ./bin/assembly_stats $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.Assemblytics_assembly_stats.txt
 
+                    ./bin/flip_query_coords.py --coords $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.coords.flipped
+                    echo "Done flipping"
                     Rscript ./bin/dotplot.R $OUTPUT_PREFIX
+                    Rscript ./bin/assembly_Nchart.R $OUTPUT_PREFIX
 
                     if [ -s $OUTPUT_PREFIX.Assemblytics.dotplot.png ];
-                    then 
+                    then
                         echo "PLOT,DONE,Step 6: Plots produced successfully" >> $LOG_FILE
                         ./bin/Assemblytics_summary.py -i $OUTPUT_PREFIX.Assemblytics_structural_variants.bed -min $MINIMUM_SIZE -max $MAXIMUM_SIZE > $OUTPUT_PREFIX.Assemblytics_structural_variants.summary
 
@@ -89,7 +92,7 @@ then
                         head $OUTPUT_PREFIX.Assemblytics_structural_variants.bed | column -t > $OUTPUT_PREFIX.variant_preview.txt
 
                         if grep -q "Total" $OUTPUT_PREFIX.Assemblytics_structural_variants.summary; 
-                        then 
+                        then
                             echo "SUMMARY,DONE,Step 7: Assemblytics_summary.py completed successfully" >> $LOG_FILE
                         else
                             echo "SUMMARY,FAIL,Step 7: Assemblytics_summary.py failed" >> $LOG_FILE

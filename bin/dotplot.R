@@ -1,15 +1,17 @@
 library(ggplot2)
 
 
-# args<-commandArgs(TRUE)
-# prefix <- args[1]
+args<-commandArgs(TRUE)
+prefix <- args[1]
 
-prefix <- "/Applications/XAMPP/htdocs/Assemblytics/user_data/example3/SKBR3_breast_cancer_cell_line"
-    
-    
+
+# TESTING:
+# prefix <- "/Applications/XAMPP/htdocs/Assemblytics/tests/Arabidopsis_thaliana_MHAP_assembly"
+   
     
 
-filename <- paste(prefix,".coords",sep="")
+
+filename <- paste(prefix,".coords.flipped",sep="")
 
 ref.pos <- function(chrom,pos,chr.lengths) {
     
@@ -72,17 +74,26 @@ coords <- cbind(coords, ref.loc.start=mapply(FUN=ref.pos,coords$ref,coords$ref.s
 
 
 
-
-
-
 ##### average ref.loc.start for each read.name
 ##### avg.ref.loc.per.readname <- tapply(filtered.coords$ref.loc.start,factor(filtered.coords$read.name),mean)
 ########################################
+
 # pick longest alignment. then pick the ref.loc.start of that
 query.group <- split(coords,factor(coords$query))
-ref.loc.of.longest.alignment.by.query <- unlist(sapply(query.group, function(dataset) {dataset$ref.loc.start[dataset$alignment.length==max(dataset$alignment.length)][1]}),recursive=FALSE)
 
-########################################
+ref.loc.of.longest.alignment.by.query <- unlist(sapply(query.group, function(coords.for.each.query) {coords.for.each.query$ref.loc.start[coords.for.each.query$alignment.length==max(coords.for.each.query$alignment.length)][1]}),recursive=FALSE)
+
+
+# flip.query <- sapply(query.group,function(coords.for.each.query) {
+#     l <- coords.for.each.query[coords.for.each.query$alignment.length==max(coords.for.each.query$alignment.length),][1,]
+#     if (l$query.stop<l$query.start) {
+#         coords.for.each.query$query.stop <- coords.for.each.query$query.length - coords.for.each.query$query.stop
+#         coords.for.each.query$query.start <- coords.for.each.query$query.length - coords.for.each.query$query.start
+#     }
+#     l$query.stop<l$query.start
+# })
+
+#####################################
 
 # query.names <- coords$query
 
@@ -94,29 +105,40 @@ query.lengths <- sapply(ordered.query.names,function(each.query){
     max(coords[coords$query==each.query,"query.length"])
 })
 
-# use the query.lengths to give offset positions to each read, adding a read.loc.start column and a read.loc.stop column to each entry in filtered.coords
+# use the query.lengths to give offset positions to each query, adding a query.loc.start column and a query.loc.stop column to each entry in filtered.coords
 
 coords$query.loc.start <- mapply(FUN=ref.pos,coords$query,coords$query.start,MoreArgs=list(query.lengths))
-coords$query.loc.stop <- mapply(FUN=ref.pos,coords$query,coords$query.start,MoreArgs=list(query.lengths))
+coords$query.loc.stop <- mapply(FUN=ref.pos,coords$query,coords$query.stop,MoreArgs=list(query.lengths))
 
 
+#
+#
+#
+
+# Hide labels for chromosomes accounting for less than 1% of the reference
+chr.labels <- names(chr.lengths)
+chr.labels[chr.lengths < 0.01*sum(as.numeric(chr.lengths))] <- ""
 
 
 
 plot.output.filename <- paste(prefix,".Assemblytics.dotplot.png",sep="")
-
 png(file=plot.output.filename,width=1000,height=1000)
+
+
 
 
 theme_set(theme_bw(base_size = 24))
 # 1 line segment for each alignment, linking start and stop
 # some kind of gridline on plot to show where contigs start and end
-ggplot(coords, aes(x=ref.loc.start,xend=ref.loc.stop,y=query.loc.start,yend=query.loc.stop)) + geom_segment(lineend="butt",size=2) + labs(x="Reference",y="Contigs") + scale_y_continuous(breaks = cumsum(as.numeric(query.lengths)),labels=NULL,expand=c(0,0)) + scale_x_continuous(breaks = cumsum(as.numeric(chr.lengths)),labels=names(chr.lengths),expand=c(0,0)) + theme(
+ggplot(coords, aes(x=ref.loc.start,xend=ref.loc.stop,y=query.loc.start,yend=query.loc.stop)) + geom_segment(lineend="butt",size=2) + labs(x="Reference",y="Query") + scale_y_continuous(breaks = cumsum(as.numeric(query.lengths)),labels=NULL,expand=c(0,0)) + scale_x_continuous(breaks = cumsum(as.numeric(chr.lengths)),labels=chr.labels,expand=c(0,0)) + theme(
     axis.ticks.y=element_line(size=0),
+    axis.text.x = element_text(angle = 90, hjust = 1,vjust=-0.5),
     panel.grid.major.x = element_line(colour = "black",size=0.2), 
-    panel.grid.major.y = element_line(NA),
+    panel.grid.major.y = element_line(colour = "black",size=0.2), 
+#     panel.grid.major.y = element_line(NA),
     panel.grid.minor = element_line(NA)
-    )
+)
+
 
 
 dev.off()

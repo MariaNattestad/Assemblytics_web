@@ -1,0 +1,56 @@
+Insertion
+                         Count       Total bp
+           5-10 bp:      40664         263989
+          10-50 bp:      32707         567884
+         50-100 bp:       1133          76636
+      100-1,000 bp:       1732         495665
+   1,000-10,000 bp:        334         974016
+             Total:      76570        2378190
+
+Deletion
+                         Count       Total bp
+           5-10 bp:      41865         271523
+          10-50 bp:      32983         574504
+         50-100 bp:       1052          69054
+      100-1,000 bp:       1305         381744
+   1,000-10,000 bp:        295        1022768
+             Total:      77500        2319593
+
+Tandem_expansion
+                         Count       Total bp
+           5-10 bp:         85            600
+          10-50 bp:        195           5759
+         50-100 bp:        365          26726
+      100-1,000 bp:       2030         753960
+   1,000-10,000 bp:        493        1386016
+             Total:       3168        2173061
+
+Tandem_contraction
+                         Count       Total bp
+           5-10 bp:         76            520
+          10-50 bp:        203           6375
+         50-100 bp:        397          28357
+      100-1,000 bp:        884         247122
+   1,000-10,000 bp:        142         427004
+             Total:       1702         709378
+
+Repeat_expansion
+                         Count       Total bp
+           5-10 bp:          4             25
+          10-50 bp:         39           1047
+         50-100 bp:         41           3005
+      100-1,000 bp:        416         172969
+   1,000-10,000 bp:        219         580867
+             Total:        719         757913
+
+Repeat_contraction
+                         Count       Total bp
+           5-10 bp:          6             43
+          10-50 bp:         34            929
+         50-100 bp:         30           2158
+      100-1,000 bp:        226          88740
+   1,000-10,000 bp:        112         320425
+             Total:        408         412295
+
+Total number of variants: 160,067
+Total affected bases: 8,750,430 bp

@@ -22,11 +22,11 @@
                               <p>
                                 Consult the <a href="http://mummer.sourceforge.net/manual/" target="_blank">MUMmer manual</a> if you encounter problems</li>
                               </p></li>
-                          <li>Delta-filter to reduce file size before upload (from MUMmer package): Here the 10000 should match the "Required unique length" selected on the right.
+                          <li>Delta-filter to reduce file size before upload (from MUMmer package): Here the 10000 should match the "Unique sequence length required" selected on the right.
                             The minimum you can choose is 1000 which runs more slowly than 10000 especially on large genomes. Check the size of the final OUT.l10000.delta file. If the file size is larger than 500 Mb, it might take a long time to run. 
                               <p><pre>$ delta-filter -l 10000 OUT.delta > OUT.l10000.delta </pre></p>
                               </li>
-                          <li>Upload the output file OUT.l10000.delta (<a href="user_data/example1/Arabidopsis.l10000.delta" target="_blank">view example</a>) to Assemblytics</li>
+                          <li>Upload the output file OUT.l10000.delta (<a href="tests/Arabidopsis.l10000.delta" target="_blank">view example</a>) to Assemblytics</li>
                         </ol>
                       </div>
                   </div>

@@ -1,87 +1,128 @@
-Input delta file: user_uploads/h8IfcVV89WlgiT4E03La
-Output prefix: user_data/h8IfcVV89WlgiT4E03La/Arabidopsis
+Input delta file: user_uploads/41e5CoazQniI6FOIYd1Q
+Output prefix: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly
 1. Filter delta file
-First read through the file: 0 seconds for 79 query-reference combinations
-Filtering alignments of 67 queries
+First read through the file: 4 seconds for 7851 query-reference combinations
+Filtering alignments of 5944 queries
+Progress: 0%
+Progress: 1%
+Progress: 2%
+Progress: 3%
+Progress: 4%
+Progress: 5%
+Progress: 6%
+Progress: 7%
 Progress: 8%
+Progress: 9%
+Progress: 10%
+Progress: 11%
+Progress: 12%
+Progress: 13%
+Progress: 14%
+Progress: 15%
+Progress: 16%
 Progress: 17%
+Progress: 18%
+Progress: 19%
+Progress: 20%
+Progress: 21%
+Progress: 22%
+Progress: 23%
+Progress: 24%
+Progress: 25%
 Progress: 26%
+Progress: 27%
+Progress: 28%
+Progress: 29%
+Progress: 30%
+Progress: 31%
+Progress: 32%
+Progress: 33%
+Progress: 34%
 Progress: 35%
+Progress: 36%
+Progress: 37%
+Progress: 38%
+Progress: 39%
+Progress: 40%
+Progress: 41%
+Progress: 42%
+Progress: 43%
 Progress: 44%
+Progress: 45%
+Progress: 46%
+Progress: 47%
+Progress: 48%
+Progress: 49%
+Progress: 50%
+Progress: 51%
+Progress: 52%
 Progress: 53%
+Progress: 54%
+Progress: 55%
+Progress: 56%
+Progress: 57%
+Progress: 58%
+Progress: 59%
+Progress: 60%
+Progress: 61%
 Progress: 62%
+Progress: 63%
+Progress: 64%
+Progress: 65%
+Progress: 66%
+Progress: 67%
+Progress: 68%
+Progress: 69%
+Progress: 70%
 Progress: 71%
+Progress: 72%
+Progress: 73%
+Progress: 74%
+Progress: 75%
+Progress: 76%
+Progress: 77%
+Progress: 78%
+Progress: 79%
 Progress: 80%
+Progress: 81%
+Progress: 82%
+Progress: 83%
+Progress: 84%
+Progress: 85%
+Progress: 86%
+Progress: 87%
+Progress: 88%
 Progress: 89%
+Progress: 90%
+Progress: 91%
+Progress: 92%
+Progress: 93%
+Progress: 94%
+Progress: 95%
+Progress: 96%
+Progress: 97%
 Progress: 98%
+Progress: 99%
 Progress: 100%
-Deciding which alignments to keep: 23 seconds for 67 queries
-Reading file and recording all the entries we decided to keep: 0 seconds for 452871 total lines in file
+Deciding which alignments to keep: 24 seconds for 5944 queries
+Reading file and recording all the entries we decided to keep: 6 seconds for 5969853 total lines in file
 2. Finding variants between alignments
-Loaded 2847 alignments
+Loaded 15691 alignments
 3. Finding variants within alignments
 4. Combine variants between and within alignments
 Loading required package: methods
-[1] "user_data/h8IfcVV89WlgiT4E03La/Arabidopsis.ABVC_structural_variants.bed"
-  chrom    start     stop     name size strand      type ref.dist query.dist
-1  Chr4  9414226  9414300 ABVC_w_1   74      +  Deletion       74          0
-2  Chr4  9969175  9969227 ABVC_w_2   52      +  Deletion       52          0
-3  Chr4 10095402 10095402 ABVC_w_3   61      + Insertion        0         61
-4  Chr4 11223747 11223747 ABVC_w_4   74      + Insertion        0         74
-5  Chr4 11283434 11283489 ABVC_w_5   55      +  Deletion       55          0
-6  Chr4 11321881 11321936 ABVC_w_6   55      +  Deletion       55          0
-                          contig_position     method.found
-1 0000_00|quiver|quiver:9154517-9154517:+ within_alignment
-2 0000_00|quiver|quiver:8637471-8637471:+ within_alignment
-3 0000_00|quiver|quiver:8499817-8499878:+ within_alignment
-4 0000_00|quiver|quiver:7460162-7460236:+ within_alignment
-5 0000_00|quiver|quiver:7386872-7386872:+ within_alignment
-6 0000_00|quiver|quiver:7328846-7328846:+ within_alignment
-          Deletion          Insertion Repeat_contraction   Repeat_expansion 
-               530                520                821                855 
-Tandem_contraction   Tandem_expansion 
-                39                 35 
-         Insertion           Deletion   Repeat_expansion Repeat_contraction 
-               520                530                855                821 
-  Tandem_expansion Tandem_contraction 
-                35                 39 
-[1] "Total small variants:"
-[1] 2800
-  chrom    start     stop     name size strand      type ref.dist query.dist
-1  Chr4  9414226  9414300 ABVC_w_1   74      +  Deletion       74          0
-2  Chr4  9969175  9969227 ABVC_w_2   52      +  Deletion       52          0
-3  Chr4 10095402 10095402 ABVC_w_3   61      + Insertion        0         61
-4  Chr4 11223747 11223747 ABVC_w_4   74      + Insertion        0         74
-5  Chr4 11283434 11283489 ABVC_w_5   55      +  Deletion       55          0
-6  Chr4 11321881 11321936 ABVC_w_6   55      +  Deletion       55          0
-                          contig_position     method.found
-1 0000_00|quiver|quiver:9154517-9154517:+ within_alignment
-2 0000_00|quiver|quiver:8637471-8637471:+ within_alignment
-3 0000_00|quiver|quiver:8499817-8499878:+ within_alignment
-4 0000_00|quiver|quiver:7460162-7460236:+ within_alignment
-5 0000_00|quiver|quiver:7386872-7386872:+ within_alignment
-6 0000_00|quiver|quiver:7328846-7328846:+ within_alignment
-         Insertion           Deletion   Repeat_expansion Repeat_contraction 
-               520                530                855                821 
-  Tandem_expansion Tandem_contraction 
-                35                 39 
-Length  Class   Mode 
-     0   NULL   NULL 
-  chrom    start     stop     name size strand      type ref.dist query.dist
-1  Chr4  9414226  9414300 ABVC_w_1   74      +  Deletion       74          0
-2  Chr4  9969175  9969227 ABVC_w_2   52      +  Deletion       52          0
-3  Chr4 10095402 10095402 ABVC_w_3   61      + Insertion        0         61
-4  Chr4 11223747 11223747 ABVC_w_4   74      + Insertion        0         74
-5  Chr4 11283434 11283489 ABVC_w_5   55      +  Deletion       55          0
-6  Chr4 11321881 11321936 ABVC_w_6   55      +  Deletion       55          0
-                          contig_position     method.found
-1 0000_00|quiver|quiver:9154517-9154517:+ within_alignment
-2 0000_00|quiver|quiver:8637471-8637471:+ within_alignment
-3 0000_00|quiver|quiver:8499817-8499878:+ within_alignment
-4 0000_00|quiver|quiver:7460162-7460236:+ within_alignment
-5 0000_00|quiver|quiver:7386872-7386872:+ within_alignment
-6 0000_00|quiver|quiver:7328846-7328846:+ within_alignment
 null device 
           1 
 null device 
           1 
+./bin/web_pipeline: line 79: ./bin/assembly_stats: Permission denied
+Loading required package: methods
+null device 
+          1 
+  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics.dotplot.png (deflated 15%)
+  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions.png (deflated 20%)
+  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions_zoom.png (deflated 18%)
+  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics.unique_length_filtered_l10000.delta (deflated 67%)
+  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics_assembly_stats.txt (stored 0%)
+  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.bed (deflated 81%)
+  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.summary (deflated 76%)
