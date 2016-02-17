@@ -38,12 +38,18 @@ def SVtable(args):
         svTypes = ["Insertion/Expansion","Deletion/Contraction"] #,"Substitution", "Longrange", "Interchromosomal"]
     overall_total = 0
     overall_total_bases = 0
+    overall_total_SVs = 0
+    overall_total_SV_bases = 0
+
+    SV_size = 50
 
     all_SV_types = svTypes + list(set(rawTypes)-set(svTypes))
     for svType in all_SV_types:
         sizes = sizeArray[typeArray==svType]
         overall_total += len(sizes)
         overall_total_bases += sum(sizes)
+        overall_total_SVs += len(sizes[sizes>=SV_size])
+        overall_total_SV_bases += sum(sizes[sizes>=SV_size])
         print svType
         
         format = "%20s%10s%15s"
@@ -84,8 +90,12 @@ def SVtable(args):
     #     print "\tTotal: \t\t\t", len(sizes), "\t\t", sum(sizes)
     #     print "\n"
 
-    print "Total number of variants: %s" % (intWithCommas(overall_total))
-    print "Total affected bases: %s bp" % (intWithCommas(int(overall_total_bases)))
+    print "Total number of all variants: %s" % (intWithCommas(overall_total))
+    print "Total bases affected by all variants: %s bp" % (intWithCommas(int(overall_total_bases)))
+
+    print "Total number of structural variants: %s" % (intWithCommas(overall_total_SVs))
+    print "Total bases affected by structural variants: %s bp" % (intWithCommas(int(overall_total_SV_bases)))
+
 
 def intWithCommas(x):
     if type(x) not in [type(0), type(0L)]:
