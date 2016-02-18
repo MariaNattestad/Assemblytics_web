@@ -34,7 +34,6 @@ awk -v al=$REF_ASSEMBLY_LENGTH 'BEGIN{n50="not found"}{sum+=$2; if(sum>al/2 && n
 
 
 
-echo ""
 echo "_______________________"
 echo ""
 echo "Query:"

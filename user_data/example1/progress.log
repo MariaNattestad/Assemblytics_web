@@ -4,5 +4,4 @@ UNIQFILTER,DONE,Step 2: Assemblytics_uniq_len_filter.py completed successfully
 BETWEEN,DONE,Step 3: Assemblytics_between_alignments.pl completed successfully
 WITHIN,DONE,Step 4: Assemblytics_within_alignment.py completed successfully
 COMBINE,DONE,Step 5: Variants combined successfully
-PLOT,DONE,Step 6: Plots produced successfully
 SUMMARY,DONE,Step 7: Assemblytics_summary.py completed successfully

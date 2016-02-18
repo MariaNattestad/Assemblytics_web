@@ -1,5 +1,5 @@
-Input delta file: user_uploads/41e5CoazQniI6FOIYd1Q
-Output prefix: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly
+Input delta file: user_uploads/weM2pfqIrnqRUBVknyWF
+Output prefix: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly
 1. Filter delta file
 First read through the file: 4 seconds for 7851 query-reference combinations
 Filtering alignments of 5944 queries
@@ -115,14 +115,15 @@ null device
           1 
 null device 
           1 
-./bin/web_pipeline: line 79: ./bin/assembly_stats: Permission denied
+Done flipping
 Loading required package: methods
 null device 
           1 
-  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics.dotplot.png (deflated 15%)
-  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions.png (deflated 20%)
-  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions_zoom.png (deflated 18%)
-  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics.unique_length_filtered_l10000.delta (deflated 67%)
-  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics_assembly_stats.txt (stored 0%)
-  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.bed (deflated 81%)
-  adding: user_data/41e5CoazQniI6FOIYd1Q/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.summary (deflated 76%)
+Fatal error: cannot open file './bin/assembly_Nchart.R': No such file or directory
+  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics.dotplot.png (deflated 18%)
+  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions.png (deflated 20%)
+  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions_zoom.png (deflated 18%)
+  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics.unique_length_filtered_l10000.delta (deflated 67%)
+  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics_assembly_stats.txt (deflated 42%)
+  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.bed (deflated 81%)
+  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.summary (deflated 76%)

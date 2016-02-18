@@ -52,5 +52,7 @@ Repeat_contraction
    1,000-10,000 bp:        338        1308063
              Total:        684        1442049
 
-Total number of variants: 23,035
-Total affected bases: 4,213,412 bp
+Total number of all variants: 23,035
+Total bases affected by all variants: 4,213,412 bp
+Total number of structural variants: 2,501
+Total bases affected by structural variants: 3,966,921 bp

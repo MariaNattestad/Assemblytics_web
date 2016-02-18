@@ -1,0 +1,16 @@
+Reference:
+Number of sequences: 17
+Total sequence length: 12157105
+Mean: 715124
+Min: 85779
+Max: 1531933
+N50: 924431
+_______________________
+
+Query:
+Number of sequences: 24
+Total sequence length: 12283855
+Mean: 511827
+Min: 12504
+Max: 1548464
+N50: 818518

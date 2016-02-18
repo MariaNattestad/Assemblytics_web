@@ -1,0 +1,16 @@
+Reference:
+Number of sequences: 42
+Total sequence length: 139047227
+Mean: 3.31065e+06
+Min: 12632
+Max: 32079331
+N50: 25286936
+_______________________
+
+Query:
+Number of sequences: 371
+Total sequence length: 149844171
+Mean: 403893
+Min: 11330
+Max: 25793534
+N50: 13636574

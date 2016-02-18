@@ -55,13 +55,13 @@ then
         >&2 echo "2. Finding variants between alignments"
         ./bin/Assemblytics_between_alignments.pl  $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta $MINIMUM_SIZE $MAXIMUM_SIZE all-chromosomes exclude-longrange bed > $OUTPUT_PREFIX.variants_between_alignments.bed
 
-        if grep -q "between_alignments" $OUTPUT_PREFIX.variants_between_alignments.bed; 
+        if [ -e $OUTPUT_PREFIX.variants_between_alignments.bed ];
         then 
             echo "BETWEEN,DONE,Step 3: Assemblytics_between_alignments.pl completed successfully" >> $LOG_FILE
             >&2 echo "3. Finding variants within alignments"
             ./bin/Assemblytics_within_alignment.py --delta $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta --min $MINIMUM_SIZE > $OUTPUT_PREFIX.variants_within_alignments.bed
 
-            if grep -q "within_alignment" $OUTPUT_PREFIX.variants_within_alignments.bed; 
+            if [ -e $OUTPUT_PREFIX.variants_within_alignments.bed ];
             then 
                 echo "WITHIN,DONE,Step 4: Assemblytics_within_alignment.py completed successfully" >> $LOG_FILE
                 >&2 echo "4. Combine variants between and within alignments";
@@ -82,24 +82,19 @@ then
                     echo "Done flipping"
                     Rscript ./bin/dotplot.R $OUTPUT_PREFIX
                     Rscript ./bin/assembly_Nchart.R $OUTPUT_PREFIX
+                    
+                    ./bin/Assemblytics_summary.py -i $OUTPUT_PREFIX.Assemblytics_structural_variants.bed -min $MINIMUM_SIZE -max $MAXIMUM_SIZE > $OUTPUT_PREFIX.Assemblytics_structural_variants.summary
 
-                    if [ -s $OUTPUT_PREFIX.Assemblytics.dotplot.png ];
+                    zip $OUTPUT_PREFIX.Assemblytics_results.zip $OUTPUT_PREFIX.Assemblytics*
+                    head $OUTPUT_PREFIX.Assemblytics_structural_variants.bed | column -t > $OUTPUT_PREFIX.variant_preview.txt
+
+                    if grep -q "Total" $OUTPUT_PREFIX.Assemblytics_structural_variants.summary; 
                     then
-                        echo "PLOT,DONE,Step 6: Plots produced successfully" >> $LOG_FILE
-                        ./bin/Assemblytics_summary.py -i $OUTPUT_PREFIX.Assemblytics_structural_variants.bed -min $MINIMUM_SIZE -max $MAXIMUM_SIZE > $OUTPUT_PREFIX.Assemblytics_structural_variants.summary
-
-                        zip $OUTPUT_PREFIX.Assemblytics_results.zip $OUTPUT_PREFIX.Assemblytics*
-                        head $OUTPUT_PREFIX.Assemblytics_structural_variants.bed | column -t > $OUTPUT_PREFIX.variant_preview.txt
-
-                        if grep -q "Total" $OUTPUT_PREFIX.Assemblytics_structural_variants.summary; 
-                        then
-                            echo "SUMMARY,DONE,Step 7: Assemblytics_summary.py completed successfully" >> $LOG_FILE
-                        else
-                            echo "SUMMARY,FAIL,Step 7: Assemblytics_summary.py failed" >> $LOG_FILE
-                        fi
+                        echo "SUMMARY,DONE,Step 7: Assemblytics_summary.py completed successfully" >> $LOG_FILE
                     else
-                        echo "PLOT,FAIL,Step 6: R script failed to produce a plot" >> $LOG_FILE
+                        echo "SUMMARY,FAIL,Step 7: Assemblytics_summary.py failed" >> $LOG_FILE
                     fi
+                
                 else
                     echo "COMBINE,FAIL,Step 5: cat failed" >> $LOG_FILE
                 fi

@@ -1,5 +1,5 @@
-Input delta file: user_uploads/C7VUvzGZxYmRqM4bKD6m
-Output prefix: user_data/C7VUvzGZxYmRqM4bKD6m/Arabidopsis_thaliana_MHAP_assembly
+Input delta file: user_uploads/kZEsaJUvw268cl5ijgtL
+Output prefix: user_data/kZEsaJUvw268cl5ijgtL/Arabidopsis_thaliana_MHAP_assembly
 1. Filter delta file
 First read through the file: 0 seconds for 109 query-reference combinations
 Filtering alignments of 92 queries
@@ -25,14 +25,15 @@ null device
           1 
 null device 
           1 
-./bin/web_pipeline: line 79: ./bin/assembly_stats: Permission denied
+Done flipping
 Loading required package: methods
 null device 
           1 
-  adding: user_data/C7VUvzGZxYmRqM4bKD6m/Arabidopsis_thaliana_MHAP_assembly.Assemblytics.dotplot.png (deflated 25%)
-  adding: user_data/C7VUvzGZxYmRqM4bKD6m/Arabidopsis_thaliana_MHAP_assembly.Assemblytics.size_distributions.png (deflated 22%)
-  adding: user_data/C7VUvzGZxYmRqM4bKD6m/Arabidopsis_thaliana_MHAP_assembly.Assemblytics.size_distributions_zoom.png (deflated 19%)
-  adding: user_data/C7VUvzGZxYmRqM4bKD6m/Arabidopsis_thaliana_MHAP_assembly.Assemblytics.unique_length_filtered_l10000.delta (deflated 72%)
-  adding: user_data/C7VUvzGZxYmRqM4bKD6m/Arabidopsis_thaliana_MHAP_assembly.Assemblytics_assembly_stats.txt (stored 0%)
-  adding: user_data/C7VUvzGZxYmRqM4bKD6m/Arabidopsis_thaliana_MHAP_assembly.Assemblytics_structural_variants.bed (deflated 82%)
-  adding: user_data/C7VUvzGZxYmRqM4bKD6m/Arabidopsis_thaliana_MHAP_assembly.Assemblytics_structural_variants.summary (deflated 79%)
+Fatal error: cannot open file './bin/assembly_Nchart.R': No such file or directory
+  adding: user_data/kZEsaJUvw268cl5ijgtL/Arabidopsis_thaliana_MHAP_assembly.Assemblytics.dotplot.png (deflated 23%)
+  adding: user_data/kZEsaJUvw268cl5ijgtL/Arabidopsis_thaliana_MHAP_assembly.Assemblytics.size_distributions.png (deflated 22%)
+  adding: user_data/kZEsaJUvw268cl5ijgtL/Arabidopsis_thaliana_MHAP_assembly.Assemblytics.size_distributions_zoom.png (deflated 19%)
+  adding: user_data/kZEsaJUvw268cl5ijgtL/Arabidopsis_thaliana_MHAP_assembly.Assemblytics.unique_length_filtered_l10000.delta (deflated 72%)
+  adding: user_data/kZEsaJUvw268cl5ijgtL/Arabidopsis_thaliana_MHAP_assembly.Assemblytics_assembly_stats.txt (deflated 43%)
+  adding: user_data/kZEsaJUvw268cl5ijgtL/Arabidopsis_thaliana_MHAP_assembly.Assemblytics_structural_variants.bed (deflated 82%)
+  adding: user_data/kZEsaJUvw268cl5ijgtL/Arabidopsis_thaliana_MHAP_assembly.Assemblytics_structural_variants.summary (deflated 78%)
