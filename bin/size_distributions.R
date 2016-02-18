@@ -53,7 +53,7 @@ binwidth <- 5
 
 
 png(paste(output_prefix,".Assemblytics.size_distributions.png", sep=""),1000,1000)
-ggplot(bed,aes(x=size, fill=type)) + geom_bar(binwidth=binwidth*10) + scale_fill_brewer(palette=color_palette_name) + facet_grid(type ~ .) + labs(fill="Variant type",x="Variant size",y="Count") + theme(strip.text=element_blank(),strip.background=element_blank())
+ggplot(bed[bed$size>=50,],aes(x=size, fill=type)) + geom_bar(binwidth=binwidth*10) + scale_fill_brewer(palette=color_palette_name) + facet_grid(type ~ .) + labs(fill="Structural variant type",x="Variant size",y="Count") + theme(strip.text=element_blank(),strip.background=element_blank())
 dev.off()
 
 

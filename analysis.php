@@ -31,19 +31,25 @@
                         </div>
                         <div class="thumbnail frame plot_frame">
                             <div class="caption">
-                                <h4>Variant statistics</h4>
-                                <p id="landing_for_summary_statistics">Summary statistics</p>
+                                <h4>Variant summary statistics</h4>
+                                <p id="landing_for_summary_statistics"></p>
                             </div>
                         </div>
                         <div class="thumbnail frame plot_frame">
                             <div class="caption">
-                                <h4>Variant statistics</h4>
-                                <p id="landing_for_variant_file_preview">Variant file preview</p>
+                                <h4>Variant file preview</h4>
+                                <p id="landing_for_variant_file_preview"></p>
                             </div>
                         </div>
                         <div class="thumbnail frame plot_frame">
                             <div class="caption">
-                                <h4>Download data</h4>
+                                <h4>Assembly statistics</h4>
+                                <p id="landing_for_assembly_stats"></p>
+                            </div>
+                        </div>
+                        <div class="thumbnail frame plot_frame">
+                            <div class="caption">
+                                <h4>Download all data</h4>
                                 <p><a href="" download class="btn btn-primary" class="download_btn" id="download_zip" role="button">Download zip file of all results</a>
                                     <!-- <a href="" download class="btn btn-default" class="download_btn" id="down_txt_1"  role="button">Download all variants (.bed file)</a> -->
                                 </p>
@@ -104,8 +110,7 @@
 <script src="js/jquery.csv-0.71.min.js"></script>
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script src="js/analysis_page_script.js?rndstr="<?php rand(100000,999999) ?> ></script>
-
+<script type='text/javascript' src="js/analysis_page_script.js?rndstr="<?php rand(100000,999999) ?> ></script>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.pack.min.js"></script>

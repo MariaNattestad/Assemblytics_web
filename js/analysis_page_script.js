@@ -67,13 +67,15 @@ function getUrlVars() {
 //}
 //
 
+var content_width = $( window ).width();
 
 function check_plot_exists(counter,nickname) {
     
     var run_id_code=getUrlVars()["code"];
     var plot_url_prefix="user_data/"+run_id_code + "/" + nickname + ".Assemblytics.";
     var summary_table_url="user_data/"+run_id_code + "/" + nickname + ".Assemblytics_structural_variants.summary";
-    var variant_preview_url="user_data/"+run_id_code + "/" + nickname + ".variant_preview.txt"
+    var variant_preview_url="user_data/"+run_id_code + "/" + nickname + ".variant_preview.txt";
+    var assembly_stats_url="user_data/"+run_id_code + "/" + nickname + ".Assemblytics_assembly_stats.txt";
     
     var zip_file_url="user_data/"+run_id_code + "/" + nickname + ".Assemblytics_results.zip";
 
@@ -98,8 +100,9 @@ function check_plot_exists(counter,nickname) {
                 document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_zoom.png" + ' "/>'; 
                 document.getElementById("landing_for_dotplot").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "dotplot.png" + ' "/>'; 
 
-                document.getElementById("landing_for_summary_statistics").innerHTML='<iframe  width="600" height="900" src="' + summary_table_url + '" frameborder="0"></iframe>';
-                document.getElementById("landing_for_variant_file_preview").innerHTML='<iframe  width="' + $( window ).width() + ' " height="200" src="' + variant_preview_url + '" frameborder="0"></iframe>';
+                document.getElementById("landing_for_summary_statistics").innerHTML='<iframe width="' + content_width+ ' " height="930" src="' + summary_table_url + '" frameborder="0"></iframe>';
+                document.getElementById("landing_for_variant_file_preview").innerHTML='<div style="overflow-x:scroll; overflow-y:hidden"> <iframe width="1400" height="190" src="' + variant_preview_url + '" frameborder="0"></iframe></div>';
+                document.getElementById("landing_for_assembly_stats").innerHTML='<iframe width="' + content_width + ' " height="290" src="' + assembly_stats_url + '" frameborder="0"></iframe>';
 
                 document.getElementById("download_zip").href = zip_file_url
 
@@ -110,7 +113,6 @@ function check_plot_exists(counter,nickname) {
 }
 
 
-
 function imageresize() {
     console.log("resizing")
 
@@ -119,7 +121,7 @@ function imageresize() {
     var top_padding = 200;
     var side_padding = 0.05;
     var aspect_ratio = 1;
-    var height = Math.min($( window ).width()/aspect_ratio*(1-side_padding), $( window ).height()-top_padding)/size_fraction;
+    var height = Math.min(content_width/aspect_ratio*(1-side_padding), $( window ).height()-top_padding)/size_fraction;
     $(".fluidimage").height(height + "px");
     $(".fluidimage").width(height*aspect_ratio + "px");
 
