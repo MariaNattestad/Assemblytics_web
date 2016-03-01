@@ -14,21 +14,41 @@
                     <!-- ////////////////      RESULTS     //////////////// -->
                     <!-- ////////////////////////////////////////////////// -->
                     <div id="results">
+                        <!--  HEADER -->
                         <div class="thumbnail frame">
                             <div class = "caption" style="text-align: center"><h3 id="nickname_header">HEADER </h3></div>
                         </div>
+
+                        
+
+                        <!--  All plots  -->
                         <div class="thumbnail plot_frame frame">
+                            <div style="display:inline-block" id="landing_for_dotplot" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                                
+                            </div>
+                            <div style="display:inline-block" id="landing_for_Nchart" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                                
+                            </div>
                             <div style="display:inline-block" id="landing_for_plot1" class="plot_img">
                                 <!-- Landing spot for plot image -->
                             </div>
                             <div style="display:inline-block" id="landing_for_plot2" class="plot_img">
                                 <!-- Landing spot for plot image -->
                             </div>
-                            <div style="display:inline-block" id="landing_for_dotplot" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                                hello
+                            
+                        </div>
+
+                        <!-- Assembly statistics N50 etc. -->
+                        <div class="thumbnail frame plot_frame">
+                            <div class="caption">
+                                <h4>Assembly statistics</h4>
+                                <p id="landing_for_assembly_stats"></p>
                             </div>
                         </div>
+
+                        <!-- Variant statistics -->
                         <div class="thumbnail frame plot_frame">
                             <div class="caption">
                                 <h4>Variant summary statistics</h4>
@@ -41,12 +61,8 @@
                                 <p id="landing_for_variant_file_preview"></p>
                             </div>
                         </div>
-                        <div class="thumbnail frame plot_frame">
-                            <div class="caption">
-                                <h4>Assembly statistics</h4>
-                                <p id="landing_for_assembly_stats"></p>
-                            </div>
-                        </div>
+                        
+                        <!-- Download button -->
                         <div class="thumbnail frame plot_frame">
                             <div class="caption">
                                 <h4>Download all data</h4>

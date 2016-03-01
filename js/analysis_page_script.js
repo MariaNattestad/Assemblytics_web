@@ -99,6 +99,8 @@ function check_plot_exists(counter,nickname) {
                 document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions.png" + ' "/>'; 
                 document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_zoom.png" + ' "/>'; 
                 document.getElementById("landing_for_dotplot").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "dotplot.png" + ' "/>'; 
+                document.getElementById("landing_for_Nchart").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "Nchart.png" + ' "/>'; 
+                
 
                 document.getElementById("landing_for_summary_statistics").innerHTML='<iframe width="' + content_width+ ' " height="930" src="' + summary_table_url + '" frameborder="0"></iframe>';
                 document.getElementById("landing_for_variant_file_preview").innerHTML='<div style="overflow-x:scroll; overflow-y:hidden"> <iframe width="1400" height="190" src="' + variant_preview_url + '" frameborder="0"></iframe></div>';
