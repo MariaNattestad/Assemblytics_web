@@ -1,5 +1,5 @@
 #!/bin/bash
-USAGE="web_pipeline delta output_prefix unique_length_required"
+USAGE="Assemblytics_commandline_pipeline delta output_prefix unique_length_required"
 if [ -z "$1" ]
   then
     echo "ERROR in Assemblytics: No delta file given"
@@ -37,8 +37,6 @@ MAXIMUM_SIZE=10000
 
 LOG_FILE=${OUTPUT_PREFIX%/*}/progress.log
 
-source python_env/bin/activate
-
 echo "${OUTPUT_PREFIX##*/}" >> $LOG_FILE
 
 >&2 echo "1. Filter delta file"
@@ -70,22 +68,10 @@ then
                 if grep -q "Assemblytics" $OUTPUT_PREFIX.Assemblytics_structural_variants.bed; 
                 then 
                     echo "COMBINE,DONE,Step 5: Variants combined successfully" >> $LOG_FILE
-                    
-                    Rscript ./bin/size_distributions.R $OUTPUT_PREFIX
 
                     ./bin/show-coords -rclTH $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta > $OUTPUT_PREFIX.coords
 
                     ./bin/assembly_stats $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.Assemblytics_assembly_stats.txt
-
-                    ./bin/flip_query_coords.py --coords $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.coords.flipped
-                    echo "Done flipping"
-                    Rscript ./bin/dotplot.R $OUTPUT_PREFIX
-                    Rscript ./bin/assembly_Nchart.R $OUTPUT_PREFIX
-                    
-                    ./bin/Assemblytics_summary.py -i $OUTPUT_PREFIX.Assemblytics_structural_variants.bed -min $MINIMUM_SIZE -max $MAXIMUM_SIZE > $OUTPUT_PREFIX.Assemblytics_structural_variants.summary
-
-                    zip $OUTPUT_PREFIX.Assemblytics_results.zip $OUTPUT_PREFIX.Assemblytics*
-                    head $OUTPUT_PREFIX.Assemblytics_structural_variants.bed | column -t > $OUTPUT_PREFIX.variant_preview.txt
 
                     if grep -q "Total" $OUTPUT_PREFIX.Assemblytics_structural_variants.summary; 
                     then

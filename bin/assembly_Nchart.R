@@ -7,7 +7,7 @@ args<-commandArgs(TRUE)
 prefix <- args[1]
 
 # TESTING:
-# prefix <- "/Applications/XAMPP/htdocs/Assemblytics/user_data/example1/Homo_sapiens_MHAP_assembly"
+# prefix <- "/Applications/XAMPP/htdocs/Assemblytics/user_data/example3/Escherichia_coli_MHAP_assembly"
 
 
 filename_ref <- paste(prefix, ".coords.ref.genome", sep="")
@@ -28,7 +28,7 @@ names(query.data) <- c("name","length")
 ref.data$length <- as.numeric(ref.data$length)
 query.data$length <- as.numeric(query.data$length)
 
-genome.length=max(sum(ref.data$length),sum(query.data$length))
+genome.length <- max(sum(ref.data$length),sum(query.data$length))
 
 
 ref.cumsum <- data.frame(NG=cumsum(ref.data$length/genome.length*100),contig.length=ref.data$length,contig.source="Reference")
@@ -44,7 +44,13 @@ both.plot <- rbind(ref.cumsum,query.cumsum)
 png(file=plot.output.filename,width=1000,height=1000)
 
 theme_set(theme_gray(base_size = 24))
-ggplot(both.plot, aes(x = NG, y = contig.length,color=contig.source)) + xlim(0,100) + scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), labels = trans_format("log10", math_format(10^.x))) + geom_path(size=2) + labs(x = paste("NG(x)% where 100% = ",genome.length," bp", sep=""),y="Sequence length",colour="Assembly") + annotation_logticks(sides="lr")
+
+if (nrow(both.plot) > 2) {
+    ggplot(both.plot, aes(x = NG, y = contig.length,color=contig.source)) + xlim(0,100) + scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), labels = trans_format("log10", math_format(10^.x))) + geom_path(size=2) + labs(x = paste("NG(x)% where 100% = ",genome.length," bp", sep=""),y="Sequence length",colour="Assembly") + annotation_logticks(sides="lr")
+    
+} else {
+    ggplot(both.plot, aes(x = NG, y = contig.length,color=contig.source)) + xlim(0,100) +  geom_point(size=5) + ylim(0,genome.length) + labs(x = paste("NG(x)% where 100% = ",genome.length," bp", sep=""),y="Sequence length",colour="Assembly")
+}
 
 dev.off()
 

@@ -13,28 +13,32 @@
                     <!-- ////////////////////////////////////////////////// -->
                     <!-- ////////////////      RESULTS     //////////////// -->
                     <!-- ////////////////////////////////////////////////// -->
+                    
+                     <!--  HEADER -->
+                    <div class="thumbnail frame">
+                        <div class = "caption" style="text-align: center"><h3 id="nickname_header">HEADER </h3></div>
+                    </div>
+
+                    
                     <div id="results">
-                        <!--  HEADER -->
-                        <div class="thumbnail frame">
-                            <div class = "caption" style="text-align: center"><h3 id="nickname_header">HEADER </h3></div>
-                        </div>
-
-                        
-
+                       
                         <!--  All plots  -->
                         <div class="thumbnail plot_frame frame">
-                            <div style="display:inline-block" id="landing_for_dotplot" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                                
-                            </div>
-                            <div style="display:inline-block" id="landing_for_Nchart" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                                
-                            </div>
                             <div style="display:inline-block" id="landing_for_plot1" class="plot_img">
                                 <!-- Landing spot for plot image -->
+                                
                             </div>
                             <div style="display:inline-block" id="landing_for_plot2" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                                
+                            </div>
+                            <div style="display:inline-block" id="landing_for_plot3" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                            </div>
+                            <div style="display:inline-block" id="landing_for_plot4" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                            </div>
+                            <div style="display:inline-block" id="landing_for_plot5" class="plot_img">
                                 <!-- Landing spot for plot image -->
                             </div>
                             
