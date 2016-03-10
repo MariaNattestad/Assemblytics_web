@@ -35,28 +35,29 @@ UNIQUE_LENGTH=${3?"$USAGE"}
 MINIMUM_SIZE=5
 MAXIMUM_SIZE=10000
 
-LOG_FILE=${OUTPUT_PREFIX%/*}/progress.log
+LOG_FILE=$OUTPUT_PREFIX.progress.log
+rm -f $LOG_FILE
 
 echo "${OUTPUT_PREFIX##*/}" >> $LOG_FILE
 
 >&2 echo "1. Filter delta file"
-./bin/delta-filter -l $UNIQUE_LENGTH $DELTA > $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta
+delta-filter -l $UNIQUE_LENGTH $DELTA > $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta
 
 if grep -q ">" $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta; 
 then
     echo "DELTAFILTER,DONE,Step 1: delta-filter completed successfully" >> $LOG_FILE
-    ./bin/Assemblytics_uniq_len_filter.py --delta $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta
+    Assemblytics_uniq_len_filter.py --delta $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta
     if grep -q ">" $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta;
     then 
         echo "UNIQFILTER,DONE,Step 2: Assemblytics_uniq_len_filter.py completed successfully" >> $LOG_FILE
         >&2 echo "2. Finding variants between alignments"
-        ./bin/Assemblytics_between_alignments.pl  $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta $MINIMUM_SIZE $MAXIMUM_SIZE all-chromosomes exclude-longrange bed > $OUTPUT_PREFIX.variants_between_alignments.bed
+        Assemblytics_between_alignments.pl  $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta $MINIMUM_SIZE $MAXIMUM_SIZE all-chromosomes exclude-longrange bed > $OUTPUT_PREFIX.variants_between_alignments.bed
 
         if [ -e $OUTPUT_PREFIX.variants_between_alignments.bed ];
         then 
             echo "BETWEEN,DONE,Step 3: Assemblytics_between_alignments.pl completed successfully" >> $LOG_FILE
             >&2 echo "3. Finding variants within alignments"
-            ./bin/Assemblytics_within_alignment.py --delta $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta --min $MINIMUM_SIZE > $OUTPUT_PREFIX.variants_within_alignments.bed
+            Assemblytics_within_alignment.py --delta $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta --min $MINIMUM_SIZE > $OUTPUT_PREFIX.variants_within_alignments.bed
 
             if [ -e $OUTPUT_PREFIX.variants_within_alignments.bed ];
             then 
@@ -69,9 +70,9 @@ then
                 then 
                     echo "COMBINE,DONE,Step 5: Variants combined successfully" >> $LOG_FILE
 
-                    ./bin/show-coords -rclTH $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta > $OUTPUT_PREFIX.coords
+                    show-coords -rclTH $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta > $OUTPUT_PREFIX.coords
 
-                    ./bin/assembly_stats $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.Assemblytics_assembly_stats.txt
+                    assembly_stats $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.Assemblytics_assembly_stats.txt
 
                     if grep -q "Total" $OUTPUT_PREFIX.Assemblytics_structural_variants.summary; 
                     then

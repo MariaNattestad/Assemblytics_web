@@ -7,7 +7,7 @@ prefix <- args[1]
 
 # TESTING:
 # prefix <- "/Applications/XAMPP/htdocs/Assemblytics/tests/Arabidopsis_thaliana_MHAP_assembly"
-
+#prefix <- "~/Desktop/SIMULATIONS/small_tests/test_for_Assemblytics.small_variants.3.Assemblytics.unique_length_filtered_l10000"
 
 filename <- paste(prefix,".coords.flipped",sep="")
 
@@ -131,7 +131,7 @@ png(file=plot.output.filename,width=1000,height=1000)
 theme_set(theme_bw(base_size = 24))
 # 1 line segment for each alignment, linking start and stop
 # some kind of gridline on plot to show where contigs start and end
-ggplot(coords, aes(x=ref.loc.start,xend=ref.loc.stop,y=query.loc.start,yend=query.loc.stop)) + geom_segment(lineend="butt",size=2) + labs(x="Reference",y="Query") + scale_y_continuous(breaks = cumsum(as.numeric(query.lengths)),labels=query.labels,expand=c(0,0)) + scale_x_continuous(breaks = cumsum(as.numeric(chr.lengths)),labels=chr.labels,expand=c(0,0)) + theme(
+ggplot(coords, aes(x=ref.loc.start,xend=ref.loc.stop,y=query.loc.start,yend=query.loc.stop)) + geom_segment(lineend="butt",size=2) + labs(x="Reference",y="Query") + scale_y_continuous(breaks = cumsum(as.numeric(query.lengths)),labels=query.labels,expand=c(0,0), limits = c(0,sum(as.numeric(query.lengths)))) + scale_x_continuous(breaks = cumsum(as.numeric(chr.lengths)),labels=chr.labels,expand=c(0,0),limits=c(0,sum(as.numeric(chr.lengths)))) + theme(
     axis.ticks.y=element_line(size=0),
     axis.text.x = element_text(angle = 90, hjust = 1,vjust=-0.5),
     axis.text.y = element_text(size=12,vjust=1.1),
