@@ -41,6 +41,9 @@
                             <div style="display:inline-block" id="landing_for_plot5" class="plot_img">
                                 <!-- Landing spot for plot image -->
                             </div>
+                            <div style="display:inline-block" id="landing_for_plot6" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                            </div>
                             
                         </div>
 

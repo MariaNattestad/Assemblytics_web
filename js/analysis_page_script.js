@@ -99,8 +99,9 @@ function check_plot_exists(counter,nickname) {
                 document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "dotplot.png" + ' "/>'; 
                 document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "Nchart.png" + ' "/>'; 
                 document.getElementById("landing_for_plot3").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions.png" + ' "/>'; 
-                // document.getElementById("landing_for_plot4").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_zoom_structural.png" + ' "/>'; 
+                document.getElementById("landing_for_plot4").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_zoom_structural.png" + ' "/>'; 
                 document.getElementById("landing_for_plot5").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_zoom.png" + ' "/>';
+                document.getElementById("landing_for_plot6").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_large_structural.png" + ' "/>';
                 
 
                 document.getElementById("landing_for_summary_statistics").innerHTML='<iframe width="' + content_width+ ' " height="930" src="' + summary_table_url + '" frameborder="0"></iframe>';
