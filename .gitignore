@@ -3,5 +3,6 @@ user_uploads/*
 !user_data/example*
 tests/*
 
+user_data/example*/*.delta
 *.delta
 python_env
