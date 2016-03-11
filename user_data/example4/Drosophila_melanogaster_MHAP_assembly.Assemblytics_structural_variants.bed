@@ -1,4 +1,4 @@
-reference ref_start ref_stop ID size strand type ref_gap_size query_gap_size query_coordinates method
+reference	ref_start	ref_stop	ID	size	strand	type	ref_gap_size	query_gap_size	query_coordinates	method
 2R	16333281	16333281	Assemblytics_w_1	5	+	Insertion	0	5	JSAE01000001.1:32954-32959:+	within_alignment
 X	6344898	6344898	Assemblytics_w_2	12	+	Insertion	0	12	JSAE01000008.1:727784-727796:+	within_alignment
 X	6570447	6570452	Assemblytics_w_3	5	+	Deletion	5	0	JSAE01000008.1:953362-953362:+	within_alignment

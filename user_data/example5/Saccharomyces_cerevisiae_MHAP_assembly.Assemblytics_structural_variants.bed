@@ -1,4 +1,4 @@
-reference ref_start ref_stop ID size strand type ref_gap_size query_gap_size query_coordinates method
+reference	ref_start	ref_stop	ID	size	strand	type	ref_gap_size	query_gap_size	query_coordinates	method
 ref|NC_001139|	9008	9030	Assemblytics_w_1	22	+	Deletion	22	0	JSAC01000001.1:1086460-1086460:+	within_alignment
 ref|NC_001139|	307207	307213	Assemblytics_w_2	6	+	Deletion	6	0	JSAC01000001.1:1384632-1384632:+	within_alignment
 ref|NC_001139|	321507	321507	Assemblytics_w_3	6	+	Insertion	0	6	JSAC01000001.1:1398928-1398934:+	within_alignment

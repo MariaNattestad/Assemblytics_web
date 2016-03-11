@@ -1,5 +1,5 @@
-Input delta file: user_uploads/weM2pfqIrnqRUBVknyWF
-Output prefix: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly
+Input delta file: user_uploads/eaeEPrHsV4zbN1gW78ST
+Output prefix: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly
 1. Filter delta file
 First read through the file: 4 seconds for 7851 query-reference combinations
 Filtering alignments of 5944 queries
@@ -104,7 +104,7 @@ Progress: 97%
 Progress: 98%
 Progress: 99%
 Progress: 100%
-Deciding which alignments to keep: 24 seconds for 5944 queries
+Deciding which alignments to keep: 25 seconds for 5944 queries
 Reading file and recording all the entries we decided to keep: 6 seconds for 5969853 total lines in file
 2. Finding variants between alignments
 Loaded 15691 alignments
@@ -115,15 +115,32 @@ null device
           1 
 null device 
           1 
+null device 
+          1 
+null device 
+          1 
+null device 
+          1 
 Done flipping
+Loading required package: methods
+[1] "user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.coords.flipped"
+[1] "user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.dotplot.png"
+[1] "Dot plot of Assemblytics filtered alignments"
+[1] "user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.unfiltered.coords.flipped"
+[1] "user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.unfiltered_dotplot.png"
+[1] "Dot plot of unfiltered alignments"
 Loading required package: methods
 null device 
           1 
-Fatal error: cannot open file './bin/assembly_Nchart.R': No such file or directory
-  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics.dotplot.png (deflated 18%)
-  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions.png (deflated 20%)
-  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions_zoom.png (deflated 18%)
-  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics.unique_length_filtered_l10000.delta (deflated 67%)
-  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics_assembly_stats.txt (deflated 42%)
-  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.bed (deflated 81%)
-  adding: user_data/weM2pfqIrnqRUBVknyWF/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.summary (deflated 76%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.Nchart.png (deflated 7%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.dotplot.png (deflated 19%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions.png (deflated 17%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions_all_variants_full_view.png (deflated 19%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions_large_structural.png (deflated 15%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions_zoom.png (deflated 18%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.size_distributions_zoom_structural.png (deflated 15%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.unfiltered_dotplot.png (deflated 15%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics.unique_length_filtered_l10000.delta (deflated 67%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics_assembly_stats.txt (deflated 42%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.bed (deflated 81%)
+  adding: user_data/eaeEPrHsV4zbN1gW78ST/Homo_sapiens_MHAP_assembly.Assemblytics_structural_variants.summary (deflated 76%)
