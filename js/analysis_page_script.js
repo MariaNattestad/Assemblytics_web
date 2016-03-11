@@ -53,6 +53,7 @@ function showProgress() {
 }
 
 
+
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -60,6 +61,9 @@ function getUrlVars() {
     });
     return vars;
 }
+
+
+
 //
 //function test() {
 //    var run_id_code=getUrlVars()["code"];
@@ -80,7 +84,7 @@ function check_plot_exists(counter,nickname) {
     var zip_file_url="user_data/"+run_id_code + "/" + nickname + ".Assemblytics_results.zip";
 
 
-    var file_to_wait_for=plot_url_prefix + "dotplot.png";
+    var file_to_wait_for=plot_url_prefix + "size_distributions.png";
     console.log(nickname)
     
     if (counter>=100) {
@@ -96,19 +100,21 @@ function check_plot_exists(counter,nickname) {
             success: function () {
                 document.getElementById("results").style.visibility= 'visible';
                 // alert("inside success");
-                document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "dotplot.png" + ' "/>'; 
-                document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "Nchart.png" + ' "/>'; 
-                document.getElementById("landing_for_plot3").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions.png" + ' "/>'; 
-                document.getElementById("landing_for_plot4").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_zoom_structural.png" + ' "/>'; 
-                document.getElementById("landing_for_plot5").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_zoom.png" + ' "/>';
-                document.getElementById("landing_for_plot6").innerHTML='<img class="fluidimage" src="' + plot_url_prefix  + "size_distributions_large_structural.png" + ' "/>';
-                
+
+                document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "unfiltered_dotplot.png" + ' "/>'; 
+                document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "dotplot.png" + ' "/>'; 
+                document.getElementById("landing_for_plot3").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "Nchart.png" + ' "/>'; 
+                document.getElementById("landing_for_plot4").innerHTML='<img class="fluidimage" onerror="imgError(this);" type" src="' + plot_url_prefix  + "size_distributions_all_variants_full_view.png" + ' "/>';
+                document.getElementById("landing_for_plot5").innerHTML='<img class="fluidimage" onerror="imgError(this);" type" src="' + plot_url_prefix  + "size_distributions_zoom.png" + ' "/>';
+                document.getElementById("landing_for_plot6").innerHTML='<img class="fluidimage" onerror="imgError(this);" type" src="' + plot_url_prefix  + "size_distributions.png" + ' "/>'; 
+                document.getElementById("landing_for_plot7").innerHTML='<img class="fluidimage" onerror="imgError(this);" type" src="' + plot_url_prefix  + "size_distributions_zoom_structural.png" + ' "/>'; 
+                document.getElementById("landing_for_plot8").innerHTML='<img class="fluidimage" onerror="imgError(this);" type" src="' + plot_url_prefix  + "size_distributions_large_structural.png" + ' "/>';                
 
                 document.getElementById("landing_for_summary_statistics").innerHTML='<iframe width="' + content_width+ ' " height="930" src="' + summary_table_url + '" frameborder="0"></iframe>';
                 document.getElementById("landing_for_variant_file_preview").innerHTML='<div style="overflow-x:scroll; overflow-y:hidden"> <iframe width="1400" height="190" src="' + variant_preview_url + '" frameborder="0"></iframe></div>';
                 document.getElementById("landing_for_assembly_stats").innerHTML='<iframe width="' + content_width + ' " height="290" src="' + assembly_stats_url + '" frameborder="0"></iframe>';
 
-                document.getElementById("download_zip").href = zip_file_url
+                document.getElementById("download_zip").href = zip_file_url;
 
                 imageresize();
             }
@@ -149,12 +155,27 @@ function imageresize() {
     });
 
     $.noConflict();
+
+
+}
+function imgError(image) {
+    image.onerror = "";
+    image.src = "resources/error_image.png";
+    // image.style.visibility = "hidden";
+    // image.style.width="1px";
+    // image.class = "";
+    document.getElementById("missing_plots").innerHTML="Assemblytics has been updated, and new plots are available if you re-run this dataset";
+    var parent = image.parentNode;
+    parent.parentNode.removeChild(parent);
+    imageresize();
+    console.log("Assemblytics has been updated, and new plots are available if you re-run this dataset");
+    return true;
 }
 
 
 $(document).ready(function() {
     showProgress();
-    $(window).bind("resize", function(){//Adjusts image when browser resized
+    $(window).bind("resize", function(){ //Adjusts image when browser resized
        imageresize();
     });
 });

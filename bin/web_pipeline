@@ -64,8 +64,8 @@ then
             then 
                 echo "WITHIN,DONE,Step 4: Assemblytics_within_alignment.py completed successfully" >> $LOG_FILE
                 >&2 echo "4. Combine variants between and within alignments";
-                HEADER="reference   ref_start   ref_stop    ID  size    strand  type    ref_gap_size    query_gap_size  query_coordinates   method"
-                cat <(echo $HEADER) $OUTPUT_PREFIX.variants_within_alignments.bed $OUTPUT_PREFIX.variants_between_alignments.bed > $OUTPUT_PREFIX.Assemblytics_structural_variants.bed
+                HEADER="reference\tref_start\tref_stop\tID\tsize\tstrand\ttype\tref_gap_size\tquery_gap_size\tquery_coordinates\tmethod"
+                cat <(echo -e $HEADER) $OUTPUT_PREFIX.variants_within_alignments.bed $OUTPUT_PREFIX.variants_between_alignments.bed > $OUTPUT_PREFIX.Assemblytics_structural_variants.bed
 
                 if grep -q "Assemblytics" $OUTPUT_PREFIX.Assemblytics_structural_variants.bed; 
                 then 
@@ -74,12 +74,17 @@ then
                     Rscript ./bin/size_distributions.R $OUTPUT_PREFIX
 
                     ./bin/show-coords -rclTH $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta > $OUTPUT_PREFIX.coords
+                    ./bin/show-coords -rclTH $OUTPUT_PREFIX.l$UNIQUE_LENGTH.delta > $OUTPUT_PREFIX.unfiltered.coords
+
 
                     ./bin/assembly_stats $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.Assemblytics_assembly_stats.txt
 
                     ./bin/flip_query_coords.py --coords $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.coords.flipped
+                    ./bin/flip_query_coords.py --coords $OUTPUT_PREFIX.unfiltered.coords > $OUTPUT_PREFIX.unfiltered.coords.flipped
+
                     echo "Done flipping"
                     Rscript ./bin/dotplot.R $OUTPUT_PREFIX
+                    
                     Rscript ./bin/assembly_Nchart.R $OUTPUT_PREFIX
                     
                     ./bin/Assemblytics_summary.py -i $OUTPUT_PREFIX.Assemblytics_structural_variants.bed -min $MINIMUM_SIZE -max $MAXIMUM_SIZE > $OUTPUT_PREFIX.Assemblytics_structural_variants.summary

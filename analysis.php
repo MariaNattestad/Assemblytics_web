@@ -26,11 +26,9 @@
                         <div class="thumbnail plot_frame frame">
                             <div style="display:inline-block" id="landing_for_plot1" class="plot_img">
                                 <!-- Landing spot for plot image -->
-                                
                             </div>
                             <div style="display:inline-block" id="landing_for_plot2" class="plot_img">
                                 <!-- Landing spot for plot image -->
-                                
                             </div>
                             <div style="display:inline-block" id="landing_for_plot3" class="plot_img">
                                 <!-- Landing spot for plot image -->
@@ -43,6 +41,15 @@
                             </div>
                             <div style="display:inline-block" id="landing_for_plot6" class="plot_img">
                                 <!-- Landing spot for plot image -->
+                            </div>
+                            <div style="display:inline-block" id="landing_for_plot7" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                            </div>
+                            <div style="display:inline-block" id="landing_for_plot8" class="plot_img">
+                                <!-- Landing spot for plot image -->
+                            </div>
+                            <div style="display:block">
+                                <p id="missing_plots"><p>
                             </div>
                             
                         </div>
