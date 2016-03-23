@@ -12,9 +12,15 @@
     <h3 class="panel-title">How to cite Assemblytics</h3>
       </div>
       <div class="panel-body">
-        <p>We are writing up the paper now and will be submitting a pre-print to the BioArXiv shortly. We will post the link here as soon as we have it, so please come back and cite it if you found Assemblytics useful. </p>
+        <p>Please cite our pre-print on the bioRxiv: 
+<a 
+href="http://biorxiv.org/content/early/2016/03/20/044925" target="_blank">
+http://biorxiv.org/content/early/2016/03/20/044925</a>
+</p>
         <br>
-        <!-- <p>The code is open-source at <a href="https://github.com/MariaNattestad/Assemblytics" target="_blank">https://github.com/MariaNattestad/Assemblytics</a></p> -->
+        <p>The code is open-source at <a 
+href="https://github.com/MariaNattestad/assemblytics" 
+target="_blank">https://github.com/MariaNattestad/assemblytics</a></p>
       </div>
     </div>
 </div>

@@ -25,7 +25,7 @@ function showProgress() {
             nickname = prog[0]
 
             document.getElementById("nickname_header").innerHTML = nickname.replace(/_/g," ");
-
+            
             output_array = prog.slice(1,prog.length);
             output_info = ""
             for (var i=0;i < output_array.length; i++) {
@@ -100,7 +100,9 @@ function check_plot_exists(counter,nickname) {
             success: function () {
                 document.getElementById("results").style.visibility= 'visible';
                 // alert("inside success");
-
+                
+                document.title = "Assemblytics: " + nickname;
+                
                 document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "unfiltered_dotplot.png" + ' "/>'; 
                 document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "dotplot.png" + ' "/>'; 
                 document.getElementById("landing_for_plot3").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "Nchart.png" + ' "/>'; 

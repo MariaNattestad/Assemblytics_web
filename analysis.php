@@ -16,7 +16,7 @@
                     
                      <!--  HEADER -->
                     <div class="thumbnail frame">
-                        <div class = "caption" style="text-align: center"><h3 id="nickname_header">HEADER </h3></div>
+                        <div class = "caption" style="text-align: center"><h3 id="nickname_header"></h3></div>
                     </div>
 
                     
