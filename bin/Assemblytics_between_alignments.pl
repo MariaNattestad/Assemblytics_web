@@ -61,7 +61,7 @@ open COORDS, "./bin/show-coords -rclHT $deltafile |"
 ## Note there is no minimum length for fusions, this is determined by how 
 ## the delta file was filtered
 
-my $MIN_SV_ALIGN = 1000;
+my $MIN_SV_ALIGN = 100;
 
 
 #my $minimum_event_size = 50;

@@ -1,7 +1,5 @@
 library(ggplot2)
-library(MASS)
 library(scales)
-
 
 args<-commandArgs(TRUE)
 prefix <- args[1]

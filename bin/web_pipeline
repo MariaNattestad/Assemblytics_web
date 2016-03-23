@@ -67,9 +67,9 @@ then
                 HEADER="reference\tref_start\tref_stop\tID\tsize\tstrand\ttype\tref_gap_size\tquery_gap_size\tquery_coordinates\tmethod"
                 cat <(echo -e $HEADER) $OUTPUT_PREFIX.variants_within_alignments.bed $OUTPUT_PREFIX.variants_between_alignments.bed > $OUTPUT_PREFIX.Assemblytics_structural_variants.bed
 
-                if grep -q "Assemblytics" $OUTPUT_PREFIX.Assemblytics_structural_variants.bed; 
+                if [ -e $OUTPUT_PREFIX.Assemblytics_structural_variants.bed ];
                 then 
-                    echo "COMBINE,DONE,Step 5: Variants combined successfully" >> $LOG_FILE
+                    echo "COMBINE,DONE,Step 5: Variants combined successfully. Now generating figures." >> $LOG_FILE
                     
                     Rscript ./bin/size_distributions.R $OUTPUT_PREFIX
 
