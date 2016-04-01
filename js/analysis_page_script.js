@@ -34,8 +34,6 @@ function showProgress() {
             }
 
             document.getElementById("plot_info").innerHTML = output_info
-            console.log(last_line.indexOf('SUMMARY,DONE'))
-
 
             if (last_line.indexOf('SUMMARY,DONE') > -1) {
                 document.getElementById("plot_info").innerHTML = "Analysis completed successfully";
@@ -62,14 +60,6 @@ function getUrlVars() {
     return vars;
 }
 
-
-
-//
-//function test() {
-//    var run_id_code=getUrlVars()["code"];
-//    alert(run_id_code);
-//}
-//
 
 var content_width = $( window ).width();
 
@@ -163,9 +153,7 @@ function imageresize() {
 function imgError(image) {
     image.onerror = "";
     image.src = "resources/error_image.png";
-    // image.style.visibility = "hidden";
-    // image.style.width="1px";
-    // image.class = "";
+    
     document.getElementById("missing_plots").innerHTML="Assemblytics has been updated, and new plots are available if you re-run this dataset";
     var parent = image.parentNode;
     parent.parentNode.removeChild(parent);
