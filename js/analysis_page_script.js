@@ -142,10 +142,8 @@ function check_plot_exists(counter,nickname) {
                     console.log(plot_filename);
                     document.getElementById("container_for_all_plots").innerHTML += '<div style="display:inline-block" class="plot_img"><img class="fluidimage" src="' + plot_filename + '"/></div>'; 
                 }
-                
 
                 // plot_names = ["unfiltered_dotplot","dotplot","Nchart","size_distributions_all_variants_full_view","size_distributions_zoom","size_distributions"]
-
 
                 // // document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "unfiltered_dotplot.png" + ' "/>'; 
                 // // document.getElementById("landing_for_plot2").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "dotplot.png" + ' "/>'; 
