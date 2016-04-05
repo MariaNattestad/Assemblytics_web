@@ -11,5 +11,4 @@
         $progress_stats = "file " + $filename + " doesn't exist";
         echo json_encode($progress_stats);
     }
-
 ?>

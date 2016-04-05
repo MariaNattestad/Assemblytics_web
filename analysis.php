@@ -19,11 +19,9 @@
                         <div class = "caption" style="text-align: center"><h3 id="nickname_header"></h3></div>
                     </div>
 
-                    
                     <div id="results">
-                       
                         <!--  All plots  -->
-                        <div class="thumbnail plot_frame frame">
+                        <div class="thumbnail plot_frame frame" id="container_for_all_plots">
                             <div style="display:inline-block" id="landing_for_plot1" class="plot_img">
                                 <!-- Landing spot for plot image -->
                             </div>
@@ -48,11 +46,13 @@
                             <div style="display:inline-block" id="landing_for_plot8" class="plot_img">
                                 <!-- Landing spot for plot image -->
                             </div>
-                            <div style="display:block">
-                                <p id="missing_plots"><p>
-                            </div>
                             
                         </div>
+                        <!-- 
+                        <div style="display:block">
+                            <p id="missing_plots"><p>
+                        </div> -->
+
 
                         <!-- Assembly statistics N50 etc. -->
                         <div class="thumbnail frame plot_frame">
@@ -133,11 +133,11 @@
 
     
 <!--   jquery must be first because bootstrap depends on it   -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 
 
-<script src="js/jquery.csv-0.71.min.js"></script>
+
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type='text/javascript' src="js/analysis_page_script.js?rndstr="<?php rand(100000,999999) ?> ></script>
