@@ -5,20 +5,16 @@ args<-commandArgs(TRUE)
 prefix <- args[1]
 
 
-# TESTING:
-# prefix <- "/Applications/XAMPP/htdocs/Assemblytics/tests/Arabidopsis_thaliana_MHAP_assembly"
-#prefix <- "~/Desktop/SIMULATIONS/small_tests/test_for_Assemblytics.small_variants.3.Assemblytics.unique_length_filtered_l10000"
-
 
 for (filtered in c("Assemblytics filtered","Unfiltered")) {
     filename <- paste(prefix,".coords.flipped",sep="")
-    plot.output.filename <- paste(prefix,".Assemblytics.dotplot.png",sep="")
+    plot.output.filename <- paste(prefix,".Assemblytics.Dotplot_filtered.png",sep="")
     plot.title <- "Dot plot of Assemblytics filtered alignments"
 
 
     if (filtered == "Unfiltered") {
         filename <- paste(prefix,".unfiltered.coords.flipped",sep="")
-        plot.output.filename <- paste(prefix,".Assemblytics.unfiltered_dotplot.png",sep="")
+        plot.output.filename <- paste(prefix,".Assemblytics.Dotplot_unfiltered.png",sep="")
         plot.title <- "Dot plot of unfiltered alignments"
     }
 
@@ -40,17 +36,9 @@ for (filtered in c("Assemblytics filtered","Unfiltered")) {
     }
 
 
-
-
     coords <- read.csv(filename,sep="\t",header=FALSE)
 
     names(coords) <- c("ref.start", "ref.stop","query.start","query.stop","ref.alignment.length","query.alignment.length","percent.identity","ref.length","query.length","ref.fraction.covered","query.fraction.covered","ref","query")
-    # 
-    # coords$query <- as.character(coords$query)
-    # coords$ref <- as.character(coords$ref)
-
-    # head(coords)
-
 
 
     coords$ref <- as.character(coords$ref)
@@ -75,41 +63,14 @@ for (filtered in c("Assemblytics filtered","Unfiltered")) {
     coords <- cbind(coords, alignment.length=abs(coords$query.start-coords$query.stop))
 
 
-    # head(coords)
-
-
-
-
-
     coords <- cbind(coords, ref.loc.start=mapply(FUN=ref.pos,coords$ref,coords$ref.start,MoreArgs=list(chr.lengths)),
                     ref.loc.stop=mapply(FUN=ref.pos,coords$ref,coords$ref.stop,MoreArgs=list(chr.lengths)))
-
-    # head(coords)
-
-
-
-    ##### average ref.loc.start for each read.name
-    ##### avg.ref.loc.per.readname <- tapply(filtered.coords$ref.loc.start,factor(filtered.coords$read.name),mean)
-    ########################################
 
     # pick longest alignment. then pick the ref.loc.start of that
     query.group <- split(coords,factor(coords$query))
 
     ref.loc.of.longest.alignment.by.query <- unlist(sapply(query.group, function(coords.for.each.query) {coords.for.each.query$ref.loc.start[coords.for.each.query$alignment.length==max(coords.for.each.query$alignment.length)][1]}),recursive=FALSE)
 
-
-    # flip.query <- sapply(query.group,function(coords.for.each.query) {
-    #     l <- coords.for.each.query[coords.for.each.query$alignment.length==max(coords.for.each.query$alignment.length),][1,]
-    #     if (l$query.stop<l$query.start) {
-    #         coords.for.each.query$query.stop <- coords.for.each.query$query.length - coords.for.each.query$query.stop
-    #         coords.for.each.query$query.start <- coords.for.each.query$query.length - coords.for.each.query$query.start
-    #     }
-    #     l$query.stop<l$query.start
-    # })
-
-    #####################################
-
-    # query.names <- coords$query
 
     # decide optimal-ish ordering of the queries
     ordered.query.names <- names(ref.loc.of.longest.alignment.by.query)[order(ref.loc.of.longest.alignment.by.query)]
@@ -156,57 +117,3 @@ for (filtered in c("Assemblytics filtered","Unfiltered")) {
 
 
 
-
-
-
-
-####################################################################################################
-
-
-
-##########
-# plot.output.filename <- "/Users/mnattest/Dropbox/SKBR3_paper_figures/dotplot_falcon_assembly_colordots.png"
-# png(file=plot.output.filename,width=800,height=800)
-# ##########
-# 
-# 
-# ggplot(coords,aes(x=ref.loc.start,y=query.loc.start,color=ref)) + geom_point() + labs(x="Reference",y="Contigs")
-# 
-# ##########
-# dev.off()
-# ##########
-######################################################################
-##########
-
-
-# 
-# 
-# 
-# ################################################################################
-# ################################################################################
-# ################################################################################
-# 
-# ##########
-# plot.output.filename <- "/Users/mnattest/Dropbox/SKBR3_paper_figures/dotplot_falcon_assembly_linesegments_colorful_1kb_alignments.png"
-# png(file=plot.output.filename,width=800,height=800)
-# ##########
-# 
-# #alignment.length.threshold=NULL
-# alignment.length.threshold=1000
-# 
-# p = ggplot(filtered.coords) 
-# 
-# ############## optional filtering to remove small alignments ##########
-# if (!is.null(alignment.length.threshold)) { 
-#     
-#     align.length.filtered.coords <- filtered.coords[filtered.coords$alignment.length>alignment.length.threshold,]
-#     p = ggplot(align.length.filtered.coords) 
-# 
-# }
-# #############################################################################
-# 
-# 
-# p + aes(x=ref.loc.start,xend=ref.loc.stop,y=read.loc.start,yend=read.loc.stop) + geom_segment(lineend="butt", size=10,aes(color=chrom)) + labs(x="Reference",y="Contigs",color="Chromosomes") + scale_y_continuous(breaks = c(0,cumsum(as.numeric(read.lengths))),labels=NULL,expand = c(0,0)) + scale_x_continuous(breaks = c(0,cumsum(as.numeric(chr.lengths))),labels=c("",substr(primary.chr,4,10)[1:10],"","12","","14","","16","","18","","","","","X"),expand = c(0,20000000)) + theme(axis.ticks.y=element_line(size=0),axis.title=element_text(size=20,face="bold"),axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=20)) + scale_color_manual(values=chrom.col,limits=primary.chr,labels=substr(primary.chr,4,10)) + geom_point(size=1)
-# #########
-# dev.off()
-# #########
