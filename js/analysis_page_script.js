@@ -158,8 +158,6 @@ function check_plot_exists(counter,nickname) {
                 document.getElementById("landing_for_variant_file_preview").innerHTML='<div style="overflow-x:scroll; overflow-y:hidden"> <iframe width="1400" height="190" src="' + variant_preview_url + '" frameborder="0"></iframe></div>';
                 document.getElementById("landing_for_assembly_stats").innerHTML='<iframe width="' + content_width + ' " height="290" src="' + assembly_stats_url + '" frameborder="0"></iframe>';
 
-                document.getElementById("container_for_all_plots").innerHTML += "<p>HELLO</p>";
-
                 document.getElementById("download_zip").href = zip_file_url;
                 console.log("done_making_images")
 
