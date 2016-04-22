@@ -102,4 +102,3 @@ for (to_png in c(TRUE,FALSE)) {
     }
 }
 
-

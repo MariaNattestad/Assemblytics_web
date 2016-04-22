@@ -1,8 +1,21 @@
 user_data/*
 user_uploads/*
+
 !user_data/example*
+user_data/example*/*.delta
+
+!user_data/human
+user_data/human/*.delta
+!user_data/arabidopsis
+user_data/arabidopsis/*.delta
+!user_data/drosophila
+user_data/drosophila/*.delta
+!user_data/ecoli
+user_data/ecoli/*.delta
+!user_data/yeast
+user_data/yeast/*.delta
+
 tests/*
 
-user_data/example*/*.delta
 *.delta
 python_env

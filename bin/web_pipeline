@@ -1,5 +1,5 @@
 #!/bin/bash
-USAGE="web_pipeline delta output_prefix unique_length_required"
+USAGE="web_pipeline delta output_prefix unique_length_required min_size"
 if [ -z "$1" ]
   then
     echo "ERROR in Assemblytics: No delta file given"
@@ -21,6 +21,14 @@ if [ -z "$3" ]
     echo $USAGE
     exit
 fi
+if [ -z "$4" ]
+  then
+    echo "ERROR in Assemblytics: No minimum size parameter given"
+    echo "Usage:"
+    echo $USAGE
+    exit
+fi
+
 
 # Author: Maria Nattestad
 # Email: mnattest@cshl.edu
@@ -28,12 +36,12 @@ fi
 DELTA=${1?"$USAGE"}
 OUTPUT_PREFIX=${2?"$USAGE"}
 UNIQUE_LENGTH=${3?"$USAGE"}
+MINIMUM_SIZE=${4?"$USAGE"}
 
 >&2 echo Input delta file: $DELTA
 >&2 echo Output prefix: $OUTPUT_PREFIX
 
-MINIMUM_SIZE=2
-MAXIMUM_SIZE=10000
+MAXIMUM_SIZE=$UNIQUE_LENGTH
 
 LOG_FILE=${OUTPUT_PREFIX%/*}/progress.log
 

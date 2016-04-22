@@ -21,37 +21,20 @@
 
                     <div id="results">
                         <!--  All plots  -->
-                        <div class="thumbnail plot_frame frame" id="container_for_all_plots">
-                            <div style="display:inline-block" id="landing_for_plot1" class="plot_img">
-                                <!-- Landing spot for plot image -->
+                        <div class="thumbnail plot_frame frame">
+                            <div id="container_for_all_plots">
+                            <!-- ALL PLOTS GO HERE -->
                             </div>
-                            <div style="display:inline-block" id="landing_for_plot2" class="plot_img">
-                                <!-- Landing spot for plot image -->
+                            <div style="display:block">
+                                <!-- <p id="missing_plots"><p> -->
+                                <br>
+                                <p>
+                                    All plots are available as both .png and .pdf files through the Download button below and can be used in publications.<a href="http://biorxiv.org/content/early/2016/03/20/044925"> Cite Assemblytics.</a>
+                                </p>
                             </div>
-                            <div style="display:inline-block" id="landing_for_plot3" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                            </div>
-                            <div style="display:inline-block" id="landing_for_plot4" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                            </div>
-                            <div style="display:inline-block" id="landing_for_plot5" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                            </div>
-                            <div style="display:inline-block" id="landing_for_plot6" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                            </div>
-                            <div style="display:inline-block" id="landing_for_plot7" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                            </div>
-                            <div style="display:inline-block" id="landing_for_plot8" class="plot_img">
-                                <!-- Landing spot for plot image -->
-                            </div>
-                            
                         </div>
-                        <!-- 
-                        <div style="display:block">
-                            <p id="missing_plots"><p>
-                        </div> -->
+                        
+                        
 
 
                         <!-- Assembly statistics N50 etc. -->

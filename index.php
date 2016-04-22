@@ -60,6 +60,12 @@
                                              <input type="number" max="100000" step="1000" min="1000" name="uniqlength" class="form-control" value = "10000">
                                           </div>
                                         </p>
+                                        <p>
+                                          <div class="input-group input-group-lg">
+                                            <span class="input-group-addon">Minimum variant size</span>
+                                             <input type="number" max="50" step="1" min="1" name="min_size" class="form-control" value = "50">
+                                          </div>
+                                        </p>
 
                                         <!-- <p>
                                           <div class="input-group input-group-lg">
