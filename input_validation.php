@@ -13,6 +13,8 @@
     $code=$_POST["code"];
     $uniqlength=$_POST["uniqlength"];
     $nickname = "my_assembly";
+    if( !isset($_POST['min_size']) ) { $aResult['error'] = 'ERROR: No min_size passed to input_validation.php';}
+    $min_size = $_POST["min_size"];
 
     if( isset($_POST['nickname']) ) {
         $nickname = $_POST['nickname'];
@@ -39,6 +41,7 @@
             <input type=\"hidden\" name = \"code\" value=\"$code\">   
             <input type=\"hidden\" name=\"nickname\" value=\"$nickname\">  
             <input type=\"hidden\" name=\"uniqlength\" value=\"$uniqlength\">  
+            <input type=\"hidden\" name=\"min_size\" value=\"$min_size\"> 
             <button type=\"submit\" class=\"center btn btn-success\">Continue</button>
         </form>";
         
