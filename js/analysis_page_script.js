@@ -33,7 +33,7 @@ function showProgress() {
                 output_info += "<p>" + sub_array.slice(2,sub_array.length) + "</p>";
             }
 
-            document.getElementById("plot_info").innerHTML = output_info
+            document.getElementById("plot_info").innerHTML = output_info;
 
             if (last_line.indexOf('SUMMARY,DONE') > -1) {
                 document.getElementById("plot_info").innerHTML = "Analysis completed successfully";

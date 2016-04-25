@@ -28,6 +28,7 @@
                               </li>
                           <li>Upload the output file OUT.l10000.delta (<a href="tests/Arabidopsis.l10000.delta" target="_blank">view example</a>) to Assemblytics</li>
                         </ol>
+                        Important: Use only contigs rather than scaffolds from the assembly. This will prevent false positives when the number of Ns in the scaffolded sequence does not match perfectly to the distance in the reference. 
                       </div>
                   </div>
           </div>
