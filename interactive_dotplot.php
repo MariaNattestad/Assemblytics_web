@@ -276,27 +276,182 @@ function draw_alignments() {
         .enter()
         .append("line")
             .filter(function(d) { 
-                return ( // ref start or end is inside
-                (dotplot_ref_scale(d.abs_ref_start) >0 && dotplot_ref_scale(d.abs_ref_start) < dotplot_canvas_width) ||
-                (dotplot_ref_scale(d.abs_ref_end) >0 && dotplot_ref_scale(d.abs_ref_end) < dotplot_canvas_width) ) 
-                &&
-                ( // query start or end is inside
-                (dotplot_query_scale(d.abs_query_start) >0 && dotplot_query_scale(d.abs_query_start) < dotplot_canvas_height) ||
-                (dotplot_query_scale(d.abs_query_end) >0 && dotplot_query_scale(d.abs_query_end) < dotplot_canvas_height) ) 
-              ;})
+                // return (
+                //    // ref start or end is inside
+                //   (dotplot_ref_scale(d.abs_ref_start) >0 && dotplot_ref_scale(d.abs_ref_start) < dotplot_canvas_width) ||
+                //   (dotplot_ref_scale(d.abs_ref_end) >0 && dotplot_ref_scale(d.abs_ref_end) < dotplot_canvas_width) ) 
+                //   &&
+                //   ( // query start or end is inside
+                //   (dotplot_query_scale(d.abs_query_start) >0 && dotplot_query_scale(d.abs_query_start) < dotplot_canvas_height) ||
+                //   (dotplot_query_scale(d.abs_query_end) >0 && dotplot_query_scale(d.abs_query_end) < dotplot_canvas_height) 
+                // )
+                var x1 = dotplot_ref_scale(d.abs_ref_start);
+                var x2 = dotplot_ref_scale(d.abs_ref_end);
+                var y1 = dotplot_query_scale(d.abs_query_start);
+                var y2 = dotplot_query_scale(d.abs_query_end);
+                return !((x1 < 0 && x2 < 0)|| (x1 > dotplot_canvas_width && x2 > dotplot_canvas_width) || (y1 < 0 && y2 < 0) || (y1 > dotplot_canvas_height && y2 > dotplot_canvas_height));
+              })
             .attr("class","alignment")
             .style("stroke-width",2)
             .style("stroke", "black")
             .attr("fill","none")
-            .attr("x1",function(d){ return dotplot_ref_scale(d.abs_ref_start) })
-            .attr("y1",function(d){ return dotplot_query_scale(d.abs_query_start) })
-            .attr("x2",function(d){ return dotplot_ref_scale(d.abs_ref_end) })
-            .attr("y2",function(d){ return dotplot_query_scale(d.abs_query_end) })
+            .attr("x1",function(d){
+              var x1 = dotplot_ref_scale(d.abs_ref_start);
+              var x2 = dotplot_ref_scale(d.abs_ref_end);
+              var y1 = dotplot_query_scale(d.abs_query_start);
+              var y2 = dotplot_query_scale(d.abs_query_end);
+              var tangent = (y2-y1)/(x2-x1);
 
+              if (x1 < 0) { // left wall
+                var new_x = 0;
+                var new_y = y1 - x1 * tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                }
+              }
+              if (y1 > dotplot_canvas_height) { // floor
+                var new_x = (dotplot_canvas_height-y1)/tangent + x1;
+                var new_y = dotplot_canvas_height;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                }
+              }
+              if (x1 > dotplot_canvas_width) { // right wall
+                var new_x = dotplot_canvas_width;
+                var new_y = y1+tangent*(dotplot_canvas_width-x1);
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                }
+              }
+              if (y1 < 0) { // ceiling
+                var new_y = 0;
+                var new_x = x1 + (0-y1)/tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                }
+              }
+              return x1;
+
+            })
+            .attr("y1",function(d){ 
+              var x1 = dotplot_ref_scale(d.abs_ref_start);
+              var x2 = dotplot_ref_scale(d.abs_ref_end);
+              var y1 = dotplot_query_scale(d.abs_query_start);
+              var y2 = dotplot_query_scale(d.abs_query_end);
+              var tangent = (y2-y1)/(x2-x1);
+
+              if (x1 < 0) { // left wall
+                var new_x = 0;
+                var new_y = y1 - x1 * tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_y;
+                }
+              }
+              if (y1 > dotplot_canvas_height) { // floor
+                var new_x = (dotplot_canvas_height-y1)/tangent + x1;
+                var new_y = dotplot_canvas_height;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_y;
+                }
+              }
+              if (x1 > dotplot_canvas_width) { // right wall
+                var new_x = dotplot_canvas_width;
+                var new_y = y1+tangent*(dotplot_canvas_width-x1);
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_y;
+                }
+              }
+              if (y1 < 0) { // ceiling
+                var new_y = 0;
+                var new_x = x1 + (0-y1)/tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_y;
+                }
+              }
+              return y1;
+            })
+
+
+
+            .attr("x2",function(d){
+              var x1 = dotplot_ref_scale(d.abs_ref_start);
+              var x2 = dotplot_ref_scale(d.abs_ref_end);
+              var y1 = dotplot_query_scale(d.abs_query_start);
+              var y2 = dotplot_query_scale(d.abs_query_end);
+               var tangent = (y2-y1)/(x2-x1);
+
+              if (x2 < 0) { // left wall
+                var new_x = 0;
+                var new_y = y1 - x1 * tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                }
+              }
+              if (y2 > dotplot_canvas_height) { // floor
+                var new_x = (dotplot_canvas_height-y1)/tangent + x1;
+                var new_y = dotplot_canvas_height;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                }
+              }
+              if (x2 > dotplot_canvas_width) { // right wall
+                var new_x = dotplot_canvas_width;
+                var new_y = y1+tangent*(dotplot_canvas_width-x1);
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                }
+              }
+              if (y2 < 0) { // ceiling
+                var new_y = 0;
+                var new_x = x1 + (0-y1)/tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                }
+              }
+              return x2;
+            })
+            .attr("y2",function(d){ 
+              var x1 = dotplot_ref_scale(d.abs_ref_start);
+              var x2 = dotplot_ref_scale(d.abs_ref_end);
+              var y1 = dotplot_query_scale(d.abs_query_start);
+              var y2 = dotplot_query_scale(d.abs_query_end);
+              var tangent = (y2-y1)/(x2-x1);
+
+              if (x2 < 0) { // left wall
+                var new_x = 0;
+                var new_y = y1 - x1 * tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_y;
+                }
+              }
+              if (y2 > dotplot_canvas_height) { // floor
+                var new_x = (dotplot_canvas_height-y1)/tangent + x1;
+                var new_y = dotplot_canvas_height;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_y;
+                }
+              }
+              if (x2 > dotplot_canvas_width) { // right wall
+                var new_x = dotplot_canvas_width;
+                var new_y = y1+tangent*(dotplot_canvas_width-x1);
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_y;
+                }
+              }
+              if (y2 < 0) { // ceiling
+                var new_y = 0;
+                var new_x = x1 + (0-y1)/tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_y;
+                }
+              }
+              return y2;
+            })
+      //  NOTE: ceiling is 0, floor is dotplot_canvas_height
 }
 
 function draw_chromosome_labels() {
-    console.log("draw_chromosome_labels");
+    // console.log("draw_chromosome_labels");
     dotplot_canvas.selectAll("line.chromosome").remove()
     dotplot_canvas.selectAll("line.chromosome")
         .data(ref_chrom_label_data)
@@ -307,14 +462,15 @@ function draw_chromosome_labels() {
                 .style("stroke-width",1)
                 .style("stroke", "blue")
                 .attr("fill","none")
-                .attr("x1",function(d){ console.log(dotplot_ref_scale(d.pos)); return dotplot_ref_scale(d.pos); })
+                .attr("x1",function(d){ return dotplot_ref_scale(d.pos); })
                 .attr("y1",0)
                 .attr("x2",function(d){ return dotplot_ref_scale(d.pos); })
                 .attr("y2",dotplot_canvas_width)
 
-
-
 }
+
+
+
 
 
 window.onresize = resizeWindow;
