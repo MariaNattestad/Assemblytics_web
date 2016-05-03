@@ -22,7 +22,15 @@ COORDS=${1?"$USAGE"}
 cat $COORDS | awk '{print $12,$8}' OFS='\t' | sort -k2,2nr | uniq  > $COORDS.ref.genome
 cat $COORDS | awk '{print $13,$9}' OFS='\t' | sort -k2,2nr | uniq  > $COORDS.query.genome
 
-echo "Reference:"
+
+
+REF_NAME=$(head -1 ${COORDS%.coords}*.unique_length_filtered_l*.delta | awk '{print $1}')
+QUERY_NAME=$(head -1 ${COORDS%.coords}*.unique_length_filtered_l*.delta | awk '{print $2}')
+
+
+
+
+echo "Reference: " ${REF_NAME##*/}
 read REF_NUM_CONTIGS REF_ASSEMBLY_LENGTH REF_MEAN_LENGTH REF_MIN REF_MAX<<<$(awk '{if(min==""){min=max=previous=$2}; if($2>max){max=$2}; if($2<min){min=$2}; total+=$2; count+=1; previous=$2;} END {print count,total,total/count, min, max}' $COORDS.ref.genome)
 echo "Number of sequences: $REF_NUM_CONTIGS"
 echo "Total sequence length: $REF_ASSEMBLY_LENGTH"
@@ -36,7 +44,7 @@ awk -v al=$REF_ASSEMBLY_LENGTH 'BEGIN{n50="not found"}{sum+=$2; if(sum>al/2 && n
 
 echo "_______________________"
 echo ""
-echo "Query:"
+echo "Query: " ${QUERY_NAME##*/}
 read QUERY_NUM_CONTIGS QUERY_ASSEMBLY_LENGTH QUERY_MEAN_LENGTH QUERY_MIN QUERY_MAX<<<$(awk '{if(min==""){min=max=previous=$2}; if($2>max){max=$2}; if($2<min){min=$2}; total+=$2; count+=1; previous=$2;} END {print count,total,total/count, min, max}' $COORDS.query.genome)
 echo "Number of sequences: $QUERY_NUM_CONTIGS"
 echo "Total sequence length: $QUERY_ASSEMBLY_LENGTH"

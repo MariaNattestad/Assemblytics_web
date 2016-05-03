@@ -17,6 +17,9 @@
     .dotplot_canvas {
       fill:#fff;
     }
+   /* .chromosome {
+      font-size:2vmin;
+    }*/
     
 </style>
 
@@ -60,6 +63,8 @@ var right_edge_padding;
 var dotplot_canvas_width;
 var dotplot_canvas_height;
 
+var chrom_label_y_offset;
+
 
 //////////  Drawing/D3 objects  //////////
 var svg = null;
@@ -82,7 +87,8 @@ var ref_chrom_start_positions = {}; // ref_chrom_start_positions["chr1"] = 23479
 var query_chrom_start_positions = {};  // query_chrom_start_positions["JSAC01000015.1"] = 8237493 // absolute position on the dot plot
 var ref_chrom_label_data = [];
 var query_chrom_label_data = [];
-
+var cumulative_ref_size = 0;
+var cumulative_query_size = 0;
 
 console.log("Starting");
 load_data();
@@ -96,9 +102,9 @@ function responsive_sizing() {
 
   // console.log(svg_width)
 
-  top_edge_padding = svg_width*0.03;
-  bottom_edge_padding = svg_width*0.03;
-  left_edge_padding = svg_width*0.03;
+  top_edge_padding = svg_height*0.10;
+  bottom_edge_padding = svg_height*0.10;
+  left_edge_padding = svg_width*0.05;
   right_edge_padding = svg_width*0.03; 
 
 
@@ -119,10 +125,17 @@ function responsive_sizing() {
   dotplot_canvas_width = svg_width - left_edge_padding - right_edge_padding;
   dotplot_canvas_height = svg_height - top_edge_padding - bottom_edge_padding;
 
-  // Make it into a square
-  dotplot_canvas_width = Math.min(dotplot_canvas_height,dotplot_canvas_width);
-  dotplot_canvas_height = dotplot_canvas_width;
 
+  // TEMPORARY:
+  dotplot_canvas_width = dotplot_canvas_width/2;
+  
+  // Make it into a square
+  // dotplot_canvas_width = Math.min(dotplot_canvas_height,dotplot_canvas_width);
+  // dotplot_canvas_height = dotplot_canvas_width;
+
+
+  // Calculate positions/padding for labels, etc. 
+  chrom_label_y_offset = bottom_edge_padding/3;
 }
 
 function load_data() {
@@ -162,19 +175,19 @@ function calculate_positions() {
     // Reference
     ref_chrom_start_positions = {}; // for quick lookup
     ref_chrom_label_data = []; // for drawing chromosome labels
-    var cumulative_ref_size = 0;
+    cumulative_ref_size = 0;
     for (var chrom in ref_chromosome_lengths){
         ref_chrom_start_positions[chrom] = cumulative_ref_size; 
-        ref_chrom_label_data.push({"chrom":chrom,"pos":cumulative_ref_size});
+        ref_chrom_label_data.push({"chrom":chrom,"pos":cumulative_ref_size,"length":ref_chromosome_lengths[chrom]});
         cumulative_ref_size += ref_chromosome_lengths[chrom]; 
     }
     // Query
     query_chrom_start_positions = {}; // for quick lookup
     query_chrom_label_data = []; // for drawing chromosome labels
-    var cumulative_query_size = 0;
+    cumulative_query_size = 0;
     for (var chrom in query_chromosome_lengths){
         query_chrom_start_positions[chrom] = cumulative_query_size; 
-        query_chrom_label_data.push({"chrom":chrom,"pos":cumulative_query_size});
+        query_chrom_label_data.push({"chrom":chrom,"pos":cumulative_query_size, "length":query_chromosome_lengths[chrom]});
         cumulative_query_size += query_chromosome_lengths[chrom]; 
     }
     // Save the total size of the chromosomes to the domain for the dotplot scale
@@ -189,10 +202,6 @@ function calculate_positions() {
         coords_data[i].abs_query_start = query_chrom_start_positions[coords_data[i].query_chrom] + coords_data[i].query_start;
         coords_data[i].abs_query_end = query_chrom_start_positions[coords_data[i].query_chrom] + coords_data[i].query_end;
     }
-
-
-
-
 
     console.log("calculate_positions() DONE");
 
@@ -219,25 +228,43 @@ function draw_dotplot() {
 
     // Add axes
     dotplot_ref_axis = d3.svg.axis().scale(dotplot_ref_scale).orient("bottom").ticks(5).tickSize(-dotplot_canvas_height,0,0).tickFormat(d3.format("s"));
-    dotplot_container.append("g")
-        .attr("class","axis")
-        .attr("id","ref_axis")
-        .attr("transform","translate(" + 0 + "," + dotplot_canvas_height + ")")
-        .call(dotplot_ref_axis);
+    // dotplot_container.append("g")
+    //     .attr("class","axis")
+    //     .attr("id","ref_axis")
+    //     .attr("transform","translate(" + 0 + "," + dotplot_canvas_height + ")")
+    //     .call(dotplot_ref_axis);
 
     dotplot_query_axis = d3.svg.axis().scale(dotplot_query_scale).orient("left").ticks(5).tickSize(-dotplot_canvas_width,0,0).tickFormat(d3.format("s"));
-    dotplot_container.append("g")
-        .attr("class","axis")
-        .attr("id","query_axis")
-        .attr("transform","translate(" + 0 + "," + 0 + ")")
-        .call(dotplot_query_axis);
+    // dotplot_container.append("g")
+    //     .attr("class","axis")
+    //     .attr("id","query_axis")
+    //     .attr("transform","translate(" + 0 + "," + 0 + ")")
+    //     .call(dotplot_query_axis);
 
 
     zoom = d3.behavior.zoom()
         .x(dotplot_ref_scale)
         .y(dotplot_query_scale)
         .scaleExtent([1,1000])
-        .on("zoom",zoomed);
+        .on("zoom",function() {
+          if (dotplot_ref_scale.domain()[0] < 0) {
+            dotplot_ref_scale.domain([0, dotplot_ref_scale.domain()[1] - dotplot_ref_scale.domain()[0] + 0]);
+          }
+          if (dotplot_ref_scale.domain()[1] > cumulative_ref_size) {
+            var xdom0 = dotplot_ref_scale.domain()[0] - dotplot_ref_scale.domain()[1] + cumulative_ref_size;
+            dotplot_ref_scale.domain([xdom0, cumulative_ref_size]);
+          }
+          if (dotplot_query_scale.domain()[0] < 0) {
+            dotplot_query_scale.domain([0, dotplot_query_scale.domain()[1] - dotplot_query_scale.domain()[0] + 0]);
+          }
+          if (dotplot_query_scale.domain()[1] > cumulative_query_size) {
+            var ydom0 = dotplot_query_scale.domain()[0] - dotplot_query_scale.domain()[1] + cumulative_query_size;
+            dotplot_query_scale.domain([ydom0, cumulative_query_size]);
+          }
+          redraw_on_zoom();
+          dotplot_container.select("#ref_axis").call(dotplot_ref_axis);
+          dotplot_container.select("#query_axis").call(dotplot_query_axis);
+        });
 
     dotplot_canvas.call(zoom);
 
@@ -250,11 +277,6 @@ function redraw_on_zoom() {
     draw_chromosome_labels();
 }
 
-function zoomed() {
-    redraw_on_zoom();
-    dotplot_container.select("#ref_axis").call(dotplot_ref_axis);
-    dotplot_container.select("#query_axis").call(dotplot_query_axis);
-}
 
 // d3.select("button").on("click", reset_dotplot);
 
@@ -331,7 +353,6 @@ function draw_alignments() {
                 }
               }
               return x1;
-
             })
             .attr("y1",function(d){ 
               var x1 = dotplot_ref_scale(d.abs_ref_start);
@@ -370,58 +391,70 @@ function draw_alignments() {
               }
               return y1;
             })
-
-
-
             .attr("x2",function(d){
-              var x1 = dotplot_ref_scale(d.abs_ref_start);
-              var x2 = dotplot_ref_scale(d.abs_ref_end);
-              var y1 = dotplot_query_scale(d.abs_query_start);
-              var y2 = dotplot_query_scale(d.abs_query_end);
-               var tangent = (y2-y1)/(x2-x1);
-
-              if (x2 < 0) { // left wall
-                var new_x = 0;
-                var new_y = y1 - x1 * tangent;
-                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
-                  return new_x;
-                }
-              }
-              if (y2 > dotplot_canvas_height) { // floor
-                var new_x = (dotplot_canvas_height-y1)/tangent + x1;
-                var new_y = dotplot_canvas_height;
-                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
-                  return new_x;
-                }
-              }
-              if (x2 > dotplot_canvas_width) { // right wall
-                var new_x = dotplot_canvas_width;
-                var new_y = y1+tangent*(dotplot_canvas_width-x1);
-                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
-                  return new_x;
-                }
-              }
-              if (y2 < 0) { // ceiling
-                var new_y = 0;
-                var new_x = x1 + (0-y1)/tangent;
-                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
-                  return new_x;
-                }
-              }
-              return x2;
-            })
-            .attr("y2",function(d){ 
               var x1 = dotplot_ref_scale(d.abs_ref_start);
               var x2 = dotplot_ref_scale(d.abs_ref_end);
               var y1 = dotplot_query_scale(d.abs_query_start);
               var y2 = dotplot_query_scale(d.abs_query_end);
               var tangent = (y2-y1)/(x2-x1);
 
+              var completely_outside = false;
+              if (x2 < 0) { // left wall
+                var new_x = 0;
+                var new_y = y1 - x1 * tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                } else {
+                  completely_outside = true;
+                }
+              }
+              if (y2 > dotplot_canvas_height) { // floor
+                var new_x = (dotplot_canvas_height-y1)/tangent + x1;
+                var new_y = dotplot_canvas_height;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                } else {
+                  completely_outside = true;
+                }
+              }
+              if (x2 > dotplot_canvas_width) { // right wall
+                var new_x = dotplot_canvas_width;
+                var new_y = y1+tangent*(dotplot_canvas_width-x1);
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                } else {
+                  completely_outside = true;
+                }
+              }
+              if (y2 < 0) { // ceiling
+                var new_y = 0;
+                var new_x = x1 + (0-y1)/tangent;
+                if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
+                  return new_x;
+                } else {
+                  completely_outside = true;
+                }
+              }
+              if (completely_outside == true) {
+                return x1; // don't draw
+              }
+              return x2;
+            })
+            .attr("y2",function(d){
+              var x1 = dotplot_ref_scale(d.abs_ref_start);
+              var x2 = dotplot_ref_scale(d.abs_ref_end);
+              var y1 = dotplot_query_scale(d.abs_query_start);
+              var y2 = dotplot_query_scale(d.abs_query_end);
+              var tangent = (y2-y1)/(x2-x1);
+
+              var completely_outside = false;
               if (x2 < 0) { // left wall
                 var new_x = 0;
                 var new_y = y1 - x1 * tangent;
                 if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
                   return new_y;
+                } else {
+                  completely_outside = true;
                 }
               }
               if (y2 > dotplot_canvas_height) { // floor
@@ -429,6 +462,8 @@ function draw_alignments() {
                 var new_y = dotplot_canvas_height;
                 if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
                   return new_y;
+                } else {
+                  completely_outside = true;
                 }
               }
               if (x2 > dotplot_canvas_width) { // right wall
@@ -436,6 +471,8 @@ function draw_alignments() {
                 var new_y = y1+tangent*(dotplot_canvas_width-x1);
                 if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
                   return new_y;
+                } else {
+                  completely_outside = true;
                 }
               }
               if (y2 < 0) { // ceiling
@@ -443,7 +480,12 @@ function draw_alignments() {
                 var new_x = x1 + (0-y1)/tangent;
                 if (new_x >= 0 && new_x <= dotplot_canvas_width && new_y >= 0 && new_y <= dotplot_canvas_height) {
                   return new_y;
+                } else {
+                  completely_outside = true;
                 }
+              }
+              if (completely_outside == true) {
+                return y1; // don't draw
               }
               return y2;
             })
@@ -451,7 +493,11 @@ function draw_alignments() {
 }
 
 function draw_chromosome_labels() {
-    // console.log("draw_chromosome_labels");
+
+
+
+    //////////////////////////////     Reference labels     //////////////////////////////
+    
     dotplot_canvas.selectAll("line.chromosome").remove()
     dotplot_canvas.selectAll("line.chromosome")
         .data(ref_chrom_label_data)
@@ -465,7 +511,86 @@ function draw_chromosome_labels() {
                 .attr("x1",function(d){ return dotplot_ref_scale(d.pos); })
                 .attr("y1",0)
                 .attr("x2",function(d){ return dotplot_ref_scale(d.pos); })
-                .attr("y2",dotplot_canvas_width)
+                .attr("y2",dotplot_canvas_height)
+
+    dotplot_container.selectAll("text.chromosome").remove()
+    dotplot_container.selectAll("text.chromosome")
+        .data(ref_chrom_label_data)
+        .enter()
+        .append("text")
+            .filter(function(d) {return !(dotplot_ref_scale(d.pos + d.length) < 0 || dotplot_ref_scale(d.pos) > dotplot_canvas_width)})
+                .attr("class","chromosome")
+                .attr("text-anchor", "end")
+                .attr("dominant-baseline","middle")
+                .attr("y",function(d) {
+                  if (dotplot_ref_scale(d.pos) > 0 && dotplot_ref_scale(d.pos + d.length) < dotplot_canvas_width) {
+                    return dotplot_ref_scale(d.pos+d.length/2);
+                  } else if (dotplot_ref_scale(d.pos + d.length) < dotplot_canvas_width) {
+                    // If end of chromosome is showing, put label at average of left wall and end of chromosome
+                    return (dotplot_ref_scale(d.pos+d.length) + 0)/2;
+                  } else if (dotplot_ref_scale(d.pos) > 0) {
+                    // If start of chromosome is showing, put label at average of start and the right wall
+                    return (dotplot_ref_scale(d.pos)+dotplot_canvas_width)/2;
+                  } else {
+                    return dotplot_canvas_width/2;
+                  }
+                })
+                .attr("x",function(d) {return -dotplot_canvas_height;})
+                .text(function(d) {return d.chrom; })
+                .style("fill","blue")
+                .style("font-size",function(d) { return Math.min(dotplot_ref_scale(d.length) , (bottom_edge_padding - 8) / this.getComputedTextLength() * 14) + "px";  })
+                .attr("transform", "rotate(-90)")
+
+
+
+
+
+    //////////////////////////////     Query labels     //////////////////////////////
+
+    dotplot_canvas.selectAll("line.contig").remove()
+    dotplot_canvas.selectAll("line.contig")
+        .data(ref_chrom_label_data)
+        .enter()
+        .append("line")
+            .filter(function(d) {return (dotplot_query_scale(d.pos) > 0 && dotplot_query_scale(d.pos) < dotplot_canvas_height)})
+                .attr("class","contig")
+                .style("stroke-width",1)
+                .style("stroke", "red")
+                .attr("fill","none")
+                .attr("x1",0)
+                .attr("y1",function(d){ return dotplot_query_scale(d.pos); })
+                .attr("x2",dotplot_canvas_width)
+                .attr("y2",function(d){ return dotplot_query_scale(d.pos); })
+
+
+    dotplot_container.selectAll("text.contig").remove()
+    dotplot_container.selectAll("text.contig")
+        .data(query_chrom_label_data)
+        .enter()
+        .append("text")
+            .filter(function(d) {return !(dotplot_query_scale(d.pos) < 0 || dotplot_query_scale(d.pos + d.length) > dotplot_canvas_height)})
+                .attr("class","chromosome")
+                .attr("text-anchor", "end")
+                .attr("dominant-baseline","middle")
+                .attr("y",function(d) {
+                  if (dotplot_query_scale(d.pos) < dotplot_canvas_height && dotplot_query_scale(d.pos + d.length) > 0) {
+                    return dotplot_query_scale(d.pos+d.length/2);
+                  } else if (dotplot_query_scale(d.pos + d.length) > 0) {
+                    // If end of chromosome is showing, put label at average of floor and end of chromosome
+                    return (dotplot_query_scale(d.pos+d.length) + dotplot_canvas_height)/2;
+                  } else if (dotplot_query_scale(d.pos) < dotplot_canvas_height) {
+                    // If start of chromosome is showing, put label at average of start and the ceiling
+                    return (dotplot_query_scale(d.pos)+0)/2;
+                  } else {
+                    return dotplot_canvas_height/2;
+                  }
+                })
+                .attr("x",function(d) {return 0;})
+                .text(function(d) {return d.chrom; })
+                .style("fill","red")
+                .style("font-size",function(d) { return Math.min(dotplot_query_scale(d.length) , (left_edge_padding - 8) / this.getComputedTextLength() * 14) + "px";  })
+
+
 
 }
 
