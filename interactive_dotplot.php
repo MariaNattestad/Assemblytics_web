@@ -549,7 +549,7 @@ function draw_chromosome_labels() {
 
     dotplot_canvas.selectAll("line.contig").remove()
     dotplot_canvas.selectAll("line.contig")
-        .data(ref_chrom_label_data)
+        .data(query_chrom_label_data)
         .enter()
         .append("line")
             .filter(function(d) {return (dotplot_query_scale(d.pos) > 0 && dotplot_query_scale(d.pos) < dotplot_canvas_height)})
