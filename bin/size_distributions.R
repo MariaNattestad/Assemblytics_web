@@ -6,30 +6,26 @@ output_prefix <- args[1]
 abs_min_var <- as.numeric(args[2])
 abs_max_var <- as.numeric(args[3])
 
-# output_prefix <- "~/tmp/Escherichia_coli_MHAP_assembly"
 
 filename <- paste(output_prefix,".Assemblytics_structural_variants.bed",sep="")
 
-# print(filename)
 bed <- read.csv(filename, sep="\t", quote='', header=TRUE)
 
 names(bed)[1:11] <- c("chrom","start","stop","name","size","strand","type","ref.dist","query.dist","contig_position","method.found")
-# head(bed)
 
-# summary(bed$type)
+# bed$type <- factor(bed$type, levels = c("Insertion","Deletion","Repeat_expansion","Repeat_contraction","Tandem_expansion","Tandem_contraction"))
 
 bed$type <- revalue(bed$type, c("Repeat_expansion"="Repeat expansion", "Repeat_contraction"="Repeat contraction", "Tandem_expansion"="Tandem expansion", "Tandem_contraction"="Tandem contraction"))
 
 types.allowed <- c("Insertion","Deletion","Repeat expansion","Repeat contraction","Tandem expansion","Tandem contraction")
 bed$type <- factor(bed$type, levels = types.allowed)
 
-# summary(bed$type)
-
 theme_set(theme_bw(base_size = 12))
 
 
 library(RColorBrewer)
 # display.brewer.all()
+
 color_palette_name <- "Set1"
 big_palette<-brewer.pal(9,"Set1")[c(1,2,3,4,5,7)]
 
@@ -88,9 +84,16 @@ alt[alt$type=="Repeat contraction",]$size <- -1*alt[alt$type=="Repeat contractio
 alt[alt$type=="Tandem contraction",]$size <- -1*alt[alt$type=="Tandem contraction",]$size
 
 alt$Type <- "None"
-alt[alt$type %in% c("Insertion","Deletion"),]$Type <- "Indel"
-alt[alt$type %in% c("Tandem expansion","Tandem contraction"),]$Type <- "Tandem"
-alt[alt$type %in% c("Repeat expansion","Repeat contraction"),]$Type <- "Repeat"
+if (nrow(alt[alt$type %in% c("Insertion","Deletion"),]) > 0) {
+    alt[alt$type %in% c("Insertion","Deletion"),]$Type <- "Indel"    
+}
+if (nrow(alt[alt$type %in% c("Tandem expansion","Tandem contraction"),]) > 0) {
+    alt[alt$type %in% c("Tandem expansion","Tandem contraction"),]$Type <- "Tandem"    
+}
+if (nrow(alt[alt$type %in% c("Repeat expansion","Repeat contraction"),]) > 0) {
+    alt[alt$type %in% c("Repeat expansion","Repeat contraction"),]$Type <- "Repeat"    
+}
+
 #############################################
 
 
