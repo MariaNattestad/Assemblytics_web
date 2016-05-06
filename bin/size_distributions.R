@@ -34,46 +34,6 @@ comma_format<-function(num) {
     formatC(abs(num),format="f",big.mark=",",drop0trailing = TRUE)
 }
 
-###############     Flexible plotting function     ###############
-plot_size_distribution <- function(min_var,max_var,indels_only) {     
-    types_to_plot = types.allowed
-    if (indels_only) {
-        types_to_plot <- c("Insertion","Deletion")
-    }
-    filtered_bed <- bed[bed$size>=min_var & 
-                    bed$size<=max_var & 
-                    bed$type %in% types_to_plot,]
-    filtered_bed$type <- factor(filtered_bed$type,levels=types_to_plot)
-    binwidth <- max_var/100
-    if (binwidth < 1) {
-        binwidth <- 1
-    }
-    
-    if (nrow(filtered_bed)>0) {
-        print(ggplot(filtered_bed,aes(x=size, fill=type)) + 
-          geom_bar(binwidth=binwidth) + 
-          
-#           scale_fill_brewer(palette=color_palette_name,drop=FALSE) + 
-          scale_fill_manual(values=big_palette,drop=FALSE) + 
-          facet_grid(type ~ .,drop=FALSE) + 
-          labs(fill="Variant type",x="Variant size",y="Count",title=paste("Variants",comma_format(min_var),"to", comma_format(max_var),"bp")) + 
-                  scale_x_continuous(labels=comma_format,expand=c(0,0),limits=c(min_var,max_var)) + 
-                  scale_y_continuous(labels=comma_format,expand=c(0,0)) +
-          theme(
-              strip.text=element_blank(),strip.background=element_blank(),
-              plot.title = element_text(vjust=3),
-              axis.text=element_text(size=8),
-              panel.grid.minor = element_line(colour = NA),
-              panel.grid.major = element_line(colour = NA)
-          )
-        )
-    } else {        
-        print("No variants in plot:")
-        print(paste("min_var=",min_var))
-        print(paste("max_var=",max_var))
-    }
-}
-
 
 
 ###############  FOR LOG PLOT  ###############
@@ -114,13 +74,49 @@ for (to_png in c(TRUE,FALSE)) {
             max_var <- var_size_cutoffs[i+1]
             if (min_var < abs_max_var && max_var > abs_min_var)
             {
-                if (to_png) {
-                    png(paste(output_prefix,".Assemblytics.size_distributions.", var_type_filename, ".", min_var, "-",max_var, ".png", sep=""),1000,1000,res=200)
-                } else {
-                    pdf(paste(output_prefix,".Assemblytics.size_distributions.", var_type_filename, ".", min_var, "-",max_var, ".pdf", sep=""))
+                types_to_plot = types.allowed
+                if (indels_only) {
+                    types_to_plot <- c("Insertion","Deletion")
                 }
-                plot_size_distribution(min_var=min_var,max_var=max_var,indels_only=indels_only)
-                dev.off()
+                filtered_bed <- bed[bed$size>=min_var & 
+                                bed$size<=max_var & 
+                                bed$type %in% types_to_plot,]
+                filtered_bed$type <- factor(filtered_bed$type,levels=types_to_plot)
+                binwidth <- max_var/100
+                if (binwidth < 1) {
+                    binwidth <- 1
+                }
+                
+                if (nrow(filtered_bed)>0) {
+                    if (to_png) {
+                        png(paste(output_prefix,".Assemblytics.size_distributions.", var_type_filename, ".", min_var, "-",max_var, ".png", sep=""),1000,1000,res=200)
+                    } else {
+                        pdf(paste(output_prefix,".Assemblytics.size_distributions.", var_type_filename, ".", min_var, "-",max_var, ".pdf", sep=""))
+                    }
+
+                    print(ggplot(filtered_bed,aes(x=size, fill=type)) + 
+                      geom_bar(binwidth=binwidth) + 
+                      scale_fill_manual(values=big_palette,drop=FALSE) + 
+                      facet_grid(type ~ .,drop=FALSE) + 
+                      labs(fill="Variant type",x="Variant size",y="Count",title=paste("Variants",comma_format(min_var),"to", comma_format(max_var),"bp")) + 
+                              scale_x_continuous(labels=comma_format,expand=c(0,0),limits=c(min_var,max_var)) + 
+                              scale_y_continuous(labels=comma_format,expand=c(0,0)) +
+                      theme(
+                          strip.text=element_blank(),strip.background=element_blank(),
+                          plot.title = element_text(vjust=3),
+                          axis.text=element_text(size=8),
+                          panel.grid.minor = element_line(colour = NA),
+                          panel.grid.major = element_line(colour = NA)
+                      )
+                    )
+                    
+                    dev.off()
+                } else {        
+                    print("No variants in plot:")
+                    print(paste("min_var=",min_var))
+                    print(paste("max_var=",max_var))
+                }
+                
             }
             
         }  
@@ -137,7 +133,7 @@ for (to_png in c(TRUE,FALSE)) {
             geom_histogram(binwidth=abs_max_var/100) + 
             scale_fill_manual(values=big_palette,drop=FALSE) + 
             facet_grid(Type ~ .,drop=FALSE) + 
-            labs(fill="Variant type",x="Variant size",y="Count",title=paste("Variants",comma_format(abs_min_var),"to", comma_format(abs_max_var),"bp")) + 
+            labs(fill="Variant type",x="Variant size",y="Count + 1",title=paste("Variants",comma_format(abs_min_var),"to", comma_format(abs_max_var),"bp")) + 
             scale_x_continuous(labels=comma_format,expand=c(0,0),limits=c(-1*abs_max_var,abs_max_var)) + 
             #     scale_y_continuous(labels=comma_format,expand=c(0,0)) +
             scale_y_log10(labels=comma_format,expand=c(0,0)) +
