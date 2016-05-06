@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 import argparse
 
-
+import gzip
 # Author: Maria Nattestad
 # Email: mnattest@cshl.edu
 # This script is part of Assemblytics, a program to detect and analyze structural variants from an assembly aligned to a reference genome using MUMmer. 
@@ -12,10 +12,17 @@ def run(args):
     minimum_variant_size = args.minimum_variant_size
 
     f = open(filename)
+    header1 = f.readline()
+    if header1[0:4]=="\x1f\x8b\x08\x08":
+        f.close()
+        f = gzip.open(filename)
+        print f.readline().strip()
+    else:
+        print header1.strip()
     
-    # The first 2 lines are ignored
-    f.readline()
-    f.readline()
+    # Ignore the first two lines for now
+    print f.readline().strip()
+
 
     linecounter = 0
 

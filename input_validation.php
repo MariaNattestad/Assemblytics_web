@@ -6,6 +6,7 @@
 <?php include "header.html";?>
 <?php include "title.html";?>
 
+<div class="panel">
 <?php
     $debug=""; //put -d here when testing    
     $aResult = array();
@@ -54,15 +55,21 @@
     }
     
     $consistent=true;
-    $myfile = fopen($filename, "r") or die("Unable to open file!");
-    $line1 = fgets($myfile);
+    // $myfile = fopen($filename, "r") or die("Unable to open file!");
+    // $line1 = fgets($myfile);
+
+    $myfile = gzopen($filename, "r") or die("Unable to open file!");
+    $line1 = gzgets($myfile);
+
+
+    
     $line1 = trim(preg_replace( '/\s+/', ' ', $line1 ));
     
     $array=array_map("trim",explode(' ',$line1));
     if (count($array)==2) {
         // echo "GOOD first line";
     } else {
-        echo "BAD first line\n";
+        echo "Bad first line. \n";
         $consistent=false;
     }
 
@@ -72,11 +79,12 @@
     if ($line2 == "NUCMER") {
         // echo "GOOD second line";
     } else {
-        echo "BAD second line\n";
+        echo "Bad second line\n";
         $consistent=false;
     }
 
-    fclose($myfile);
+    // fclose($myfile);
+    gzclose($myfile);
 
     if ($consistent) {
         // if ($previous_bins > 500) {
@@ -107,5 +115,6 @@
     
     
 ?>
+</div>
 </body>
 </html>

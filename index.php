@@ -25,7 +25,7 @@
                           <li>Optional: Delta-filter to reduce file size before upload (from MUMmer package). In this example, only alignments of at least 10kb are included, which makes the file size smaller before upload. The limit on file size for upload here is 2 GB.
                               <p><pre>$ delta-filter -l 10000 OUT.delta > OUT.l10000.delta </pre></p>
                               </li>
-                          <li>Upload the output file OUT.l10000.delta (<a href="tests/Arabidopsis.l10000.delta" target="_blank">view example</a>) to Assemblytics</li>
+                          <li>Upload the delta file (<a href="tests/sample.delta" target="_blank">view example</a>) to Assemblytics</li>
                         </ol>
                         Important: Use only contigs rather than scaffolds from the assembly. This will prevent false positives when the number of Ns in the scaffolded sequence does not match perfectly to the distance in the reference. 
                       </div>
