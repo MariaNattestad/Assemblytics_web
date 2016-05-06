@@ -107,6 +107,7 @@ then
                 echo "COMBINE,FAIL,Step 4: combining variants failed" >> $LOG_FILE
             fi
         else
+
             echo "WITHIN,FAIL,Step 3: Assemblytics_within_alignment.py failed: Possible problem before this step or with Python on server." >> $LOG_FILE
         fi
     else
