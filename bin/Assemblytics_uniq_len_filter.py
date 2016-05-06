@@ -28,6 +28,7 @@ def run(args):
     if unique_length == 10000:
         print "Use --unique-length X to set the unique anchor length requirement. Default is 10000, such that each alignment must have at least 10000 bp from the query that are not included in any other alignments."
 
+
     f = open(filename)
     
     # Ignore the first two lines for now
