@@ -16,13 +16,10 @@ def run(args):
     if header1[0:4]=="\x1f\x8b\x08\x08":
         f.close()
         f = gzip.open(filename)
-        print f.readline().strip()
-    else:
-        print header1.strip()
+        header1 = f.readline()
     
     # Ignore the first two lines for now
-    print f.readline().strip()
-
+    f.readline()
 
     linecounter = 0
 

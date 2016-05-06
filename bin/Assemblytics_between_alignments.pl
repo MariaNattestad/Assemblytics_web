@@ -8,9 +8,9 @@ my @chromosome_filter_choices =  ("all-chromosomes","primary-chromosomes");
 my @longrange_filter_choices = ("include-longrange","exclude-longrange","longrange-only");
 my @output_file_choices = ("bed","bedpe");
 
-my $USAGE = "Usage:\nAssemblytics_between_alignments.pl delta minimum_event_size maximum_event_size [@chromosome_filter_choices] [@longrange_filter_choices] [@output_file_choices] > fusions.svs.bedpe ";
+my $USAGE = "Usage:\nAssemblytics_between_alignments.pl coords.tab minimum_event_size maximum_event_size [@chromosome_filter_choices] [@longrange_filter_choices] [@output_file_choices] > fusions.svs.bedpe ";
 
-my $deltafile = shift @ARGV or die $USAGE;
+my $coordsfile = shift @ARGV or die $USAGE;
 my $minimum_event_size = int(shift @ARGV);
 my $maximum_event_size = int(shift @ARGV);
 my $chromosome_filter = shift @ARGV or die $USAGE;
@@ -48,9 +48,10 @@ if ($longrange_filter ne "exclude-longrange" && $output_file eq "bed"){
   die "Cannot output bed while allowing long-range variants\n$USAGE";
 }
 
-open COORDS, "./bin/show-coords -rclHT $deltafile |"
-  or die "Can't process $deltafile ($!)\n";
+# open COORDS, "./bin/show-coords -rclHT $deltafile |"
+#   or die "Can't process $deltafile ($!)\n";
 
+open COORDS, "$coordsfile"  or die "Can't process $coordsfile ($!)\n";
 
 ##open COORDS, "show-coords -rclHT $deltafile |"
 ##  or die "Can't process $deltafile ($!)\n";
@@ -77,19 +78,18 @@ while (<COORDS>)
   chomp;
   my @vals = split /\s+/, $_;
 
-  my $rid = $vals[11];
-  my $qid = $vals[12];
+  my $rid = $vals[6];
+  my $qid = $vals[7];
 
   my $a;
   $a->{"rstart"} = $vals[0];
   $a->{"rend"}   = $vals[1];
   $a->{"qstart"} = $vals[2];
   $a->{"qend"}   = $vals[3];
-  $a->{"pid"}    = $vals[6];
-  $a->{"rlen"}   = $vals[7];
-  $a->{"qlen"}   = $vals[8];
-  $a->{"rid"}    = $rid;
-  $a->{"qid"}    = $qid;
+  $a->{"rlen"}   = $vals[4];
+  $a->{"qlen"}   = $vals[5];
+  $a->{"rid"}    = $vals[6];
+  $a->{"qid"}    = $vals[7];
   $a->{"str"}    = $_;
 
   $a->{"qidx"}   = 0;
