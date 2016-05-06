@@ -133,10 +133,9 @@ def run(args):
     if header1[0:4]=="\x1f\x8b\x08\x08":
         f.close()
         f = gzip.open(filename)
-        fout.write(f.readline()) # write the first line
-    else:
-        fout.write(header1) # write the first line that we read already
-    
+        header1 = f.readline()
+        
+    fout.write(header1) # write the first line that we read already
     fout.write(f.readline())
     
     linecounter = 0
@@ -146,13 +145,12 @@ def run(args):
     alignment_counter = {}
     keep_printing = False
 
-
     # For coords:
     current_query_name = ""
     current_query_position = 0
     fcoords_out_tab = open(output_filename + ".coords.tab",'w')
     fcoords_out_csv = open(output_filename + ".coords.csv",'w')
-    fcoords_out_csv.write("ref_start,ref_end,query_start,query_end,ref_length,query_length,ref_chrom,query_chrom\n")
+    fcoords_out_csv.write("ref_start,ref_end,query_start,query_end,ref_length,query_length,ref_chrom,query_chrom,tag\n")
 
 
     # For basic assembly stats:
@@ -195,20 +193,21 @@ def run(args):
         else:
             fields = line.strip().split()
             if len(fields) > 4:
-                if alignment_counter[query] in list_of_alignments_to_keep:
-                    fout.write(line)
-                    keep_printing = True
-                else:
-                    keep_printing = False
-                alignment_counter[query] = alignment_counter[query] + 1
-
                 # For coords:
                 ref_start = int(fields[0])
                 ref_end = int(fields[1])
                 query_start = int(fields[2])
                 query_end = int(fields[3])
-                fcoords_out_tab.write("\t".join(map(str,[ref_start,ref_end,query_start, query_end,current_reference_size,current_query_size,current_reference_name,current_query_name])) + "\n")
-                fcoords_out_csv.write(",".join(map(str,[ref_start,ref_end,query_start, query_end,current_reference_size,current_query_size,current_reference_name,current_query_name])) + "\n")
+                csv_tag = "repetitive"
+                if alignment_counter[query] in list_of_alignments_to_keep:
+                    fout.write(line)
+                    fcoords_out_tab.write("\t".join(map(str,[ref_start,ref_end,query_start, query_end,current_reference_size,current_query_size,current_reference_name,current_query_name])) + "\n")
+                    csv_tag = "unique"
+                    keep_printing = True
+                else:
+                    keep_printing = False
+                fcoords_out_csv.write(",".join(map(str,[ref_start,ref_end,query_start, query_end,current_reference_size,current_query_size,current_reference_name,current_query_name,csv_tag])) + "\n")
+                alignment_counter[query] = alignment_counter[query] + 1
 
             elif keep_printing == True:
                 fout.write(line)
@@ -231,7 +230,7 @@ def run(args):
     f_stats_out.write( "Min: %s\n" % gig_meg(np.min(ref_lengths)))
     f_stats_out.write( "Max: %s\n" % gig_meg(np.max(ref_lengths)))
     f_stats_out.write( "N50: %s\n" % gig_meg(N50(ref_lengths)))
-    f_stats_out.write( "_______________________\n")
+    f_stats_out.write( "\n\n")
     f_stats_out.write( "Query: %s\n" % header1.split()[1].split("/")[-1])
     f_stats_out.write( "Number of sequences: %s\n" % intWithCommas(len(query_lengths)))
     f_stats_out.write( "Total sequence length: %s\n" % gig_meg(sum(query_lengths)))
@@ -262,11 +261,13 @@ def gig_meg(number,digits = 2):
     kil = 1000.
 
     if number > gig:
-        return str(round(number/gig,digits)) + " Gb"
+        return str(round(number/gig,digits)) + " Gbp"
     elif number > meg:
-        return str(round(number/meg,digits)) + " Mb"
+        return str(round(number/meg,digits)) + " Mbp"
     elif number > kil:
-        return str(round(number/kil,digits)) + " Kb"
+        return str(round(number/kil,digits)) + " Kbp"
+    else:
+        return str(number) + " bp"
 
 def intWithCommas(x):
     if type(x) not in [type(0), type(0L)]:

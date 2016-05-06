@@ -52,16 +52,12 @@ echo "${OUTPUT_PREFIX##*/}" >> $LOG_FILE
 echo "STARTING,DONE,Starting unique anchor filtering." >> $LOG_FILE
 
 >&2 echo "1. Filter delta file"
-./bin/Assemblytics_uniq_len_filter.py --delta $DELTA --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX
+./bin/Assemblytics_uniq_anchor.py --delta $DELTA --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX
 if grep -q ">" <(gzcat $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta.gz);
 then
-    # Do show-coords before deleting the old delta file
-    #########./bin/show-coords -rclTH <(gzcat -f $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta.gz) > $OUTPUT_PREFIX.coords
-    #########./bin/show-coords -rclTH <(gzcat -f $DELTA) > $OUTPUT_PREFIX.unfiltered.coords
-
-    echo "UNIQFILTER,DONE,Step 1: Assemblytics_uniq_len_filter.py completed successfully. Now finding variants between alignments." >> $LOG_FILE
+    echo "UNIQFILTER,DONE,Step 1: Assemblytics_uniq_anchor.py completed successfully. Now finding variants between alignments." >> $LOG_FILE
     >&2 echo "2. Finding variants between alignments"
-    ./bin/Assemblytics_between_alignments.pl  <(gzcat $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta.gz) $MINIMUM_SIZE $MAXIMUM_SIZE all-chromosomes exclude-longrange bed > $OUTPUT_PREFIX.variants_between_alignments.bed
+    ./bin/Assemblytics_between_alignments.pl $OUTPUT_PREFIX.coords.tab $MINIMUM_SIZE $MAXIMUM_SIZE all-chromosomes exclude-longrange bed > $OUTPUT_PREFIX.variants_between_alignments.bed
 
     if [ -e $OUTPUT_PREFIX.variants_between_alignments.bed ];
     then
@@ -80,7 +76,7 @@ then
             then 
                 echo "COMBINE,DONE,Step 4: Variants combined successfully. Now generating figures and summary statistics." >> $LOG_FILE
                 
-                Rscript ./bin/size_distributions.R $OUTPUT_PREFIX $MINIMUM_SIZE $MAXIMUM_SIZE
+                Rscript ./bin/Assemblytics_variant_charts.R $OUTPUT_PREFIX $MINIMUM_SIZE $MAXIMUM_SIZE
 
                 #########./bin/assembly_stats $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.Assemblytics_assembly_stats.txt
 
@@ -89,7 +85,7 @@ then
 
                 #########Rscript ./bin/dotplot.R $OUTPUT_PREFIX
                 
-                Rscript ./bin/assembly_Nchart.R $OUTPUT_PREFIX
+                Rscript ./bin/Assemblytics_Nchart.R $OUTPUT_PREFIX
                 
                 ./bin/Assemblytics_summary.py -i $OUTPUT_PREFIX.Assemblytics_structural_variants.bed -min $MINIMUM_SIZE -max $MAXIMUM_SIZE > $OUTPUT_PREFIX.Assemblytics_structural_variants.summary
 
