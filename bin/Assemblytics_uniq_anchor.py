@@ -204,8 +204,10 @@ def run(args):
             # For basic assembly stats:
             if not current_reference_name in ref_sequences:
                 ref_lengths.append(current_reference_size)
+                ref_sequences.add(current_reference_name)
             if not current_query_name in query_sequences:
                 query_lengths.append(current_query_size)
+                query_sequences.add(current_query_name)
 
         else:
             fields = line.strip().split()
