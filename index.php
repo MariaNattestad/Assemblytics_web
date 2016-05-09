@@ -11,6 +11,9 @@
 <!-- <div class="center"> -->
   <div class="row">
           <div class="col-lg-7"> 
+                  <!-- <div class="alert alert-warning">
+                    Assemblytics is currently under maintenance and may have some features missing temporarily. 
+                  </div> -->
                   <div class="panel panel-default">
                       <div class="panel-heading"> <h3 class="panel-title">Instructions</h3></div>
                       <div class="panel-body"><p>Upload a delta file to analyze alignments of an assembly to another assembly or a reference genome</p>

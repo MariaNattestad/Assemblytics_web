@@ -53,7 +53,7 @@ echo "STARTING,DONE,Starting unique anchor filtering." >> $LOG_FILE
 
 >&2 echo "1. Filter delta file"
 ./bin/Assemblytics_uniq_anchor.py --delta $DELTA --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX
-if grep -q ">" <(gzcat $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta.gz);
+if [ -e $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta.gz ];
 then
     echo "UNIQFILTER,DONE,Step 1: Assemblytics_uniq_anchor.py completed successfully. Now finding variants between alignments." >> $LOG_FILE
     >&2 echo "2. Finding variants between alignments"
@@ -66,7 +66,7 @@ then
         ./bin/Assemblytics_within_alignment.py --delta $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta.gz --min $MINIMUM_SIZE > $OUTPUT_PREFIX.variants_within_alignments.bed
 
         if [ -e $OUTPUT_PREFIX.variants_within_alignments.bed ];
-        then 
+        then
             echo "WITHIN,DONE,Step 3: Assemblytics_within_alignment.py completed successfully. Now combining the two sets of variants together." >> $LOG_FILE
             >&2 echo "4. Combine variants between and within alignments";
             HEADER="reference\tref_start\tref_stop\tID\tsize\tstrand\ttype\tref_gap_size\tquery_gap_size\tquery_coordinates\tmethod"
@@ -78,12 +78,12 @@ then
                 
                 Rscript ./bin/Assemblytics_variant_charts.R $OUTPUT_PREFIX $MINIMUM_SIZE $MAXIMUM_SIZE
 
-                #########./bin/assembly_stats $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.Assemblytics_assembly_stats.txt
+                ./bin/Assemblytics_index.py -coords $OUTPUT_PREFIX.coords.csv -out $OUTPUT_PREFIX
+                
+                Rscript ./bin/Assemblytics_dotplot.R $OUTPUT_PREFIX
 
-                #########./bin/flip_query_coords.py --coords $OUTPUT_PREFIX.coords > $OUTPUT_PREFIX.coords.flipped
-                #########./bin/flip_query_coords.py --coords $OUTPUT_PREFIX.unfiltered.coords > $OUTPUT_PREFIX.unfiltered.coords.flipped
-
-                #########Rscript ./bin/dotplot.R $OUTPUT_PREFIX
+                cat $OUTPUT_PREFIX.coords.tab | awk '{print $7,$5}' OFS='\t' | sort | uniq | sort -k2,2nr >  $OUTPUT_PREFIX.coords.ref.genome
+                cat $OUTPUT_PREFIX.coords.tab | awk '{print $8,$6}' OFS='\t' | sort | uniq | sort -k2,2nr >  $OUTPUT_PREFIX.coords.query.genome
                 
                 Rscript ./bin/Assemblytics_Nchart.R $OUTPUT_PREFIX
                 
