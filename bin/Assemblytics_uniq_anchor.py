@@ -53,24 +53,40 @@ def run(args):
     header_lines_by_query = {}
 
     before = time.time()
+    last = before
+
+    existing_query_names = set()
 
     for line in f:
         if line[0]==">":
-            linecounter += 1
 
             fields = line.strip().split()
             current_query_name = fields[1]
             current_header = line.strip()
+            if current_query_name not in existing_query_names:
+                lines_by_query[current_query_name] = []
+                header_lines_by_query[current_query_name] = []
+                existing_query_names.add(current_query_name)
         else:
             fields = line.strip().split()
             if len(fields) > 4:
                 # sometimes start and end are the other way around, but for this they need to be in order
                 query_min = min([int(fields[2]),int(fields[3])])
                 query_max = max([int(fields[2]),int(fields[3])])
-                # lines_by_query[current_query_name] = lines_by_query.get(current_query_name,[]) + [line.strip()] ### OLD
-                lines_by_query[current_query_name] = lines_by_query.get(current_query_name,[]) + [(query_min,query_max)] ### NEW
-                
-                header_lines_by_query[current_query_name] = header_lines_by_query.get(current_query_name,[]) + [current_header]
+
+                ##########  TESTING ONLY  ###########
+                # lines_by_query[current_query_name] = (query_min,query_max)
+                # test_list = test_list + [(query_min,query_max)]
+                #####################################
+
+                lines_by_query[current_query_name].append((query_min,query_max))
+                header_lines_by_query[current_query_name].append(current_header)
+        # linecounter += 1
+        # if linecounter % 10000000 == 0:
+        #     print "%d,%f" % (linecounter, time.time()-last)
+        #     last = time.time()
+        
+
     f.close()
 
     print "First read through the file: %d seconds for %d query-reference combinations" % (time.time()-before,linecounter)
