@@ -22,10 +22,14 @@
                               <p>
                                 Consult the <a href="http://mummer.sourceforge.net/manual/" target="_blank">MUMmer manual</a> if you encounter problems</li>
                               </p></li>
-                          <li>Optional: Delta-filter to reduce file size before upload (from MUMmer package). In this example, only alignments of at least 10kb are included, which makes the file size smaller before upload. The limit on file size for upload here is 2 GB.
+                          <!-- <li>Optional: Delta-filter to reduce file size before upload (from MUMmer package). In this example, only alignments of at least 10kb are included, which makes the file size smaller before upload. The limit on file size for upload here is 2 GB.
                               <p><pre>$ delta-filter -l 10000 OUT.delta > OUT.l10000.delta </pre></p>
-                              </li>
-                          <li>Upload the delta file (<a href="tests/sample.delta" target="_blank">view example</a>) to Assemblytics</li>
+                              </li> -->
+                          <li>Optional: Gzip the delta file to speed up upload (usually 2-4X faster)
+                            <p><pre>$ gzip OUT.delta</pre>
+                              Then use the OUT.delta.gz file for upload.
+                            </p></li>
+                          <li>Upload the .delta or delta.gz file (<a href="tests/sample.delta" target="_blank">view example</a>) to Assemblytics</li>
                         </ol>
                         Important: Use only contigs rather than scaffolds from the assembly. This will prevent false positives when the number of Ns in the scaffolded sequence does not match perfectly to the distance in the reference. 
                       </div>
