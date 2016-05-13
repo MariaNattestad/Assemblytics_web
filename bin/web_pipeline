@@ -52,7 +52,7 @@ echo "${OUTPUT_PREFIX##*/}" >> $LOG_FILE
 echo "STARTING,DONE,Starting unique anchor filtering." >> $LOG_FILE
 
 >&2 echo "1. Filter delta file"
-./bin/Assemblytics_uniq_anchor.py --delta $DELTA --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX
+./bin/Assemblytics_uniq_anchor.py --delta $DELTA --unique-length $UNIQUE_LENGTH --out $OUTPUT_PREFIX --keep-small-uniques
 if [ -e $OUTPUT_PREFIX.Assemblytics.unique_length_filtered_l$UNIQUE_LENGTH.delta.gz ];
 then
     echo "UNIQFILTER,DONE,Step 1: Assemblytics_uniq_anchor.py completed successfully. Now finding variants between alignments." >> $LOG_FILE
@@ -110,6 +110,6 @@ then
         echo "BETWEEN,FAIL,Step 2: Assemblytics_between_alignments.pl failed: Possible problem with Perl or show-coords on server." >> $LOG_FILE
     fi
 else
-    echo "UNIQFILTER,FAIL,Step 1: Assemblytics_uniq_len_filter.py failed: Possible problem with Python or Python packages on server." >> $LOG_FILE
+    echo "UNIQFILTER,FAIL,Step 1: Assemblytics_uniq_anchor.py failed: Possible problem with Python or Python packages on server." >> $LOG_FILE
 fi
 

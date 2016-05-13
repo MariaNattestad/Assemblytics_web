@@ -94,11 +94,11 @@ def SVtable(args):
 
     print "Total number of all variants: %s" % (intWithCommas(overall_total))
     f_output_csv.write("Total for all variants,%s,%s bp\n" % (overall_total,int(overall_total_bases)))
-    print "Total bases affected by all variants: %s bp" % (gig_meg(int(overall_total_bases)))
+    print "Total bases affected by all variants: %s" % (gig_meg(int(overall_total_bases)))
 
     print "Total number of structural variants: %s" % (intWithCommas(overall_total_SVs))
     f_output_csv.write("Total for all structural variants,%s,%s bp\n" % (overall_total_SVs,int(overall_total_SV_bases))  )
-    print "Total bases affected by structural variants: %s bp" % (gig_meg(int(overall_total_SV_bases)))
+    print "Total bases affected by structural variants: %s" % (gig_meg(int(overall_total_SV_bases)))
 
     f_output_csv.close()
 
