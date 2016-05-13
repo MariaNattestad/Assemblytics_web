@@ -5,6 +5,8 @@
 
 <!--    NAVIGATION BAR-->
     <?php include "header.html";?>
+      <div class = "caption" style="text-align: center"><h3 id="nickname_header_dotplot"></h3></div>
+    
 
 <style> 
     .axis path,line {

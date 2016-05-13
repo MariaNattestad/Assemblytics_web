@@ -33,9 +33,6 @@
                                 </p>
                             </div>
                         </div>
-                        
-                        
-
 
                         <!-- Assembly statistics N50 etc. -->
                         <div class="thumbnail frame plot_frame">

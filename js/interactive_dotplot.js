@@ -14,6 +14,8 @@ var run_id_code=getUrlVars()["code"];
 var directory="user_data/" + run_id_code + "/";
 var nickname=getUrlVars()["nickname"];
 
+document.getElementById("nickname_header_dotplot").innerHTML = nickname.replace(/_/g," ");
+
 console.log(run_id_code)
 console.log(nickname)
 
@@ -37,6 +39,7 @@ var dotplot_canvas_width;
 var dotplot_canvas_height;
 
 var chrom_label_y_offset;
+var contig_label_x_offset;
 var min_pixels_to_draw = 1;
 var max_num_alignments = 10000;
 
@@ -90,15 +93,16 @@ responsive_sizing();
 
 function responsive_sizing() {
 
-  top_banner_height = 120;
+  // top_banner_height = 120; // without title
+  top_banner_height = 170; // with title
   svg_width = (w.innerWidth || e.clientWidth || g.clientWidth);//*0.98;
-  svg_height = (w.innerHeight || e.clientHeight || g.clientHeight) - top_banner_height; //*0.98 ;
+  svg_height = (w.innerHeight || e.clientHeight || g.clientHeight) - top_banner_height;
 
   // console.log(svg_width)
 
-  top_edge_padding = svg_height*0.10;
-  bottom_edge_padding = svg_height*0.10;
-  left_edge_padding = svg_width*0.05;
+  top_edge_padding = svg_height*0.04;
+  bottom_edge_padding = svg_height*0.15;
+  left_edge_padding = svg_width*0.10;
   right_edge_padding = svg_width*0.03; 
 
 
@@ -113,7 +117,8 @@ function responsive_sizing() {
   svg.append("rect")
           .attr("width",svg_width)
           .attr("height",svg_height)
-          .attr("class","background");
+          .attr("class","background")
+          .style('fill',"none");
 
 
   dotplot_canvas_width = svg_width - left_edge_padding - right_edge_padding;
@@ -130,6 +135,7 @@ function responsive_sizing() {
 
   // Calculate positions/padding for labels, etc. 
   chrom_label_y_offset = bottom_edge_padding/10;
+  contig_label_x_offset = -left_edge_padding/10;
 }
 
 
@@ -282,6 +288,29 @@ function draw_dotplot() {
     //     .attr("id","query_axis")
     //     .attr("transform","translate(" + 0 + "," + 0 + ")")
     //     .call(dotplot_query_axis);
+
+
+    // X-axis
+    dotplot_container.append("line")
+      .style("stroke-width",2)
+      .style("stroke", "gray")
+      .attr("fill","none")
+      .attr("x1",0)
+      .attr("y1",dotplot_canvas_height)
+      .attr("x2",dotplot_canvas_width)
+      .attr("y2",dotplot_canvas_height);
+
+    // Y-axis
+    dotplot_container.append("line")
+      .style("stroke-width",2)
+      .style("stroke", "gray")
+      .attr("fill","none")
+      .attr("x1",0)
+      .attr("y1",0)
+      .attr("x2",0)
+      .attr("y2",dotplot_canvas_height);
+      
+
 
 
     zoom = d3.behavior.zoom()
@@ -540,8 +569,7 @@ function draw_chromosome_labels() {
 
     //////////////////////////////     Query labels     //////////////////////////////
 
-    if (query_chrom_label_data.length < 200) {
-
+    if (query_chrom_label_data.length < 200 || queries_selected != null) {
           
           dotplot_canvas.selectAll("line.contig")
               .data(query_chrom_label_data)
@@ -581,7 +609,7 @@ function draw_chromosome_labels() {
                           return dotplot_canvas_height/2;
                         }
                       })
-                      .attr("x",function(d) {return -chrom_label_y_offset;})
+                      .attr("x",function(d) {return contig_label_x_offset;})
                       .text(function(d) {return d.chrom; })
                       .style("fill","gray")
                       .style("font-size",function(d) {return Math.min(dotplot_query_scale(d.pos)-dotplot_query_scale(d.pos + d.length), left_edge_padding*0.8 / this.getComputedTextLength() * 14) + "px";  })
