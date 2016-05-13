@@ -10,7 +10,7 @@ function showProgress() {
     
 //  remember ajax is asynchronous, so only the stuff inside the success: part will be called after retrieving information. If I put something after the statement, it can't use the info from check_progress.php because it is executed before this php script is called
     //alert('before ajax');
-    jQuery.ajax({ 
+    jQuery.ajax({
         type:"POST",
         url: "check_progress.php",
         dataType: 'json',
@@ -22,7 +22,7 @@ function showProgress() {
 
             last_line = prog[prog.length-1];
             console.log(last_line)
-            nickname = prog[0]
+            nickname = prog[0].slice(0,prog[0].length-1); // this cuts off the last character, which is a carriage return we don't want to pass on to the visualizer as GET
 
             document.getElementById("nickname_header").innerHTML = nickname.replace(/_/g," ");
             
@@ -142,7 +142,8 @@ function check_plot_exists(counter,nickname) {
                     console.log(plot_filename);
                     document.getElementById("container_for_all_plots").innerHTML += '<div style="display:inline-block" class="plot_img"><img class="fluidimage" src="' + plot_filename + '"/></div>'; 
                 }
-
+                document.getElementById("container_for_all_plots").innerHTML += '<form name="interactive dot plot" id="show_visualizer" action="interactive_dotplot.php"  method="get"><p id="hidden_fields_and_submit"><input type="hidden" name="code" value="' + run_id_code + '"><input type="hidden" name="nickname" value="' + nickname + '"><button type="submit" class="btn btn-lg btn-primary">Interactive dot plot</button></p></form>';
+                
                 // plot_names = ["unfiltered_dotplot","dotplot","Nchart","size_distributions_all_variants_full_view","size_distributions_zoom","size_distributions"]
 
                 // // document.getElementById("landing_for_plot1").innerHTML='<img class="fluidimage" onerror="imgError(this);" src="' + plot_url_prefix  + "unfiltered_dotplot.png" + ' "/>'; 
