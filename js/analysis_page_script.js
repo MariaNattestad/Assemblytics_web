@@ -69,10 +69,13 @@ function imageresize() {
 
     var top_padding = 200;
     var side_padding = 0.05;
-    var aspect_ratio = 1;
+    var aspect_ratio = 1; //$(".fluidimage").height()/$(".fluidimage").width();
     var height = Math.min(content_width/aspect_ratio*(1-side_padding), $( window ).height()-top_padding)/size_fraction;
+
+    // console.log($(".fluidimage").height());
+    // console.log($(".fluidimage").width());
     $(".fluidimage").height(height + "px");
-    $(".fluidimage").width(height*aspect_ratio + "px");
+    // $(".fluidimage").width(height*aspect_ratio + "px");
 
 
     //  Fancybox plot zooming
