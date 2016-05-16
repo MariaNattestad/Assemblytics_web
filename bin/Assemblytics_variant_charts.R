@@ -124,7 +124,7 @@ for (to_png in c(TRUE,FALSE)) {
         
         # LOG PLOT:
         if (to_png) {
-            png(paste(output_prefix,".Assemblytics.size_distributions.", var_type_filename, ".log_all_sizes.png", sep=""),1000,1000,res=200)
+            png(paste(output_prefix,".Assemblytics.size_distributions.", var_type_filename, ".log_all_sizes.png", sep=""),width=2000,height=1000,res=200)
         } else {
             pdf(paste(output_prefix,".Assemblytics.size_distributions.", var_type_filename, ".log_all_sizes.pdf", sep=""))
         }
