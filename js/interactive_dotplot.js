@@ -501,11 +501,7 @@ var current_draw_ID = 0;
 
 function draw_lines(svg, data, batchSize) {
     num_alignments_in_view = 0;
-    console.log("data.length");
-    console.log(data.length);
     var filtered_data = data.filter(filter_to_view);
-    console.log("filtered_data.length");
-    console.log(filtered_data.length);
     var alignments = svg.selectAll('line.alignment').data(filtered_data);
     current_draw_ID += 1;
     var this_draw_ID = current_draw_ID;
@@ -829,7 +825,7 @@ function reset_selections(){
   draw_dotplot();
 }
 
-function measure_shared_sequence(query,ref) {
+function measure_shared_sequence_ref(query,ref) {
   var shared_sequence = 0;
   for (var i = 0; i < coords_data.length; i++) {
     if (coords_data[i].ref == ref && coords_data[i].query == query) {
@@ -839,7 +835,18 @@ function measure_shared_sequence(query,ref) {
   return shared_sequence;
 }
 
-var min_shared_seq_in_ref_pixels = 5;
+function measure_shared_sequence_query(query,ref) {
+  var shared_sequence = 0;
+  for (var i = 0; i < coords_data.length; i++) {
+    if (coords_data[i].ref == ref && coords_data[i].query == query) {
+      shared_sequence += Math.abs(dotplot_query_scale(coords_data[i].abs_query_end) - dotplot_query_scale(coords_data[i].abs_query_start));
+    }
+  }
+  return shared_sequence;
+}
+
+var min_shared_seq_in_pixels = 5;
+
 function zoom_to_chromosome(d) {
   console.log("zoom to chromosome");
   console.log(d.chrom);
@@ -853,7 +860,7 @@ function zoom_to_chromosome(d) {
   // Narrow down to queries with at least a small shared sequence
   queries_selected = [];
   for (var i = 0; i < potential_queries_selected.length; i++) {
-    if (measure_shared_sequence(potential_queries_selected[i],d.chrom) >= min_shared_seq_in_ref_pixels) {
+    if (measure_shared_sequence_ref(potential_queries_selected[i],d.chrom) >= min_shared_seq_in_pixels) {
       queries_selected.push(potential_queries_selected[i]);
     }
   }
@@ -868,7 +875,22 @@ function zoom_to_contig(d) {
   console.log(d.chrom);
   console.log(matching_refs_by_query[d.chrom]);
   queries_selected = [d.chrom];
-  refs_selected = matching_refs_by_query[d.chrom];
+  var potential_refs_selected = matching_refs_by_query[d.chrom];
+  refs_selected = potential_refs_selected;
+  calculate_positions();
+
+  console.log(potential_refs_selected);
+  // Narrow down to queries with at least a small shared sequence
+  refs_selected = [];
+  for (var i = 0; i < potential_refs_selected.length; i++) {
+    // console.log(potential_refs_selected[i]);
+    // console.log(measure_shared_sequence_query(d.chrom,potential_refs_selected[i]));
+    if (measure_shared_sequence_query(d.chrom,potential_refs_selected[i]) >= min_shared_seq_in_pixels) {
+      refs_selected.push(potential_refs_selected[i]);
+    }
+  }
+  console.log(refs_selected);
+
   clear_chromosome_labels();
   calculate_positions();
   draw_dotplot();
