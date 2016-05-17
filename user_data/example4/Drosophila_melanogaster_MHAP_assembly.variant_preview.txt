@@ -1,0 +1,10 @@
+reference  ref_start  ref_stop  ID                size  strand  type       ref_gap_size  query_gap_size  query_coordinates               method
+2R         16333281   16333281  Assemblytics_w_1  5     +       Insertion  0             5               JSAE01000001.1:32954-32959:+    within_alignment
+X          6344898    6344898   Assemblytics_w_2  12    +       Insertion  0             12              JSAE01000008.1:727784-727796:+  within_alignment
+X          6570447    6570452   Assemblytics_w_3  5     +       Deletion   5             0               JSAE01000008.1:953362-953362:+  within_alignment
+Y          3170464    3170471   Assemblytics_w_4  7     +       Deletion   7             0               JSAE01000014.1:43620-43620:+    within_alignment
+Y          3178988    3179000   Assemblytics_w_5  12    +       Deletion   12            0               JSAE01000014.1:52136-52136:+    within_alignment
+Y          3280205    3280205   Assemblytics_w_6  5     +       Insertion  0             5               JSAE01000014.1:211190-211195:+  within_alignment
+Y          3281369    3281369   Assemblytics_w_7  12    +       Insertion  0             12              JSAE01000014.1:212360-212372:+  within_alignment
+Y          3279377    3279386   Assemblytics_w_8  9     +       Deletion   9             0               JSAE01000014.1:164617-164617:+  within_alignment
+rDNA       44847      44910     Assemblytics_w_9  63    +       Deletion   63            0               JSAE01000016.1:8521-8521:+      within_alignment

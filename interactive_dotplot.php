@@ -2,6 +2,7 @@
 
 <html>
 
+
 <!--    NAVIGATION BAR-->
     <?php include "header.html";?>
     
@@ -15,6 +16,7 @@
     </div>
 
 <style>
+
     .axis path,line {
       stroke:#ccc;
     }
@@ -25,6 +27,7 @@
     .dotplot_canvas {
       fill:#fff;
     }
+
     #panel {
       display:inline-block;
       padding: 5px 5px 5px 5px;
@@ -34,6 +37,7 @@
       display:inline-block;
       float:left;
     }
+
    /* .chromosome {
       font-size:2vmin;
     }*/

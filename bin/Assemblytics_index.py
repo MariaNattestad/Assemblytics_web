@@ -130,6 +130,7 @@ def run(args):
     fout.write(header+",alignment_length\n") # copy the header
 
     alignment_length_column = len(header.split(","))
+
     # sorted_by_alignment_length = []
     uniques = []
     repetitives = []

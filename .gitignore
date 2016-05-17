@@ -1,6 +1,7 @@
 user_data/*
 user_uploads/*
 
+
 tests/*
 
 *.delta

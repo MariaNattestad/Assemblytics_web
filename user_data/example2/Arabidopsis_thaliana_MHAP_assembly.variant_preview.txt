@@ -1,0 +1,10 @@
+reference  ref_start  ref_stop  ID                size  strand  type       ref_gap_size  query_gap_size  query_coordinates             method
+Chr5       11768021   11768021  Assemblytics_w_1  15    +       Insertion  0             15              JSAD01000006.1:39947-39962:+  within_alignment
+Chr5       11775391   11775401  Assemblytics_w_2  10    +       Deletion   10            0               JSAD01000006.1:47335-47335:+  within_alignment
+Chr5       11778302   11778302  Assemblytics_w_3  9     +       Insertion  0             9               JSAD01000006.1:50235-50244:+  within_alignment
+Chr5       11778304   11778304  Assemblytics_w_4  16    +       Insertion  0             16              JSAD01000006.1:50246-50262:+  within_alignment
+Chr5       11779523   11779523  Assemblytics_w_5  49    +       Insertion  0             49              JSAD01000006.1:51481-51530:+  within_alignment
+Chr5       11779524   11779524  Assemblytics_w_6  6     +       Insertion  0             6               JSAD01000006.1:51531-51537:+  within_alignment
+Chr5       11779620   11779620  Assemblytics_w_7  8     +       Insertion  0             8               JSAD01000006.1:51637-51645:+  within_alignment
+Chr5       11779623   11779623  Assemblytics_w_8  17    +       Insertion  0             17              JSAD01000006.1:51648-51665:+  within_alignment
+Chr5       11780762   11780762  Assemblytics_w_9  8     +       Insertion  0             8               JSAD01000006.1:52808-52816:+  within_alignment

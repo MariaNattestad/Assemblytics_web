@@ -95,7 +95,7 @@ function responsive_sizing() {
 
   // top_banner_height = 120; // without title
   top_banner_height = 170; // with title
-  
+ 
 
   window_width = (w.innerWidth || e.clientWidth || g.clientWidth);//*0.98;
   svg_width = window_width*0.7;
@@ -109,6 +109,7 @@ function responsive_sizing() {
   bottom_edge_padding = svg_height*0.15;
   left_edge_padding = svg_width*0.10;
   right_edge_padding = svg_width*0.03; 
+
 
   ////////  Create the SVG  ////////
   svg = d3.select("svg")
@@ -142,6 +143,7 @@ function responsive_sizing() {
   chrom_label_y_offset = bottom_edge_padding/10;
   contig_label_x_offset = -left_edge_padding/10;
 }
+
 
 var info_stats = "";
 function load_data() {
@@ -187,11 +189,13 @@ function load_data() {
         console.log("Done loading query index from file");
     });
 
+
     wait_then_run_when_all_data_loaded();
 }
 
 function load_alignments_from_file() {
     message_to_user("Loading alignments");
+
     console.log("Loading all alignments");
     // ref_start,ref_end,query_start,query_end,ref_length,query_length,ref,query,tag
     d3.csv(directory + nickname + ".oriented_coords.csv", function(error,coords_input) {
@@ -207,6 +211,7 @@ function load_alignments_from_file() {
         }
         coords_data = coords_input; // set global variable for accessing this elsewhere
         loaded_alignments = true;
+
         draw_alignments();
         console.log("Done loading data from file");
     });
@@ -214,6 +219,7 @@ function load_alignments_from_file() {
 
 function wait_then_run_when_all_data_loaded() {
   console.log("checking")
+
   if (loaded_ref_index & loaded_query_index) { // & loaded_alignments) {
     load_alignments_from_file();
     use_indices();
@@ -221,11 +227,14 @@ function wait_then_run_when_all_data_loaded() {
 
   } else {
     console.log("loading indices")
+
     window.setTimeout(wait_then_run_when_all_data_loaded,500)
   }
 }
 
+
 function use_indices() {
+
     // Reference
     ref_chrom_start_positions = {}; // for quick lookup
     ref_chrom_label_data = []; // for drawing chromosome labels
@@ -255,11 +264,13 @@ function use_indices() {
     }
     // Save the total size of the chromosomes to the domain for the dotplot scale
     dotplot_query_scale.domain([0,cumulative_query_size]);
+
 }
 
 
 function calculate_positions() {
     console.log("calculate_positions() STARTING");
+
 
     // Annotate each alignment with an abs_ref_start, abs_ref_end, abs_query_start, abs_query_end that can be plugged directly into the dotplot_ref_scale and dotplot_query_scale scales
     for (var i = 0; i < coords_data.length; i++){
@@ -275,7 +286,9 @@ function calculate_positions() {
 function draw_dotplot() {
     console.log("draw_dotplot");
 
+
     svg.selectAll("g").remove();
+
     //  Create container object (invisible grouping for the canvas but also contains the axes and axis labels)
     dotplot_container = svg.append("g")
         .attr("transform","translate(" + left_edge_padding + "," + top_edge_padding +")");
@@ -369,12 +382,14 @@ function redraw_on_zoom() {
     draw_chromosome_labels();
 }
 
+
 function hover_alignment(d) {
   d3.select("#hover_message").selectAll("p").remove();
   d3.select("#hover_message").append("p").text("Reference = " + d.ref + ": " + d.ref_start + " - " + d.ref_end)
   d3.select("#hover_message").append("p").text("Query = " + d.query + ": " + d.query_start + " - " + d.query_end)
 
 }
+
 
 function draw_alignment(updateSelection) {
   updateSelection
@@ -386,6 +401,7 @@ function draw_alignment(updateSelection) {
     .attr("fill","none")
     .style("cursor", "crosshair")
     .on("mouseover", hover_alignment)
+
     .each(function (d) {
       var x1 = dotplot_ref_scale(d.abs_ref_start);
       var x2 = dotplot_ref_scale(d.abs_ref_end);
@@ -554,6 +570,7 @@ function draw_lines(svg, data, batchSize) {
 
             draw_alignment(updateSelection);
 
+
             if (stopIndex >= filtered_data.length) {
                 message_to_user("Done");
             } else {
@@ -567,12 +584,15 @@ function draw_lines(svg, data, batchSize) {
 }
 
 function draw_alignments() {
+
   message_to_user("Drawing alignments");
   calculate_positions();
+
   dotplot_canvas.selectAll("line.alignment").remove();
   var BATCH_SIZE = 1000;
   draw_lines(dotplot_canvas.data([0]), coords_data, BATCH_SIZE);
 }
+
 
 function clear_chromosome_labels() {
   dotplot_canvas.selectAll("line.chromosome").remove();
@@ -724,7 +744,9 @@ function zoom_to_chromosome(d) {
   var potential_queries_selected = matching_queries_by_ref[d.chrom];
   // console.log(queries_selected);
   queries_selected = potential_queries_selected;
+
   use_indices();
+
 
   // Narrow down to queries with at least a small shared sequence
   queries_selected = [];
@@ -739,6 +761,7 @@ function zoom_to_chromosome(d) {
   draw_dotplot();
   draw_alignments();
 
+
 }
 
 function zoom_to_contig(d) {
@@ -747,6 +770,7 @@ function zoom_to_contig(d) {
   queries_selected = [d.chrom];
   var potential_refs_selected = matching_refs_by_query[d.chrom];
   refs_selected = potential_refs_selected;
+
   use_indices();
 
   console.log(potential_refs_selected);
@@ -762,6 +786,7 @@ function zoom_to_contig(d) {
   console.log(refs_selected);
 
   clear_chromosome_labels();
+
   use_indices();
   draw_dotplot();
   draw_alignments();
@@ -781,4 +806,5 @@ function resizeWindow()
   responsive_sizing();
   draw_dotplot();
   draw_alignments();
+
 }
