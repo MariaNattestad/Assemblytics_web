@@ -2,13 +2,19 @@
 
 <html>
 
-
 <!--    NAVIGATION BAR-->
     <?php include "header.html";?>
-      <div class = "caption" style="text-align: center"><h3 id="nickname_header_dotplot"></h3></div>
     
+    <div style="text-align: center"><h3 id="nickname_header_dotplot"></h3></div>
+    
+    <svg>       </svg>
+    <div id="panel" dominant-baseline="top">
+      <div style="text-align: left" id="stats"><strong>Info:</strong></div>
+      <div style="text-align: left"><strong>Progress:</strong><p id="user_message"></p></div>
+      <div style="text-align: left"><strong>Hover coordinates:</strong><div id="hover_message"> </div></div>
+    </div>
 
-<style> 
+<style>
     .axis path,line {
       stroke:#ccc;
     }
@@ -18,6 +24,15 @@
     }
     .dotplot_canvas {
       fill:#fff;
+    }
+    #panel {
+      display:inline-block;
+      padding: 5px 5px 5px 5px;
+      float:left;
+    }
+    svg {
+      display:inline-block;
+      float:left;
     }
    /* .chromosome {
       font-size:2vmin;

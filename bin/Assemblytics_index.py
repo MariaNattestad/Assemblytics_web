@@ -130,7 +130,9 @@ def run(args):
     fout.write(header+",alignment_length\n") # copy the header
 
     alignment_length_column = len(header.split(","))
-    sorted_by_alignment_length = []
+    # sorted_by_alignment_length = []
+    uniques = []
+    repetitives = []
 
     for line in f:
         fields = line.strip().split(",")
@@ -140,15 +142,38 @@ def run(args):
             fields[3] = int(fields[5]) - int(fields[3])
             alignment_length = abs(int(fields[2])-int(fields[1]))
         fields.append(alignment_length)
-        sorted_by_alignment_length.append(fields)
+        if fields[8] == "unique":
+            uniques.append(fields)
+        else:
+            repetitives.append(fields)
+    f.close()
 
-    sorted_by_alignment_length.sort(key=lambda x: x[alignment_length_column],reverse=True)
+    uniques.sort(key=lambda x: x[alignment_length_column],reverse=True)
+    repetitives.sort(key=lambda x: x[alignment_length_column],reverse=True)
+    
+    fout_info = open(output_prefix + ".info.csv",'w')
+    fout_info.write("key,value\n")
+    fout_info.write("unique alignments,%d\n" % len(uniques))
+    fout_info.write("repetitive alignments,%d\n" % len(repetitives))
 
-    for fields in sorted_by_alignment_length:
+
+    for fields in uniques:
         fout.write(",".join(map(str,fields)) + "\n")
 
-    f.close()
+    if len(repetitives) < 100000:
+        for fields in repetitives:
+            fout.write(",".join(map(str,fields)) + "\n")
+        fout_info.write("showing repetitive alignments,True\n")
+    else:
+        fout_repeats = open(output_prefix + ".oriented_coords.repetitive.csv",'w')
+        fout_repeats.write(header+",alignment_length\n") # copy the header
+        for fields in repetitives:
+            fout_repeats.write(",".join(map(str,fields)) + "\n")
+        fout_repeats.close()
+        fout_info.write("showing repetitive alignments,False: Too many\n")
+
     fout.close()
+    fout_info.close()
 
 def natural_key(string_):
     """See http://www.codinghorror.com/blog/archives/001018.html"""
