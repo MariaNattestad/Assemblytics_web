@@ -148,6 +148,7 @@ function responsive_sizing() {
 var info_stats = "";
 function load_data() {
     console.log("Starting to load data from file");
+    d3.select("#panel").style("visibility",'visible');
     message_to_user("Loading data");
 
     d3.csv(directory + nickname + ".info.csv", function(error,info_input) {

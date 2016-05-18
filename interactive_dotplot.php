@@ -9,7 +9,7 @@
     <div style="text-align: center"><h3 id="nickname_header_dotplot"></h3></div>
     
     <svg>       </svg>
-    <div id="panel" dominant-baseline="top">
+    <div id="panel" style="visibility: hidden" dominant-baseline="top">
       <div style="text-align: left" id="stats"><strong>Info:</strong></div>
       <div style="text-align: left"><strong>Progress:</strong><p id="user_message"></p></div>
       <div style="text-align: left"><strong>Hover coordinates:</strong><div id="hover_message"> </div></div>

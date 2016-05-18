@@ -37,3 +37,13 @@ pip install numpy
 pip install argparse
 
 
+
+# For deployment on mshadoop13:
+cd /local1/work/assemblytics/
+python /seq/schatz/mnattest/Assemblytics_web/virtualenv-15.0.1/virtualenv.py python_env
+source python_env/bin/activate
+pip install numpy
+pip install argparse
+
+
+

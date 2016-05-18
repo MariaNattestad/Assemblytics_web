@@ -80,7 +80,7 @@ then
 
                 ./bin/Assemblytics_index.py -coords $OUTPUT_PREFIX.coords.csv -out $OUTPUT_PREFIX
                 
-                Rscript ./bin/Assemblytics_dotplot.R $OUTPUT_PREFIX
+                # Rscript ./bin/Assemblytics_dotplot.R $OUTPUT_PREFIX
 
                 cat $OUTPUT_PREFIX.coords.tab | awk '{print $7,$5}' OFS='\t' | sort | uniq | sort -k2,2nr >  $OUTPUT_PREFIX.coords.ref.genome
                 cat $OUTPUT_PREFIX.coords.tab | awk '{print $8,$6}' OFS='\t' | sort | uniq | sort -k2,2nr >  $OUTPUT_PREFIX.coords.query.genome
