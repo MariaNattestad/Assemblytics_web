@@ -3,7 +3,37 @@ chmod 777 user_data
 
 # To fix python package issues:
 # create virtual environment:
+
+(optionally download a virtual_env.py script first: curl -O https://pypi.python.org/packages/source/v/virtualenv/virtualenv-15.0.1.tar.gz)
+# Use right right version of python to build the virtual_env, in this case I specify the path to Python 2.7 because the default is older
 /data/software/local/bin/python2.7 ~/virtualenv-14.0.5/virtualenv.py python_env
+
+# Then install the relevant python packages
+source python_env/bin/activate
+pip install numpy
+
 
 # at top of main bash script:
 source python_env/bin/activate
+
+
+
+
+
+# from deployment on yellowstone:
+cd /seq/schatz/mnattest/Assemblytics_web/
+wget https://pypi.python.org/packages/source/v/virtualenv/virtualenv-15.0.1.tar.gz
+tar -xvzf virtualenv-15.0.1.tar.gz
+/seq/schatz/mnattest/Assemblytics_web/virtualenv-15.0.1/virtualenv.py
+which python
+/opt/hpc/pkg/python-2.7/bin/python # correct version is the default, good
+
+# Create virtual environment:
+python /seq/schatz/mnattest/Assemblytics_web/virtualenv-15.0.1/virtualenv.py python_env
+
+# Activate environment and install the packages we need
+source python_env/bin/activate
+pip install numpy
+pip install argparse
+
+
