@@ -133,7 +133,7 @@ for (to_png in c(TRUE,FALSE)) {
             geom_histogram(binwidth=abs_max_var/100) + 
             scale_fill_manual(values=big_palette,drop=FALSE) + 
             facet_grid(Type ~ .,drop=FALSE) + 
-            labs(fill="Variant type",x="Variant size",y="Count + 1",title=paste("Variants",comma_format(abs_min_var),"to", comma_format(abs_max_var),"bp")) + 
+            labs(fill="Variant type",x="Variant size",y="Log(count + 1)",title=paste("Variants",comma_format(abs_min_var),"to", comma_format(abs_max_var),"bp")) + 
             scale_x_continuous(labels=comma_format,expand=c(0,0),limits=c(-1*abs_max_var,abs_max_var)) + 
             #     scale_y_continuous(labels=comma_format,expand=c(0,0)) +
             scale_y_log10(labels=comma_format,expand=c(0,0)) +
