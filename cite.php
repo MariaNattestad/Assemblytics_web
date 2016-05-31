@@ -20,7 +20,8 @@ http://biorxiv.org/content/early/2016/03/20/044925</a>
         <br>
         <p>The code is open-source at <a 
 href="https://github.com/MariaNattestad/assemblytics" 
-target="_blank">https://github.com/MariaNattestad/assemblytics</a></p>
+target="_blank">https://github.com/MariaNattestad/assemblytics</a> (command-line version)</p>
+  </p><a href="https://github.com/MariaNattestad/Assemblytics_web" target="_blank">https://github.com/MariaNattestad/Assemblytics_web</a> (full web application)</p>
       </div>
     </div>
 </div>
