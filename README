@@ -1,49 +1,22 @@
-chmod 777 user_uploads
-chmod 777 user_data
+# Assemblytics (full web application)
 
-# To fix python package issues:
-# create virtual environment:
+This repo contains the full Assemblytics web application.
+The web app is running on assemblytics.com, and the command-line version is available at https://github.com/marianattestad/assemblytics
+This repository exists so you can install it on your own servers or locally on your computer if need be. 
+The code here includes the interactive dot plot (which you can't use from the command-line version).
 
-(optionally download a virtual_env.py script first: curl -O https://pypi.python.org/packages/source/v/virtualenv/virtualenv-15.0.1.tar.gz)
-# Use right right version of python to build the virtual_env, in this case I specify the path to Python 2.7 because the default is older
-/data/software/local/bin/python2.7 ~/virtualenv-14.0.5/virtualenv.py python_env
-
-# Then install the relevant python packages
-source python_env/bin/activate
-pip install numpy
-
-
-# at top of main bash script:
-source python_env/bin/activate
+Dependencies:
+- R
+    - ggplot
+    - plyr
+- Python
+    - argparse
+    - numpy
 
 
-
-
-
-# from deployment on yellowstone:
-cd /seq/schatz/mnattest/Assemblytics_web/
-wget https://pypi.python.org/packages/source/v/virtualenv/virtualenv-15.0.1.tar.gz
-tar -xvzf virtualenv-15.0.1.tar.gz
-/seq/schatz/mnattest/Assemblytics_web/virtualenv-15.0.1/virtualenv.py
-which python
-/opt/hpc/pkg/python-2.7/bin/python # correct version is the default, good
-
-# Create virtual environment:
-python /seq/schatz/mnattest/Assemblytics_web/virtualenv-15.0.1/virtualenv.py python_env
-
-# Activate environment and install the packages we need
-source python_env/bin/activate
-pip install numpy
-pip install argparse
-
-
-
-# For deployment on mshadoop13:
-cd /local1/work/assemblytics/
-python /seq/schatz/mnattest/Assemblytics_web/virtualenv-15.0.1/virtualenv.py python_env
-source python_env/bin/activate
-pip install numpy
-pip install argparse
+Notes for installation:
+- Make sure to open up permissions in user_uploads and user_data so the webserver can read and write there. 
+- It does not contain the examples as some of these are huge files.
 
 
 

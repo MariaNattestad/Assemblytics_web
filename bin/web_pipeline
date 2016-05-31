@@ -45,7 +45,6 @@ MAXIMUM_SIZE=$UNIQUE_LENGTH
 
 LOG_FILE=${OUTPUT_PREFIX%/*}/progress.log
 
-source python_env/bin/activate
 
 echo "${OUTPUT_PREFIX##*/}" >> $LOG_FILE
 
