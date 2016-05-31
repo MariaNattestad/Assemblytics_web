@@ -2,8 +2,6 @@ user_data/*
 user_uploads/*
 
 
-tests/*
-
 *.delta
 python_env
 reproducibility
