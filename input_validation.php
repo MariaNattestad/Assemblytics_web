@@ -11,14 +11,14 @@
     $debug=""; //put -d here when testing    
     $aResult = array();
     if( !isset($_POST['code']) ) { $aResult['error'] = 'ERROR: No code passed to input_validation.php';}
-    $code=$_POST["code"];
-    $uniqlength=$_POST["uniqlength"];
+    $code=escapeshellarg($_POST["code"]);
+    $uniqlength=escapeshellarg($_POST["uniqlength"]);
     $nickname = "my_assembly";
     if( !isset($_POST['min_size']) ) { $aResult['error'] = 'ERROR: No min_size passed to input_validation.php';}
-    $min_size = $_POST["min_size"];
+    $min_size = escapeshellarg($_POST["min_size"]);
 
     if( isset($_POST['nickname']) ) {
-        $nickname = $_POST['nickname'];
+        $nickname = escapeshellarg($_POST['nickname']);
 
         // Replace all non-alphanumeric characters with underscores
         $nickname = preg_replace('/[^a-zA-Z0-9]/', '_', $nickname);
