@@ -29,7 +29,7 @@
                                 <!-- <p id="missing_plots"><p> -->
                                 <br>
                                 <p>
-                                    All plots are available as both .png and .pdf files through the Download button below and can be used in publications.<a href="http://biorxiv.org/content/early/2016/03/20/044925"> Cite Assemblytics.</a>
+                                    All plots are available as both .png and .pdf files through the Download button below and can be used in publications.<a href="http://www.ncbi.nlm.nih.gov/pubmed/27318204"> Cite Assemblytics.</a>
                                 </p>
                             </div>
                         </div>

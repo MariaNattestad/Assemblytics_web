@@ -12,10 +12,10 @@
     <h3 class="panel-title">How to cite Assemblytics</h3>
       </div>
       <div class="panel-body">
-        <p>Please cite our pre-print on the bioRxiv: 
+        <p>Please cite Assemblytics at Bioinformatics: 
 <a 
-href="http://biorxiv.org/content/early/2016/03/20/044925" target="_blank">
-http://biorxiv.org/content/early/2016/03/20/044925</a>
+href="http://www.ncbi.nlm.nih.gov/pubmed/27318204" target="_blank">
+http://www.ncbi.nlm.nih.gov/pubmed/27318204</a>
 </p>
         <br>
         <p>The code is open-source at <a 
