@@ -95,11 +95,11 @@ for (to_png in c(TRUE,FALSE)) {
                     }
 
                     print(ggplot(filtered_bed,aes(x=size, fill=type)) + 
-                      geom_bar(binwidth=binwidth) + 
+                      geom_histogram(binwidth=binwidth) + 
                       scale_fill_manual(values=big_palette,drop=FALSE) + 
                       facet_grid(type ~ .,drop=FALSE) + 
                       labs(fill="Variant type",x="Variant size",y="Count",title=paste("Variants",comma_format(min_var),"to", comma_format(max_var),"bp")) + 
-                              scale_x_continuous(labels=comma_format,expand=c(0,0),limits=c(min_var,max_var)) + 
+                              scale_x_continuous(labels=comma_format,expand=c(0,0),limits=c(min_var-1,max_var)) + 
                               scale_y_continuous(labels=comma_format,expand=c(0,0)) +
                       theme(
                           strip.text=element_blank(),strip.background=element_blank(),
@@ -130,7 +130,7 @@ for (to_png in c(TRUE,FALSE)) {
         }
         
         print(ggplot(alt,aes(x=size, fill=type,y=..count..+1)) + 
-            geom_histogram(binwidth=abs_max_var/100) + 
+            geom_histogram(binwidth=abs_max_var/100, position="identity",alpha=0.7) + 
             scale_fill_manual(values=big_palette,drop=FALSE) + 
             facet_grid(Type ~ .,drop=FALSE) + 
             labs(fill="Variant type",x="Variant size",y="Log(count + 1)",title=paste("Variants",comma_format(abs_min_var),"to", comma_format(abs_max_var),"bp")) + 
