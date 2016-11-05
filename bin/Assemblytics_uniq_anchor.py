@@ -34,7 +34,7 @@ def run(args):
     
     f = open(filename)
     header1 = f.readline()
-    if header1[0:4]=="\x1f\x8b\x08\x08":
+    if header1[0:2]=="\x1f\x8b":
         f.close()
         f = gzip.open(filename)
         print f.readline().strip()
