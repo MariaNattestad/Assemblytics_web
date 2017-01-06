@@ -34,7 +34,12 @@
                             </p></li>
                           <li>Upload the .delta or delta.gz file (<a href="tests/sample.delta" target="_blank">view example</a>) to Assemblytics</li>
                         </ol>
+                        <p>
                         Important: Use only contigs rather than scaffolds from the assembly. This will prevent false positives when the number of Ns in the scaffolded sequence does not match perfectly to the distance in the reference. 
+                        </p>
+                        <p>
+                        The unique sequence length required represents an anchor for determining if a sequence is unique enough to safely call variants from, which is an alternative to the mapping quality filter for read alignment. 
+                        </p>
                       </div>
                   </div>
           </div>
@@ -65,6 +70,12 @@
                                           <div class="input-group input-group-lg">
                                             <span class="input-group-addon">Unique sequence length required</span>
                                              <input type="number" max="100000" step="1000" min="1000" name="uniqlength" class="form-control" value = "10000">
+                                          </div>
+                                        </p>
+                                        <p>
+                                          <div class="input-group input-group-lg">
+                                            <span class="input-group-addon">Maximum variant size</span>
+                                             <input type="number" max="100000" step="1000" min="1000" name="max_size" class="form-control" value = "10000">
                                           </div>
                                         </p>
                                         <p>

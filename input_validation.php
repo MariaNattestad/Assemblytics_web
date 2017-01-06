@@ -15,7 +15,9 @@
     $uniqlength=escapeshellcmd($_POST["uniqlength"]);
     $nickname = "my_assembly";
     if( !isset($_POST['min_size']) ) { $aResult['error'] = 'ERROR: No min_size passed to input_validation.php';}
+    if( !isset($_POST['max_size']) ) { $aResult['error'] = 'ERROR: No max_size passed to input_validation.php';}
     $min_size = escapeshellcmd($_POST["min_size"]);
+    $max_size = escapeshellcmd($_POST["max_size"]);
 
     if( isset($_POST['nickname']) ) {
         $nickname = escapeshellcmd($_POST['nickname']);
@@ -42,6 +44,7 @@
             <input type=\"hidden\" name = \"code\" value=\"$code\">   
             <input type=\"hidden\" name=\"nickname\" value=\"$nickname\">  
             <input type=\"hidden\" name=\"uniqlength\" value=\"$uniqlength\">  
+            <input type=\"hidden\" name=\"max_size\" value=\"$max_size\">  
             <input type=\"hidden\" name=\"min_size\" value=\"$min_size\"> 
             <button type=\"submit\" class=\"center btn btn-success\">Continue</button>
         </form>";

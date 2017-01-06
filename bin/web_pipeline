@@ -28,6 +28,13 @@ if [ -z "$4" ]
     echo $USAGE
     exit
 fi
+if [ -z "$5" ]
+  then
+    echo "ERROR in Assemblytics: No maximum size parameter given"
+    echo "Usage:"
+    echo $USAGE
+    exit
+fi
 
 
 # Author: Maria Nattestad
@@ -37,11 +44,10 @@ DELTA=${1?"$USAGE"}
 OUTPUT_PREFIX=${2?"$USAGE"}
 UNIQUE_LENGTH=${3?"$USAGE"}
 MINIMUM_SIZE=${4?"$USAGE"}
+MAXIMUM_SIZE=${5?"$USAGE"}
 
 >&2 echo Input delta file: $DELTA
 >&2 echo Output prefix: $OUTPUT_PREFIX
-
-MAXIMUM_SIZE=$UNIQUE_LENGTH
 
 LOG_FILE=${OUTPUT_PREFIX%/*}/progress.log
 
