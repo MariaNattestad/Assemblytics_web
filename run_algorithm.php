@@ -21,6 +21,19 @@
     
     echo shell_exec("./bin/web_pipeline $filename user_data/$code/$nickname $uniqlength $min_size $max_size &> user_data/$code/run_algorithm_errors.log &"); 
 
+    $new_dataset = array( "date"=>time(), "codename"=>$code, "description"=> $nickname );
+
+    $my_datasets = array();
+    if(isset($_COOKIE["results"])) {
+      // echo "cookie is already there, adding to it.";
+      $my_datasets = json_decode($_COOKIE["results"], true);
+    } else {
+      // echo "cookie not set, creating new one";
+    }
+    array_push($my_datasets, $new_dataset);
+    setcookie("results", json_encode($my_datasets));
+
+
     header('Location: '.$url);
 ?>
     </body>
